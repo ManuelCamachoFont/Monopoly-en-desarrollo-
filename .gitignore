@@ -1,0 +1,16 @@
+# Binarios compilados
+bin/
+*.class
+
+# Configuración de Eclipse (específica de cada máquina)
+.classpath
+.project
+.settings/
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# IntelliJ (por si acaso)
+.idea/
+*.iml
