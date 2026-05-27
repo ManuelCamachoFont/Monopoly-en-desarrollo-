@@ -1,12 +1,14 @@
 package es.studium.main.java;
 
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class MainView {
@@ -17,7 +19,9 @@ public class MainView {
 	JButton btnGame = new JButton ("New Game");
 	JButton btnExit = new JButton ("Exit");
 	
-	ImageIcon icoOptions = new ImageIcon("../resources/ico/options.png");
+
+	JPanel panelButtons = new JPanel(new FlowLayout());
+	ImageIcon icoOptions = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/options.png"));
 	Image icoRedimension = icoOptions.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     ImageIcon icoOptionsR = new ImageIcon(icoRedimension);
 	JButton btnOptions = new JButton("Options", icoOptionsR);
@@ -34,15 +38,16 @@ public class MainView {
 		mainWindow.add(mainTitle, BorderLayout.NORTH);
 		
 		mainWindow.add(btnGame, BorderLayout.CENTER);
-		mainWindow.add(btnGame, BorderLayout.CENTER);
+		mainWindow.add(btnExit, BorderLayout.CENTER);
+		
 		
 		btnOptions.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnOptions.setVerticalTextPosition(SwingConstants.BOTTOM);
-		mainWindow.add(btnOptions, BorderLayout.PAGE_END);
 		
-		mainWindow.add(btnHelp, BorderLayout.PAGE_END);
-		
-		mainWindow.add(btnRank, BorderLayout.PAGE_END);
+		panelButtons.add(btnOptions);
+		panelButtons.add(btnHelp);
+		panelButtons.add(btnRank);
+		mainWindow.add(panelButtons, BorderLayout.PAGE_END);
 		
 		mainWindow.setLocationRelativeTo(null);
 		mainWindow.setVisible(true);
