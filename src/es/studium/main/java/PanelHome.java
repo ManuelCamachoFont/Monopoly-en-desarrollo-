@@ -11,7 +11,6 @@ import java.awt.Insets;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
@@ -20,8 +19,6 @@ import javax.swing.border.EmptyBorder;
 
 public class PanelHome extends JPanel{
 
-	JFrame mainWindow = new JFrame("MONOPOLY");
-	
 	JPanel panelNorth = new JPanel();
 	JLabel mainTitle = new JLabel("Monopoly");
 	

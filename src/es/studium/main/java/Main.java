@@ -4,8 +4,8 @@ public class Main {
 
 	public static void main(String[] args) {
 		Model model = new Model();
-		MainView mv = new MainView();
-		new Controller (model, mv);
+		View view = new View();
+		new Controller (model, view);
 
 	}
 
