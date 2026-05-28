@@ -1,62 +1,46 @@
 package es.studium.main.java;
 
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Image;
+import java.awt.CardLayout;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 public class MainView {
 
-	JFrame mainWindow = new JFrame("MONOPOLY");
-	JLabel mainTitle = new JLabel("Monopoly");
-	
-	JButton btnGame = new JButton ("New Game");
-	JButton btnExit = new JButton ("Exit");
-	
+	private JFrame mainFrame = new JFrame("Monopoly");
+	private CardLayout panels = new CardLayout();
+	private JPanel mainPanel = new JPanel(panels);
 
-	JPanel panelButtons = new JPanel(new FlowLayout());
-	ImageIcon icoOptions = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/options.png"));
-	Image icoRedimension = icoOptions.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-    ImageIcon icoOptionsR = new ImageIcon(icoRedimension);
-	JButton btnOptions = new JButton("Options", icoOptionsR);
-	
-	JButton btnHelp = new JButton("Help");
-	
-	JButton btnRank = new JButton("Ranking");
-	
-	
+	private PanelHome panelHome = new PanelHome();
+	private PanelOptions panelOptions = new PanelOptions();
+	private PanelHelp panelHelp = new PanelHelp();
+	private PanelRank panelRank = new PanelRank();
+	private PanelStart panelStart = new PanelStart();
+	private PanelBoard panelBoard = new PanelBoard();
+	private PanelPlayer panelPlayer = new PanelPlayer();
+	private PanelEnd panelEnd = new PanelEnd();
+
 	public MainView() {
-		mainWindow.setSize(600, 600);
-		mainWindow.setLayout(new BorderLayout());
-		
-		mainWindow.add(mainTitle, BorderLayout.NORTH);
-		
-		mainWindow.add(btnGame, BorderLayout.CENTER);
-		mainWindow.add(btnExit, BorderLayout.CENTER);
-		
-		
-		btnOptions.setHorizontalTextPosition(SwingConstants.CENTER);
-		btnOptions.setVerticalTextPosition(SwingConstants.BOTTOM);
-		
-		panelButtons.add(btnOptions);
-		panelButtons.add(btnHelp);
-		panelButtons.add(btnRank);
-		mainWindow.add(panelButtons, BorderLayout.PAGE_END);
-		
-		mainWindow.setLocationRelativeTo(null);
-		mainWindow.setVisible(true);
+		mainFrame.setSize(600, 600);
+		mainFrame.setLocationRelativeTo(null);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+		mainPanel.add(panelHome,"HOME");
+		mainPanel.add(panelOptions,"COMPRA");
+		mainPanel.add(panelHelp, "RESUMEN");
+		mainPanel.add(panelRank,"INFO");
+		mainPanel.add(panelStart, "FIN");
+
+		mainFrame.add(mainPanel);
+
+		showPanel("HOME");
+
+		mainFrame.setVisible(true);
 	}
-	
-	public static void main(String[] args)
-	{
-		new MainView();
-	}
+
+	public void showPanel(String nombre) {
+    	panels.show(mainPanel, nombre);
+    }
 
 }
 
