@@ -22,6 +22,7 @@ public class View {
 
 	public View() {
 		mainFrame.setSize(600, 600);
+		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
