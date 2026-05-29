@@ -8,17 +8,15 @@ public class Model {
 		this.players = players;
 	}
 	
+	public void addPlayer(String player) {
+		
+	}
+	
 	public int getPlayers() {
 		return players;
 	}
 	
 	public void saveSettings() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void savePlayers() {
-		// TODO Auto-generated method stub
 		
 	}
 	
@@ -26,5 +24,11 @@ public class Model {
 		
 	}
 
-
+	public void movePlayer(String player, int moves) {
+		
+	}
+	
+	public int rollDices(String player) {
+		return 0;
+	}
 }

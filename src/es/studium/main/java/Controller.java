@@ -68,8 +68,10 @@ public class Controller implements ActionListener{
 		}
 		else if (e.getSource().equals(v.getPanelStart().btnPlay)) {
 			// Check player name != Player X AND != isEmpty
-			m.savePlayers();
+			//m.addPlayer();
 			v.showPanel("BOARD");
+			v.getFrame().pack();
+			v.getFrame().setLocationRelativeTo(null);
 		}
 		
 		// Panel Options actions
@@ -92,6 +94,11 @@ public class Controller implements ActionListener{
 		else if(e.getSource().equals(v.getPanelRank().btnBack)) {
 			v.showPanel("HOME");
 		}
+		
+		// Activate END GAME SCreen
+		//	v.showPanel("END");
+		//	v.getFrame().pack();
+		//	v.getFrame().setLocationRelativeTo(null);
 
 
 	}

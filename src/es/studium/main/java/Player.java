@@ -1,21 +1,21 @@
 package es.studium.main.java;
 
-public class Square {
+public class Player {
 
 	private int id;
 	private String name;
-	private String type;
+	private int money;
 	
-	public Square() {
+	public Player() {
 		this.id = 0;
 		this.name = "";
-		this.type = "";
+		this.money = 0;
 	}
 	
-	public Square(int id, String name, String type) {
+	public Player(int id, String name, int money) {
 		this.id = id;
 		this.name = name;
-		this.type = type;
+		this.money = money;
 	}
 
 	public int getId() {
@@ -34,12 +34,12 @@ public class Square {
 		this.name = name;
 	}
 
-	public String getType() {
-		return type;
+	public int getMoney() {
+		return money;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setMoney(int money) {
+		this.money = money;
 	}
 	
 }

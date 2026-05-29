@@ -87,5 +87,9 @@ public class View {
 		mainFrame.revalidate();
 		mainFrame.repaint();
 	}
+	
+	public JFrame getFrame() {
+		return mainFrame;
+	}
 }
 
