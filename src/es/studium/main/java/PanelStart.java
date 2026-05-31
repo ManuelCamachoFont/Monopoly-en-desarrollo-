@@ -156,4 +156,21 @@ public class PanelStart extends JPanel{
 
 		add(panelSouth, BorderLayout.PAGE_END);
 	}
+	
+	public void updatePlayers(int playersNumber) {
+	    Component[] components = panelPlayers.getComponents();
+	    
+	    for (int i = 0; i < components.length; i++) {
+	        int player = (i / 2) + 1; 
+	        
+	        if (player <= playersNumber) {
+	            components[i].setVisible(true);
+	        } else {
+	            components[i].setVisible(false);
+	        }
+	    }
+	    
+	    panelPlayers.revalidate();
+	    panelPlayers.repaint();
+	}
 }

@@ -3,11 +3,13 @@ package es.studium.main.java;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -50,6 +52,7 @@ public class PanelBoard extends JPanel{
 	JTextArea txtLogs = new JTextArea(10,20);
 
 	JPanel panelGame = new JPanel();
+	Dimension boardSize = new Dimension(770, 770);
 
 	GridBagLayout gridbag = new GridBagLayout();
 	GridBagConstraints gbc = new GridBagConstraints();
@@ -122,11 +125,95 @@ public class PanelBoard extends JPanel{
 		gbc.gridx = 1;
 		gbc.gridy = 0;
 		gbc.gridheight = 2;
-		panelGame.setPreferredSize(new Dimension(770, 770));
+		
+		gbc.weightx = 0.75;
+		gbc.weighty = 1;
+		
+		gbc.fill = GridBagConstraints.BOTH;
+		
+		panelGame.setPreferredSize(boardSize);
+		panelGame.setMinimumSize(boardSize);
+		panelGame.setMaximumSize(boardSize);
+		
+		panelGame.setLayout(grid);
 		
 		panelCenter.add(panelGame, gbc);
 		gbc.gridheight = 1;
+		gbc.fill = GridBagConstraints.NONE;
 
 		add(panelCenter, BorderLayout.CENTER);
+	}
+	
+	public void createBoard(int[][] board, List<Square> squares) {
+	    panelGame.removeAll();
+	    
+	    for (int row = 0; row < 11; row++) {
+	        for (int column = 0; column < 11; column++) {
+	            
+	            int idSquare = board[row][column];
+
+	            if (idSquare == -1) {
+	                JPanel emptyPanel = new JPanel();
+	                emptyPanel.setOpaque(false);
+	                panelGame.add(emptyPanel);
+	            } 
+	            else if (idSquare == -2) {
+	                JPanel emptyPanel = new JPanel();
+	                emptyPanel.setOpaque(false);
+	                panelGame.add(emptyPanel);
+	            }
+	            else if (idSquare == -3) {
+	                JPanel emptyPanel = new JPanel();
+	                emptyPanel.setOpaque(false);
+	                panelGame.add(emptyPanel);
+	            }
+	            else if (idSquare == -4) {
+	                JPanel emptyPanel = new JPanel();
+	                emptyPanel.setOpaque(false);
+	                panelGame.add(emptyPanel);
+	            }
+	            else {
+
+	                Square squareItem = squares.get(idSquare);
+
+	                JPanel squarePanel = new JPanel();
+	                squarePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+	                
+	                squarePanel.setBackground(new Color(205, 230, 208)); 
+
+	                squarePanel.setLayout(new BorderLayout());
+	                
+	                if (squareItem.getType().equals("PROPIEDAD") && squareItem.getColor() != null) {
+	                	
+	                	JPanel colorPanel = new JPanel();
+	                	colorPanel.setPreferredSize(new Dimension(0, 15));
+	                	
+	                	try {
+	                		Color colorProperty = Color.decode(squareItem.getColor());
+	                		colorPanel.setBackground(colorProperty);
+	                	}
+	                	catch (NumberFormatException nfe) {
+	                		colorPanel.setBackground(Color.GRAY);
+	                	}
+	                	
+	                	squarePanel.add(colorPanel, BorderLayout.NORTH);
+	                }
+	                
+	                JLabel lblName = new JLabel(squareItem.getName(), JLabel.CENTER);
+	                lblName.setFont(new Font("Arial", 1, 10));
+	                squarePanel.add(lblName, BorderLayout.CENTER);
+	                
+	                if(squareItem.getPrice() > 0) {
+	                	JLabel lblPrice = new JLabel(squareItem.getPrice() + " €", JLabel.CENTER);
+	                	lblPrice.setFont(new Font("Arial", 1, 10));
+	                	squarePanel.add(lblPrice, BorderLayout.SOUTH);
+	                }
+	                panelGame.add(squarePanel);
+	                
+	            }
+	        }
+	    }
+	    panelGame.revalidate();
+	    panelGame.repaint();
 	}
 }

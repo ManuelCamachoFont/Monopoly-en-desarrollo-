@@ -1,16 +1,31 @@
 package es.studium.main.java;
 
-import java.awt.Component;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 
-import javax.swing.JComboBox;
-import javax.swing.JPanel;
 
 public class Controller implements ActionListener{
 
 	private Model m;
 	private View v;
+	private List<Player> players;
+	private List<Square> squares;
+	private List<Card> cards;
+	private final int[][] board = {
+		    {20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30},
+		    {19, -1, -1, -1, -1, -1, -1, -1, -1, -1, 31},
+		    {18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32},
+		    {17, -1, -1, -1, -1, -1, -1, -4, -1, -1, 33},
+		    {16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34},
+		    {15, -1, -1, -1, -1, -2, -1, -1, -1, -1, 35},
+		    {14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36},
+		    {13, -1, -1, -3, -1, -1, -1, -1, -1, -1, 37},
+		    {12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38},
+		    {11, -1, -1, -1, -1, -1, -1, -1, -1, -1, 39},
+		    {10,  9,  8,  7,  6,  5,  4,  3,  2,  1,  0}
+		};
 
 	public Controller(Model model, View v) {
 		this.m = model;
@@ -69,6 +84,7 @@ public class Controller implements ActionListener{
 		else if (e.getSource().equals(v.getPanelStart().btnPlay)) {
 			// Check player name != Player X AND != isEmpty
 			//m.addPlayer();
+			initializeBoard();
 			v.showPanel("BOARD");
 			v.getFrame().pack();
 			v.getFrame().setLocationRelativeTo(null);
@@ -79,7 +95,7 @@ public class Controller implements ActionListener{
 			v.previousPanel();
 		}
 		else if (e.getSource().equals(v.getPanelOptions().btnConfirm)) {
-			m.saveSettings();
+
 		}
 		
 		// Panel Help actions
@@ -104,42 +120,33 @@ public class Controller implements ActionListener{
 	}
 
 	private void selectPlayers() {
-		JComboBox<String> choPlayers = v.getPanelStart().choPlayers;
-		String selection = choPlayers.getSelectedItem().toString();
 
-		int players = 0;
-		switch(selection) {
-		case "2 Players":
-			players = 2;
-			break;
-		case "3 Players":
-			players = 3;
-			break;
-		case "4 Players":
-			players = 4;
-			break;
-		default:
-			players = 0;
-			break;
+	    String selection = v.getPanelStart().choPlayers.getSelectedItem().toString();
 
-		}
-		m.setPlayers(players);
-		
-		JPanel panelPlayers = v.getPanelStart().panelPlayers;
-        Component[] components = panelPlayers.getComponents();
-        
-        for (int i = 0; i < components.length; i++) {
-            int player = (i / 2) + 1; 
-            
-            if (player <= m.getPlayers()) {
-                components[i].setVisible(true);
-            } else {
-                components[i].setVisible(false);
-            }
-        }
-        
-        panelPlayers.revalidate();
-        panelPlayers.repaint();
+	    int players = 0;
+	    switch(selection) {
+	        case "2 Players": 
+	        	players = 2; 
+	        	break;
+	        case "3 Players": 
+	        	players = 3; 
+	        	break;
+	        case "4 Players": 
+	        	players = 4; 
+	        	break;
+	        default:          
+	        	players = 0; 
+	        	break;
+	    }
+	    
+	    m.setPlayers(players);
+
+	    v.getPanelStart().updatePlayers(players);
+	}
+	
+	private void initializeBoard() {
+		List<Square> squares = m.getSquares();
+		v.getPanelBoard().createBoard(board, squares);
 	}
 
 }
