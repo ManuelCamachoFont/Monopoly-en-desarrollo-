@@ -3,6 +3,7 @@ package es.studium.main.java;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -11,20 +12,22 @@ public class Controller implements ActionListener{
 	private Model m;
 	private View v;
 	private List<Player> players;
-	private List<Square> squares;
+	private HashMap<Integer, Square> squares;
 	private List<Card> cards;
+	
+
 	private final int[][] board = {
-		    {20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30},
-		    {19, -1, -1, -1, -1, -1, -1, -1, -1, -1, 31},
-		    {18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32},
-		    {17, -1, -1, -1, -1, -1, -1, -4, -1, -1, 33},
-		    {16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34},
-		    {15, -1, -1, -1, -1, -2, -1, -1, -1, -1, 35},
-		    {14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36},
-		    {13, -1, -1, -3, -1, -1, -1, -1, -1, -1, 37},
-		    {12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38},
-		    {11, -1, -1, -1, -1, -1, -1, -1, -1, -1, 39},
-		    {10,  9,  8,  7,  6,  5,  4,  3,  2,  1,  0}
+		    {21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31},
+		    {20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32},
+		    {19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33},
+		    {18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34},
+		    {17, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35},
+		    {16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36},
+		    {14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 37},
+		    {14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38},
+		    {13, -1, -1, -1, -2, -1, -1, -1, -1, -1, 39},
+		    {12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40},
+		    {11, 10,  9,  8,  7,  6,  5,  4,  3,  2,  1}
 		};
 
 	public Controller(Model model, View v) {
@@ -145,7 +148,7 @@ public class Controller implements ActionListener{
 	}
 	
 	private void initializeBoard() {
-		List<Square> squares = m.getSquares();
+		HashMap<Integer, Square> squares = m.getSquares();
 		v.getPanelBoard().createBoard(board, squares);
 	}
 

@@ -1,6 +1,7 @@
 package es.studium.main.java;
 
 import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
 
 public class Model {
@@ -29,7 +30,7 @@ public class Model {
 		return this.daoCards.obtainCards();
 	}
 	
-	public List<Square> getSquares()
+	public HashMap<Integer, Square> getSquares()
 	{
 		return this.daoSquares.obtainSquares();
 	}
