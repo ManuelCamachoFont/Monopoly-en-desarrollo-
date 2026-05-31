@@ -3,6 +3,7 @@ package es.studium.main.java;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -11,9 +12,10 @@ public class Controller implements ActionListener{
 
 	private Model m;
 	private View v;
-	private List<Player> players;
-	private HashMap<Integer, Square> squares;
-	private List<Card> cards;
+	private int players;
+	private List<Player> playersList = new ArrayList<>();;
+	private HashMap<Integer, Square> squaresMap;
+	private List<Card> cardsList;
 	
 
 	private final int[][] board = {
@@ -88,7 +90,7 @@ public class Controller implements ActionListener{
 			// Check player name != Player X AND != isEmpty
 			//m.addPlayer();
 			initializeBoard();
-			v.showPanel("BOARD");
+			startGame();
 			v.getFrame().pack();
 			v.getFrame().setLocationRelativeTo(null);
 		}
@@ -125,8 +127,6 @@ public class Controller implements ActionListener{
 	private void selectPlayers() {
 
 	    String selection = v.getPanelStart().choPlayers.getSelectedItem().toString();
-
-	    int players = 0;
 	    switch(selection) {
 	        case "2 Players": 
 	        	players = 2; 
@@ -138,13 +138,41 @@ public class Controller implements ActionListener{
 	        	players = 4; 
 	        	break;
 	        default:          
-	        	players = 0; 
+	        	players = 2; 
 	        	break;
 	    }
-	    
-	    m.setPlayers(players);
 
 	    v.getPanelStart().updatePlayers(players);
+	}
+	
+	private void startGame() {
+		playersList.clear();
+		
+		for (int i = 1; i <= players; i++) {
+			String playerName = "";
+			if (i == 1) {
+				playerName = v.getPanelStart().getTxtPlayer1().getText().trim();
+			}
+			else if (i == 2) {
+				playerName = v.getPanelStart().getTxtPlayer2().getText().trim();
+			}
+			else if (i == 3) {
+				playerName = v.getPanelStart().getTxtPlayer3().getText().trim();
+			}
+			else if (i == 4) {
+				playerName = v.getPanelStart().getTxtPlayer4().getText().trim();
+			}
+			
+			if (playerName.isEmpty()) {
+				playerName = "Player " + i;
+	        }
+			
+			Player newPlayer = new Player(playerName, 500);
+			playersList.add(newPlayer);
+		}
+		v.getPanelBoard().updatePlayers(playersList);
+		
+		v.showPanel("BOARD");
 	}
 	
 	private void initializeBoard() {
