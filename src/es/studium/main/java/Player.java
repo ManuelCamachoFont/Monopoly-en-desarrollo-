@@ -15,7 +15,7 @@ public class Player {
 	public Player(String name, int moneyStarting) {
         this.name = name;
         this.money = moneyStarting;
-        this.position = 0;
+        this.position = 1;
         this.prison = false;
         this.properties = new ArrayList<>();
         
