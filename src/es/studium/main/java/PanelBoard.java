@@ -302,43 +302,68 @@ public class PanelBoard extends JPanel {
 					}
 
 					else {
-						Square squareItem = squaresMap.get(position);
+					    Square squareItem = squaresMap.get(position);
 
-						if (squareItem != null) {
-							JPanel squarePanel = new JPanel(new BorderLayout());
-							squarePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-							squarePanel.setBackground(new Color(205, 230, 208));
-							
-							if ((position -1) >= 0 && (position -1) < squaresBoard.length) {
-								squaresBoard[position -1] = squarePanel;
-							}
+					    if (squareItem != null) {
+					        
+					        JPanel squarePanel = new JPanel(new BorderLayout());
+					        squarePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+					        squarePanel.setBackground(new Color(205, 230, 208));
+					        
+					        if ((position - 1) >= 0 && (position - 1) < squaresBoard.length) {
+					            squaresBoard[position - 1] = squarePanel;
+					        }
 					       
-					       
+					        if (squareItem.getType().equals("PROPIEDAD") && squareItem.getColor() != null) {
+					            JPanel colorPanel = new JPanel();
+					            colorPanel.setPreferredSize(new Dimension(0, 15));
+					            try {
+					                colorPanel.setBackground(Color.decode(squareItem.getColor()));
+					            } catch (NumberFormatException nfe) {
+					                colorPanel.setBackground(Color.GRAY);
+					            }
+					            squarePanel.add(colorPanel, BorderLayout.NORTH);
+					        }
 
+					        JPanel playerContainer = new JPanel(new GridBagLayout());
+					        playerContainer.setOpaque(false); 
 
-							if (squareItem.getType().equals("PROPIEDAD") && squareItem.getColor() != null) {
-								JPanel colorPanel = new JPanel();
-								colorPanel.setPreferredSize(new Dimension(0, 15));
-								try {
-									colorPanel.setBackground(Color.decode(squareItem.getColor()));
-								} catch (NumberFormatException nfe) {
-									colorPanel.setBackground(Color.GRAY);
-								}
-								squarePanel.add(colorPanel, BorderLayout.NORTH);
-							}
+					        GridBagConstraints gbcContainer = new GridBagConstraints();
+					        gbcContainer.fill = GridBagConstraints.BOTH;
+					        gbcContainer.weightx = 1.0;
+					        gbcContainer.weighty = 1.0;
 
-							JLabel lblName = new JLabel(squareItem.getName(), JLabel.CENTER);
-							lblName.setFont(new Font("Arial", Font.BOLD, 10));
-							squarePanel.add(lblName, BorderLayout.CENTER);
+					        for (int players = 0; players < 4; players++) {
+					            JPanel playerPanel = new JPanel(new BorderLayout());
+					            playerPanel.setOpaque(false); 
+					            playerPanel.setPreferredSize(new Dimension(25, 25));
 
-							if (squareItem.getPrice() > 0) {
-								JLabel lblPrice = new JLabel(squareItem.getPrice() + " €", JLabel.CENTER);
-								lblPrice.setFont(new Font("Arial", Font.BOLD, 10));
-								squarePanel.add(lblPrice, BorderLayout.SOUTH);
-							}
+					            playersPosition[position - 1][players] = playerPanel;
 
-							panelGame.add(squarePanel, gbcB);
-						}
+					            gbcContainer.gridx = players % 2;
+					            gbcContainer.gridy = players / 2;
+					            
+					            playerContainer.add(playerPanel, gbcContainer);
+					        }
+					        squarePanel.add(playerContainer, BorderLayout.CENTER);
+
+					        JPanel panelPropertyName = new JPanel(new java.awt.GridLayout(2, 1));
+					        panelPropertyName.setOpaque(false);
+
+					        JLabel lblName = new JLabel(squareItem.getName(), JLabel.CENTER);
+					        lblName.setFont(new Font("Arial", Font.BOLD, 9));
+					        panelPropertyName.add(lblName);
+
+					        if (squareItem.getPrice() > 0) {
+					            JLabel lblPrice = new JLabel(squareItem.getPrice() + " €", JLabel.CENTER);
+					            lblPrice.setFont(new Font("Arial", Font.BOLD, 9));
+					            panelPropertyName.add(lblPrice);
+					        }
+
+					        squarePanel.add(panelPropertyName, BorderLayout.SOUTH);
+
+					        panelGame.add(squarePanel, gbcB);
+					    }
 					}
 
 				}
@@ -371,10 +396,21 @@ public class PanelBoard extends JPanel {
 	    for (int i = 0; i < playersList.size(); i++) {
 	        Player p = playersList.get(i);
 	        int position = p.getPosition();
-	        squaresBoard[position].add(lblIcon[i]);
-	        
+
+	        int squareIndex = position - 1; 
+
+	        if (squareIndex >= 0 && squareIndex < playersPosition.length) {
+	            JPanel playerPanel = playersPosition[squareIndex][i];
+
+	            if (playerPanel != null) {
+	                lblIcon[i].setVisible(true);
+	                lblIcon[i].setMinimumSize(new Dimension(30, 30));
+	                lblIcon[i].setPreferredSize(new Dimension(30, 30));
+
+	                playerPanel.add(lblIcon[i], BorderLayout.CENTER);
+	            }
+	        }
 	    }
-	    
 
 	    this.revalidate();
 	    this.repaint();
