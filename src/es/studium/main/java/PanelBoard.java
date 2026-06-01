@@ -5,12 +5,12 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,6 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -43,20 +44,46 @@ public class PanelBoard extends JPanel {
 	JLabel lblPlayerTitle = new JLabel("Players");
 	JPanel panelPlayersInfo = new JPanel();
 	BoxLayout boxLayout = new BoxLayout(panelPlayersInfo, BoxLayout.Y_AXIS);
-	JLabel lblPlayerName1 = new JLabel("Placeholder 1");
-	JLabel lblPlayerMoney1 = new JLabel("1500€");
-	JLabel lblPlayerName2 = new JLabel("Placeholder 2");
-	JLabel lblPlayerMoney2 = new JLabel("1500€");
-	JLabel lblPlayerName3 = new JLabel("Placeholder 3");
-	JLabel lblPlayerMoney3 = new JLabel("1500€");
-	JLabel lblPlayerName4 = new JLabel("Placeholder 4");
-	JLabel lblPlayerMoney4 = new JLabel("1500€");
+	JLabel lblPlayerName1 = new JLabel();
+	JLabel lblPlayerMoney1 = new JLabel();
+	JLabel lblPlayerName2 = new JLabel();
+	JLabel lblPlayerMoney2 = new JLabel();
+	JLabel lblPlayerName3 = new JLabel();
+	JLabel lblPlayerMoney3 = new JLabel();
+	JLabel lblPlayerName4 = new JLabel();
+	JLabel lblPlayerMoney4 = new JLabel();
+	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
+	Image icoPlayer1Redim = icoPlayer1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	ImageIcon icoPlayer1R = new ImageIcon(icoPlayer1Redim);
+	JLabel lblIcon1 = new JLabel(icoPlayer1R);
+	ImageIcon icoPlayer2 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
+	Image icoPlayer2Redim = icoPlayer2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	ImageIcon icoPlayer2R = new ImageIcon(icoPlayer2Redim);
+	JLabel lblIcon2 = new JLabel(icoPlayer2R);
+	ImageIcon icoPlayer3 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
+	Image icoPlayer3Redim = icoPlayer3.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	ImageIcon icoPlayer3R = new ImageIcon(icoPlayer3Redim);
+	JLabel lblIcon3 = new JLabel(icoPlayer3R);
+	ImageIcon icoPlayer4 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
+	Image icoPlayer4Redim = icoPlayer4.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	ImageIcon icoPlayer4R = new ImageIcon(icoPlayer4Redim);
+	JLabel lblIcon4 = new JLabel(icoPlayer4R);
+	JLabel[] lblName = new JLabel[4];
+	JLabel[] lblMoney = new JLabel[4];
+	JLabel[] lblIcon = new JLabel[4];
+	Component[] margin = new Component[3];
 
+
+	
 	JPanel panelLogs = new JPanel();
 	JLabel lblLogTitle = new JLabel("Logs");
 	JTextArea txtLogs = new JTextArea(10, 20);
+	JScrollPane scrollLogs = new JScrollPane(txtLogs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 	JPanel panelGame = new JPanel();
+	JPanel[] squaresBoard = new JPanel[40];
+	JPanel[] playersContainer = new JPanel[40];
+	JPanel[][] playersPosition = new JPanel[40][4];
 	
 	Dimension boardSize = new Dimension(880, 880);
 
@@ -71,6 +98,9 @@ public class PanelBoard extends JPanel {
 	Border borderColor = BorderFactory.createLineBorder(Color.BLACK, 2);
 	Border padding = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 	Border border = BorderFactory.createCompoundBorder(borderColor, padding);
+	
+	Border southBorder = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
+	Border borderTitle = BorderFactory.createCompoundBorder(southBorder, padding);
 
 	public PanelBoard() {
 		setLayout(gridbag);
@@ -88,26 +118,52 @@ public class PanelBoard extends JPanel {
 		panelPlayersInfo.setLayout(boxLayout);
 		panelPlayersInfo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-		lblPlayerName1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblPlayerMoney1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblPlayerName2.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblPlayerMoney2.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblPlayerName3.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblPlayerMoney3.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblPlayerName4.setAlignmentX(Component.CENTER_ALIGNMENT);
-		lblPlayerMoney4.setAlignmentX(Component.CENTER_ALIGNMENT);
+		lblName[0] = lblPlayerName1;
+	    lblName[1] = lblPlayerName2;
+	    lblName[2] = lblPlayerName3;
+	    lblName[3] = lblPlayerName4;
 
-		panelPlayersInfo.add(lblPlayerName1);
-		panelPlayersInfo.add(lblPlayerMoney1);
-		panelPlayersInfo.add(Box.createRigidArea(new Dimension(0, 10)));
-		panelPlayersInfo.add(lblPlayerName2);
-		panelPlayersInfo.add(lblPlayerMoney2);
-		panelPlayersInfo.add(Box.createRigidArea(new Dimension(0, 10)));
-		panelPlayersInfo.add(lblPlayerName3);
-		panelPlayersInfo.add(lblPlayerMoney3);
-		panelPlayersInfo.add(Box.createRigidArea(new Dimension(0, 10)));
-		panelPlayersInfo.add(lblPlayerName4);
-		panelPlayersInfo.add(lblPlayerMoney4);
+	    lblMoney[0] = lblPlayerMoney1;
+	    lblMoney[1] = lblPlayerMoney2;
+	    lblMoney[2] = lblPlayerMoney3;
+	    lblMoney[3] = lblPlayerMoney4;
+	    
+	    lblIcon[0] = lblIcon1;
+	    lblIcon[1] = lblIcon2;
+	    lblIcon[2] = lblIcon3;
+	    lblIcon[3] = lblIcon4;
+
+	    for (int i = 0; i < 4; i++) {
+	        lblName[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+	        lblMoney[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+	        
+	        lblName[i].setFont(new Font("Arial", Font.BOLD, 24));
+	        lblMoney[i].setFont(new Font("Arial", Font.PLAIN, 20));
+	        
+	        lblName[i].setBorder(BorderFactory.createEmptyBorder(4, 0, 4, 0));
+	        lblMoney[i].setBorder(BorderFactory.createEmptyBorder(2, 0, 6, 0));
+	    }
+
+	    margin[0] = Box.createRigidArea(new Dimension(0, 10));
+	    margin[1] = Box.createRigidArea(new Dimension(0, 10));
+	    margin[2] = Box.createRigidArea(new Dimension(0, 10));
+
+	    panelPlayersInfo.add(Box.createRigidArea(new Dimension(0, 15)));
+	    
+	    panelPlayersInfo.add(lblName[0]);
+	    panelPlayersInfo.add(lblMoney[0]);
+	    panelPlayersInfo.add(margin[0]);
+	    
+	    panelPlayersInfo.add(lblName[1]);
+	    panelPlayersInfo.add(lblMoney[1]);
+	    panelPlayersInfo.add(margin[1]);
+	    
+	    panelPlayersInfo.add(lblName[2]);
+	    panelPlayersInfo.add(lblMoney[2]);
+	    panelPlayersInfo.add(margin[2]);
+	    
+	    panelPlayersInfo.add(lblName[3]);
+	    panelPlayersInfo.add(lblMoney[3]);
 
 		panelPlayers.add(panelPlayersInfo, BorderLayout.CENTER);
 		panelLeft.add(panelPlayers);
@@ -160,6 +216,33 @@ public class PanelBoard extends JPanel {
 	}
 	
 	
+	public  void updatePlayers(List<Player> playersList) {
+		int players =  playersList.size();
+		
+		for (int i = 0; i < 4; i++) {
+			boolean showInfo = (i < players);
+			
+			lblName[i].setVisible(showInfo);
+			lblMoney[i].setVisible(showInfo);
+			lblIcon[i].setVisible(showInfo);
+			
+			if (showInfo) {
+				Player p = playersList.get(i);
+				lblName[i].setText(p.getName());
+				lblMoney[i].setText(p.getMoney() + " €");
+			}
+			
+			if (i< 3) {
+				margin[i].setVisible(i + 1 < players);
+			}
+		}
+		
+		panelPlayersInfo.revalidate();
+		panelPlayersInfo.repaint();
+		panelGame.revalidate();
+		panelGame.repaint();
+	}
+
 	
 	
 
@@ -225,6 +308,14 @@ public class PanelBoard extends JPanel {
 							JPanel squarePanel = new JPanel(new BorderLayout());
 							squarePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 							squarePanel.setBackground(new Color(205, 230, 208));
+							
+							if ((position -1) >= 0 && (position -1) < squaresBoard.length) {
+								squaresBoard[position -1] = squarePanel;
+							}
+					        
+					        playersContainer[position - 1] = playersContainer;
+					       
+					        squarePanel.add(pnlPlayers, BorderLayout.SOUTH);
 
 							if (squareItem.getType().equals("PROPIEDAD") && squareItem.getColor() != null) {
 								JPanel colorPanel = new JPanel();
@@ -269,6 +360,32 @@ public class PanelBoard extends JPanel {
 			}
 		}
 	}
+
+//	public void updatePlayersPosition(List<Player> playersList) {
+//
+//	    for (int i = 0; i < listaJugadores.size(); i++) {
+//	        if (lblIcon[i].getParent() != null) {
+//	            lblIcon[i].getParent().remove(lblIcon[i]);
+//	        }
+//	    }
+//
+//	    for (int i = 0; i < listaJugadores.size(); i++) {
+//	        Player p = listaJugadores.get(i);
+//	        int position = p.getPosition();
+//	        JPanel panelSquare = squaresBoard[position - 1];
+//
+//	        if (panelSquare != null) {
+//
+//	            panelSquare.add(lblIcon[i], BorderLayout.SOUTH); 
+//	            JPanel filaFichas = (JPanel) panelSquare.getComponent(panelSquare.getComponentCount() - 1);
+//	            filaFichas.add(lblIcon[i]);
+//	        }
+//	    }
+//
+//	    this.revalidate();
+//	    this.repaint();
+//	}
+
 
 } 
 

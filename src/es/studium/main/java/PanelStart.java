@@ -173,4 +173,13 @@ public class PanelStart extends JPanel{
 	    panelPlayers.revalidate();
 	    panelPlayers.repaint();
 	}
+	
+	public JTextField getTxtPlayer1() { return txtPlayer1; }
+	
+	public JTextField getTxtPlayer2() { return txtPlayer2; }
+	
+	public JTextField getTxtPlayer3() { return txtPlayer3; }
+	
+	public JTextField getTxtPlayer4() { return txtPlayer4; }
+
 }
