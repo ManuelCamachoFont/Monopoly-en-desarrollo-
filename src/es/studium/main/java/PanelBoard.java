@@ -52,7 +52,7 @@ public class PanelBoard extends JPanel {
 	JLabel lblPlayerMoney3 = new JLabel();
 	JLabel lblPlayerName4 = new JLabel();
 	JLabel lblPlayerMoney4 = new JLabel();
-	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
+	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/car.png"));
 	Image icoPlayer1Redim = icoPlayer1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	ImageIcon icoPlayer1R = new ImageIcon(icoPlayer1Redim);
 	JLabel lblIcon1 = new JLabel(icoPlayer1R);
@@ -82,7 +82,6 @@ public class PanelBoard extends JPanel {
 
 	JPanel panelGame = new JPanel();
 	JPanel[] squaresBoard = new JPanel[40];
-	JPanel[] playersContainer = new JPanel[40];
 	JPanel[][] playersPosition = new JPanel[40][4];
 	
 	Dimension boardSize = new Dimension(880, 880);
@@ -361,30 +360,25 @@ public class PanelBoard extends JPanel {
 		}
 	}
 
-//	public void updatePlayersPosition(List<Player> playersList) {
-//
-//	    for (int i = 0; i < listaJugadores.size(); i++) {
-//	        if (lblIcon[i].getParent() != null) {
-//	            lblIcon[i].getParent().remove(lblIcon[i]);
-//	        }
-//	    }
-//
-//	    for (int i = 0; i < listaJugadores.size(); i++) {
-//	        Player p = listaJugadores.get(i);
-//	        int position = p.getPosition();
-//	        JPanel panelSquare = squaresBoard[position - 1];
-//
-//	        if (panelSquare != null) {
-//
-//	            panelSquare.add(lblIcon[i], BorderLayout.SOUTH); 
-//	            JPanel filaFichas = (JPanel) panelSquare.getComponent(panelSquare.getComponentCount() - 1);
-//	            filaFichas.add(lblIcon[i]);
-//	        }
-//	    }
-//
-//	    this.revalidate();
-//	    this.repaint();
-//	}
+	public void updatePlayersPosition(List<Player> playersList) {
+
+	    for (int i = 0; i < playersList.size(); i++) {
+	        if (lblIcon[i].getParent() != null) {
+	            lblIcon[i].getParent().remove(lblIcon[i]);
+	        }
+	    }
+
+	    for (int i = 0; i < playersList.size(); i++) {
+	        Player p = playersList.get(i);
+	        int position = p.getPosition();
+	        squaresBoard[position].add(lblIcon[i]);
+	        
+	    }
+	    
+
+	    this.revalidate();
+	    this.repaint();
+	}
 
 
 } 

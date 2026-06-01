@@ -184,7 +184,7 @@ public class Controller implements ActionListener, MouseListener{
 			playersList.add(newPlayer);
 		}
 		v.getPanelBoard().updatePlayers(playersList);
-//		v.getPanelBoard().updatePlayersPosition(playersList);
+		v.getPanelBoard().updatePlayersPosition(playersList);
 		
 		v.showPanel("BOARD");
 	}
