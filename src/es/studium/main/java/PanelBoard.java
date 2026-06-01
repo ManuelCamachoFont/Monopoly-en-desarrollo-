@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 public class PanelBoard extends JPanel{
 
+	private static final long serialVersionUID = 1L;
 	JPanel panelNorth = new JPanel();
 	ImageIcon icoDices = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/dices.png"));
 	Image icoDicesRedim = icoDices.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
