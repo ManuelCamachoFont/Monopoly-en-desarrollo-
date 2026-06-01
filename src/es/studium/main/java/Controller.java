@@ -139,7 +139,7 @@ public class Controller implements ActionListener, MouseListener{
 
 	    String selection = v.getPanelStart().choPlayers.getSelectedItem().toString();
 
-	    int players = 0;
+	    players = 0;
 	    switch(selection) {
 	        case "2 Players": 
 	        	players = 2; 
@@ -184,7 +184,7 @@ public class Controller implements ActionListener, MouseListener{
 			playersList.add(newPlayer);
 		}
 		v.getPanelBoard().updatePlayers(playersList);
-		v.getPanelBoard().updatePlayersPosition(playersList);
+//		v.getPanelBoard().updatePlayersPosition(playersList);
 		
 		v.showPanel("BOARD");
 	}

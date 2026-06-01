@@ -111,6 +111,7 @@ public class PanelBoard extends JPanel {
 
 		panelPlayers.setLayout(new BorderLayout());
 		panelPlayers.setBorder(border);
+		lblPlayerTitle.setBorder(borderTitle);
 		lblPlayerTitle.setHorizontalAlignment(JLabel.CENTER);
 		lblPlayerTitle.setFont(new Font("Arial", Font.BOLD, 14));
 		panelPlayers.add(lblPlayerTitle, BorderLayout.NORTH);
@@ -180,7 +181,7 @@ public class PanelBoard extends JPanel {
 		txtLogs.setLineWrap(true);
 		txtLogs.setWrapStyleWord(true);
 		txtLogs.setEditable(false);
-		panelLogs.add(txtLogs, BorderLayout.CENTER);
+		panelLogs.add(scrollLogs, BorderLayout.CENTER);
 		panelLeft.add(panelLogs);
 
 		panelLeft.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -312,10 +313,9 @@ public class PanelBoard extends JPanel {
 							if ((position -1) >= 0 && (position -1) < squaresBoard.length) {
 								squaresBoard[position -1] = squarePanel;
 							}
-					        
-					        playersContainer[position - 1] = playersContainer;
 					       
-					        squarePanel.add(pnlPlayers, BorderLayout.SOUTH);
+					       
+
 
 							if (squareItem.getType().equals("PROPIEDAD") && squareItem.getColor() != null) {
 								JPanel colorPanel = new JPanel();
