@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 
@@ -41,6 +42,7 @@ public class Controller implements ActionListener, MouseListener{
 	public Controller(Model model, View v) {
 		this.m = model;
 		this.v = v;
+		this.squares = m.getSquares();
 
 		// Panel Home Buttons
 		this.v.getPanelHome().btnGame.addActionListener(this);
@@ -98,10 +100,7 @@ public class Controller implements ActionListener, MouseListener{
 			v.showPanel("HOME");
 		}
 		else if (e.getSource().equals(v.getPanelStart().btnPlay)) {
-			// Check player name != Player X AND != isEmpty
-			//m.addPlayer();
 			initializeBoard();
-			startGame();
 			v.getFrame().pack();
 			v.getFrame().setLocationRelativeTo(null);
 		}
@@ -193,6 +192,21 @@ public class Controller implements ActionListener, MouseListener{
 	private void initializeBoard() {
 		HashMap<Integer, Square> squares = m.getSquares();
 		v.getPanelBoard().createBoard(board, squares);
+		squaresListeners();
+		startGame();
+	}
+	
+	public void squaresListeners() {
+	    JPanel[] squaresBoard = v.getPanelBoard().getSquaresBoard(); 
+
+	    for (int i = 0; i < squaresBoard.length; i++) {
+	        JPanel squarePanel = squaresBoard[i];
+
+	        if (squarePanel != null) {
+	        	squarePanel.setName(String.valueOf(i + 1));
+	        	squarePanel.addMouseListener(this);
+	        }
+	    }
 	}
 	
 	@Override
@@ -204,12 +218,33 @@ public class Controller implements ActionListener, MouseListener{
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getSource() instanceof JTextField) {
-	       JTextField txtPulsado = (JTextField) e.getSource();       
-	       txtPulsado.setText("");
-	       txtPulsado.setFont(new Font("Arial", Font.BOLD, 12));
-	       txtPulsado.setForeground(Color.BLACK);
+	       JTextField txtClicked = (JTextField) e.getSource();       
+	       txtClicked.setText("");
+	       txtClicked.setFont(new Font("Arial", Font.BOLD, 12));
+	       txtClicked.setForeground(Color.BLACK);
 	    }
-		
+		else if (e.getSource() instanceof JPanel) {
+	        JPanel panelClicked = (JPanel) e.getSource();
+	        if (panelClicked.getName() != null) {
+	            try {
+	                int position = Integer.parseInt(panelClicked.getName());
+	            
+	                if (position >= 1 && position <= 40) {
+	                	Square square = squares.get(position);
+	             
+	                    if (square != null && (square.getType().equals("PROPIEDAD") || 
+	                    		square.getType().equals("ESTACION") || 
+	                    		square.getType().equals("SERVICIO"))) {
+	                        
+
+	                        SquareInfo.showInfo(v.getFrame(), square);
+	                    }
+	                }
+	            } catch (NumberFormatException nfe) {
+	                System.out.println("Empty Panel");
+	            }
+	    
+	        }}
 	}
 
 	@Override

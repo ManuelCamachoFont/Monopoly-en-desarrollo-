@@ -52,7 +52,7 @@ public class PanelBoard extends JPanel {
 	JLabel lblPlayerMoney3 = new JLabel();
 	JLabel lblPlayerName4 = new JLabel();
 	JLabel lblPlayerMoney4 = new JLabel();
-	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/car.png"));
+	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
 	Image icoPlayer1Redim = icoPlayer1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	ImageIcon icoPlayer1R = new ImageIcon(icoPlayer1Redim);
 	JLabel lblIcon1 = new JLabel(icoPlayer1R);
@@ -415,6 +415,9 @@ public class PanelBoard extends JPanel {
 	    this.revalidate();
 	    this.repaint();
 	}
+	
+	
+	public JPanel[] getSquaresBoard() { return squaresBoard; }
 
 
 } 
