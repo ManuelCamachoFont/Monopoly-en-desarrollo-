@@ -99,6 +99,7 @@ public class PanelStart extends JPanel{
 
 		
 		// Player1
+		txtPlayer1.setFont(new Font("Arial", Font.ITALIC, 12));
 		panelPlayers.add(txtPlayer1, gbc);
 		gbc.gridx = 1;
 		panelPlayers.add(lblIcoPlayer1, gbc);
@@ -107,6 +108,7 @@ public class PanelStart extends JPanel{
 		
 		// Player2
 		gbc.gridy = 1;
+		txtPlayer2.setFont(new Font("Arial", Font.ITALIC, 12));
 		panelPlayers.add(txtPlayer2, gbc);
 		gbc.gridx = 1;
 		panelPlayers.add(lblIcoPlayer2, gbc);
@@ -115,6 +117,7 @@ public class PanelStart extends JPanel{
 		
 		// Player3
 		gbc.gridy = 2;
+		txtPlayer3.setFont(new Font("Arial", Font.ITALIC, 12));
 		panelPlayers.add(txtPlayer3, gbc);
 		gbc.gridx = 1;
 		panelPlayers.add(lblIcoPlayer3, gbc);
@@ -123,6 +126,7 @@ public class PanelStart extends JPanel{
 		
 		// Player4
 		gbc.gridy = 3;
+		txtPlayer4.setFont(new Font("Arial", Font.ITALIC, 12));
 		panelPlayers.add(txtPlayer4, gbc);
 		gbc.gridx = 1;
 		panelPlayers.add(lblIcoPlayer4, gbc);
@@ -156,4 +160,30 @@ public class PanelStart extends JPanel{
 
 		add(panelSouth, BorderLayout.PAGE_END);
 	}
+	
+	public void updatePlayers(int playersNumber) {
+	    Component[] components = panelPlayers.getComponents();
+	    
+	    for (int i = 0; i < components.length; i++) {
+	        int player = (i / 2) + 1; 
+	        
+	        if (player <= playersNumber) {
+	            components[i].setVisible(true);
+	        } else {
+	            components[i].setVisible(false);
+	        }
+	    }
+	    
+	    panelPlayers.revalidate();
+	    panelPlayers.repaint();
+	}
+	
+	public JTextField getTxtPlayer1() { return txtPlayer1; }
+	
+	public JTextField getTxtPlayer2() { return txtPlayer2; }
+	
+	public JTextField getTxtPlayer3() { return txtPlayer3; }
+	
+	public JTextField getTxtPlayer4() { return txtPlayer4; }
+
 }
