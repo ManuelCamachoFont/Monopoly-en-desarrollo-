@@ -1,20 +1,26 @@
 package es.studium.main.java;
 
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.JTextField;
 
-public class Controller implements ActionListener{
+
+public class Controller implements ActionListener, MouseListener{
 
 	private Model m;
 	private View v;
 	private int players;
-	private List<Player> playersList = new ArrayList<>();;
-	private HashMap<Integer, Square> squaresMap;
+	private List<Player> playersList = new ArrayList<>();
+	private HashMap<Integer, Square> squares;
 	private List<Card> cardsList;
 	
 
@@ -50,6 +56,11 @@ public class Controller implements ActionListener{
 		this.v.getPanelStart().choPlayers.addActionListener(this);
 		this.v.getPanelStart().btnBack.addActionListener(this);
 		this.v.getPanelStart().btnPlay.addActionListener(this);
+		
+		this.v.getPanelStart().getTxtPlayer1().addMouseListener(this);
+		this.v.getPanelStart().getTxtPlayer2().addMouseListener(this);
+		this.v.getPanelStart().getTxtPlayer3().addMouseListener(this);
+		this.v.getPanelStart().getTxtPlayer4().addMouseListener(this);
 		
 		// Panel Help Buttons
 		this.v.getPanelHelp().btnBack.addActionListener(this);
@@ -127,6 +138,8 @@ public class Controller implements ActionListener{
 	private void selectPlayers() {
 
 	    String selection = v.getPanelStart().choPlayers.getSelectedItem().toString();
+
+	    players = 0;
 	    switch(selection) {
 	        case "2 Players": 
 	        	players = 2; 
@@ -138,7 +151,7 @@ public class Controller implements ActionListener{
 	        	players = 4; 
 	        	break;
 	        default:          
-	        	players = 2; 
+	        	players = 0; 
 	        	break;
 	    }
 
@@ -171,13 +184,51 @@ public class Controller implements ActionListener{
 			playersList.add(newPlayer);
 		}
 		v.getPanelBoard().updatePlayers(playersList);
+		v.getPanelBoard().updatePlayersPosition(playersList);
 		
 		v.showPanel("BOARD");
 	}
+
 	
 	private void initializeBoard() {
 		HashMap<Integer, Square> squares = m.getSquares();
 		v.getPanelBoard().createBoard(board, squares);
 	}
+	
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (e.getSource() instanceof JTextField) {
+	       JTextField txtPulsado = (JTextField) e.getSource();       
+	       txtPulsado.setText("");
+	       txtPulsado.setFont(new Font("Arial", Font.BOLD, 12));
+	       txtPulsado.setForeground(Color.BLACK);
+	    }
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
 
 }

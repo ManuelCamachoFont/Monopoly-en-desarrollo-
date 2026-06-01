@@ -52,17 +52,37 @@ public class PanelBoard extends JPanel {
 	JLabel lblPlayerMoney3 = new JLabel();
 	JLabel lblPlayerName4 = new JLabel();
 	JLabel lblPlayerMoney4 = new JLabel();
+	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/car.png"));
+	Image icoPlayer1Redim = icoPlayer1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	ImageIcon icoPlayer1R = new ImageIcon(icoPlayer1Redim);
+	JLabel lblIcon1 = new JLabel(icoPlayer1R);
+	ImageIcon icoPlayer2 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
+	Image icoPlayer2Redim = icoPlayer2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	ImageIcon icoPlayer2R = new ImageIcon(icoPlayer2Redim);
+	JLabel lblIcon2 = new JLabel(icoPlayer2R);
+	ImageIcon icoPlayer3 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
+	Image icoPlayer3Redim = icoPlayer3.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	ImageIcon icoPlayer3R = new ImageIcon(icoPlayer3Redim);
+	JLabel lblIcon3 = new JLabel(icoPlayer3R);
+	ImageIcon icoPlayer4 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
+	Image icoPlayer4Redim = icoPlayer4.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
+	ImageIcon icoPlayer4R = new ImageIcon(icoPlayer4Redim);
+	JLabel lblIcon4 = new JLabel(icoPlayer4R);
 	JLabel[] lblName = new JLabel[4];
 	JLabel[] lblMoney = new JLabel[4];
+	JLabel[] lblIcon = new JLabel[4];
 	Component[] margin = new Component[3];
 
+
+	
 	JPanel panelLogs = new JPanel();
 	JLabel lblLogTitle = new JLabel("Logs");
 	JTextArea txtLogs = new JTextArea(10, 20);
 	JScrollPane scrollLogs = new JScrollPane(txtLogs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-	
 
 	JPanel panelGame = new JPanel();
+	JPanel[] squaresBoard = new JPanel[40];
+	JPanel[][] playersPosition = new JPanel[40][4];
 	
 	Dimension boardSize = new Dimension(880, 880);
 
@@ -107,6 +127,11 @@ public class PanelBoard extends JPanel {
 	    lblMoney[1] = lblPlayerMoney2;
 	    lblMoney[2] = lblPlayerMoney3;
 	    lblMoney[3] = lblPlayerMoney4;
+	    
+	    lblIcon[0] = lblIcon1;
+	    lblIcon[1] = lblIcon2;
+	    lblIcon[2] = lblIcon3;
+	    lblIcon[3] = lblIcon4;
 
 	    for (int i = 0; i < 4; i++) {
 	        lblName[i].setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -199,6 +224,7 @@ public class PanelBoard extends JPanel {
 			
 			lblName[i].setVisible(showInfo);
 			lblMoney[i].setVisible(showInfo);
+			lblIcon[i].setVisible(showInfo);
 			
 			if (showInfo) {
 				Player p = playersList.get(i);
@@ -213,7 +239,11 @@ public class PanelBoard extends JPanel {
 		
 		panelPlayersInfo.revalidate();
 		panelPlayersInfo.repaint();
+		panelGame.revalidate();
+		panelGame.repaint();
 	}
+
+	
 	
 
 	public void createBoard(int[][] board, HashMap<Integer, Square> squaresMap) {
@@ -272,36 +302,68 @@ public class PanelBoard extends JPanel {
 					}
 
 					else {
-						Square squareItem = squaresMap.get(position);
+					    Square squareItem = squaresMap.get(position);
 
-						if (squareItem != null) {
-							JPanel squarePanel = new JPanel(new BorderLayout());
-							squarePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
-							squarePanel.setBackground(new Color(205, 230, 208));
+					    if (squareItem != null) {
+					        
+					        JPanel squarePanel = new JPanel(new BorderLayout());
+					        squarePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+					        squarePanel.setBackground(new Color(205, 230, 208));
+					        
+					        if ((position - 1) >= 0 && (position - 1) < squaresBoard.length) {
+					            squaresBoard[position - 1] = squarePanel;
+					        }
+					       
+					        if (squareItem.getType().equals("PROPIEDAD") && squareItem.getColor() != null) {
+					            JPanel colorPanel = new JPanel();
+					            colorPanel.setPreferredSize(new Dimension(0, 15));
+					            try {
+					                colorPanel.setBackground(Color.decode(squareItem.getColor()));
+					            } catch (NumberFormatException nfe) {
+					                colorPanel.setBackground(Color.GRAY);
+					            }
+					            squarePanel.add(colorPanel, BorderLayout.NORTH);
+					        }
 
-							if (squareItem.getType().equals("PROPIEDAD") && squareItem.getColor() != null) {
-								JPanel colorPanel = new JPanel();
-								colorPanel.setPreferredSize(new Dimension(0, 15));
-								try {
-									colorPanel.setBackground(Color.decode(squareItem.getColor()));
-								} catch (NumberFormatException nfe) {
-									colorPanel.setBackground(Color.GRAY);
-								}
-								squarePanel.add(colorPanel, BorderLayout.NORTH);
-							}
+					        JPanel playerContainer = new JPanel(new GridBagLayout());
+					        playerContainer.setOpaque(false); 
 
-							JLabel lblName = new JLabel(squareItem.getName(), JLabel.CENTER);
-							lblName.setFont(new Font("Arial", Font.BOLD, 10));
-							squarePanel.add(lblName, BorderLayout.CENTER);
+					        GridBagConstraints gbcContainer = new GridBagConstraints();
+					        gbcContainer.fill = GridBagConstraints.BOTH;
+					        gbcContainer.weightx = 1.0;
+					        gbcContainer.weighty = 1.0;
 
-							if (squareItem.getPrice() > 0) {
-								JLabel lblPrice = new JLabel(squareItem.getPrice() + " €", JLabel.CENTER);
-								lblPrice.setFont(new Font("Arial", Font.BOLD, 10));
-								squarePanel.add(lblPrice, BorderLayout.SOUTH);
-							}
+					        for (int players = 0; players < 4; players++) {
+					            JPanel playerPanel = new JPanel(new BorderLayout());
+					            playerPanel.setOpaque(false); 
+					            playerPanel.setPreferredSize(new Dimension(25, 25));
 
-							panelGame.add(squarePanel, gbcB);
-						}
+					            playersPosition[position - 1][players] = playerPanel;
+
+					            gbcContainer.gridx = players % 2;
+					            gbcContainer.gridy = players / 2;
+					            
+					            playerContainer.add(playerPanel, gbcContainer);
+					        }
+					        squarePanel.add(playerContainer, BorderLayout.CENTER);
+
+					        JPanel panelPropertyName = new JPanel(new java.awt.GridLayout(2, 1));
+					        panelPropertyName.setOpaque(false);
+
+					        JLabel lblName = new JLabel(squareItem.getName(), JLabel.CENTER);
+					        lblName.setFont(new Font("Arial", Font.BOLD, 9));
+					        panelPropertyName.add(lblName);
+
+					        if (squareItem.getPrice() > 0) {
+					            JLabel lblPrice = new JLabel(squareItem.getPrice() + " €", JLabel.CENTER);
+					            lblPrice.setFont(new Font("Arial", Font.BOLD, 9));
+					            panelPropertyName.add(lblPrice);
+					        }
+
+					        squarePanel.add(panelPropertyName, BorderLayout.SOUTH);
+
+					        panelGame.add(squarePanel, gbcB);
+					    }
 					}
 
 				}
@@ -322,6 +384,38 @@ public class PanelBoard extends JPanel {
 			}
 		}
 	}
+
+	public void updatePlayersPosition(List<Player> playersList) {
+
+	    for (int i = 0; i < playersList.size(); i++) {
+	        if (lblIcon[i].getParent() != null) {
+	            lblIcon[i].getParent().remove(lblIcon[i]);
+	        }
+	    }
+
+	    for (int i = 0; i < playersList.size(); i++) {
+	        Player p = playersList.get(i);
+	        int position = p.getPosition();
+
+	        int squareIndex = position - 1; 
+
+	        if (squareIndex >= 0 && squareIndex < playersPosition.length) {
+	            JPanel playerPanel = playersPosition[squareIndex][i];
+
+	            if (playerPanel != null) {
+	                lblIcon[i].setVisible(true);
+	                lblIcon[i].setMinimumSize(new Dimension(30, 30));
+	                lblIcon[i].setPreferredSize(new Dimension(30, 30));
+
+	                playerPanel.add(lblIcon[i], BorderLayout.CENTER);
+	            }
+	        }
+	    }
+
+	    this.revalidate();
+	    this.repaint();
+	}
+
 
 } 
 
