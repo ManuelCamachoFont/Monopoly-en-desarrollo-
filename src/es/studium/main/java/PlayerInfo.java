@@ -35,7 +35,6 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		setSize(600, 420);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		System.out.println("Test");
 		
 		setLayout(null);
 		
