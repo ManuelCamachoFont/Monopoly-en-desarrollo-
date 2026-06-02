@@ -17,7 +17,6 @@ public class MainView {
 	private PanelRank panelRank = new PanelRank();
 	private PanelStart panelStart = new PanelStart();
 	private PanelBoard panelBoard = new PanelBoard();
-	private PanelPlayer panelPlayer = new PanelPlayer();
 	private PanelEnd panelEnd = new PanelEnd();
 
 	public MainView() {
@@ -31,7 +30,6 @@ public class MainView {
 		mainPanel.add(panelRank,"RANKING");
 		mainPanel.add(panelStart, "START");
 		mainPanel.add(panelBoard, "BOARD");
-		mainPanel.add(panelPlayer, "PLAYER");
 		mainPanel.add(panelEnd, "END");
 
 		mainFrame.add(mainPanel);
@@ -71,10 +69,6 @@ public class MainView {
 	
 	public PanelBoard getPanelBoard() {
 		return panelBoard;
-	}
-	
-	public PanelPlayer getPanelPlayer() {
-		return panelPlayer;
 	}
 	
 	public PanelEnd getPanelEnd() {

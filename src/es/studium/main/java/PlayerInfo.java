@@ -61,12 +61,12 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		
 
 		JPanel panelProperties = new JPanel();
-		panelProperties.setLayout(new FlowLayout());
+		panelProperties.setLayout(new BorderLayout());
 		JScrollPane scroll = new JScrollPane(panelProperties, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		ArrayList<Square> properties = player.getProperties();
 		if (properties == null || properties.isEmpty()) {
-			JLabel propertiesInfo = new JLabel ("Player has no properties");
-			panelProperties.add(propertiesInfo);
+			JLabel propertiesInfo = new JLabel ("Player has no properties", JLabel.CENTER);
+			panelProperties.add(propertiesInfo, BorderLayout.CENTER);
 		}
 		else {
 			for (Square property : properties) {
@@ -154,6 +154,8 @@ public class PlayerInfo extends JDialog implements ActionListener {
 				
 				panelProperty.add(panelTitle, BorderLayout.NORTH);
 				panelProperty.add(panelInfo, BorderLayout.CENTER);
+				panelProperties.add(panelProperty, BorderLayout.CENTER);
+				
 			}
 		}
 		scroll.setBounds(260, 30, 300, 200);
@@ -175,6 +177,8 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		btnClose.setBounds(250, 340, 100, 30);
 		add(btnClose);
 		
+		this.revalidate();
+		this.repaint();
 	}
 		
 		public static void showInfo(JFrame mainFrame, Player player) {
