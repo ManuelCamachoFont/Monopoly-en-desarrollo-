@@ -1,6 +1,7 @@
 package es.studium.main.java;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -64,6 +65,7 @@ public class PanelHome extends JPanel{
 		
 		// Center Panel
 		panelCenter.setLayout(gridbag);
+		btnGame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnGame.setFont(new Font("Cooper Black", 0, 24));
 		btnGame.setPreferredSize(new Dimension(200, 80));
 		gbc.gridx = 0;
@@ -71,6 +73,7 @@ public class PanelHome extends JPanel{
 		panelCenter.add(btnGame, gbc);
 		gbc.insets = new Insets(10, 10, 10, 10);
 		gbc.gridy = 1;
+		btnExit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExit.setFont(new Font("Cooper Black", 0, 24));
 		btnExit.setPreferredSize(new Dimension(200, 80));
 		panelCenter.add(btnExit, gbc);
@@ -80,6 +83,7 @@ public class PanelHome extends JPanel{
 		// South Panel
 		panelSouth.setLayout(spring);
 		
+		btnOptions.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnOptions.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnOptions.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnOptions);
@@ -87,12 +91,14 @@ public class PanelHome extends JPanel{
         spring.putConstraint(SpringLayout.NORTH, btnOptions, 10, SpringLayout.NORTH, panelSouth);
         spring.putConstraint(SpringLayout.SOUTH, panelSouth, 10, SpringLayout.SOUTH, btnOptions);
 
+        btnHelp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnHelp.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnHelp.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnHelp);
         spring.putConstraint(SpringLayout.WEST, btnHelp, 10, SpringLayout.EAST, btnOptions);
         spring.putConstraint(SpringLayout.NORTH, btnHelp, 10, SpringLayout.NORTH, panelSouth);
 
+        btnRank.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnRank.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnRank.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnRank);

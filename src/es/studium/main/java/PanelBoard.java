@@ -3,6 +3,7 @@ package es.studium.main.java;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -118,9 +119,13 @@ public class PanelBoard extends JPanel {
 		panelPlayersInfo.setLayout(boxLayout);
 		panelPlayersInfo.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
+		lblPlayerName1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		lblName[0] = lblPlayerName1;
+		lblPlayerName2.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	    lblName[1] = lblPlayerName2;
+	    lblPlayerName3.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	    lblName[2] = lblPlayerName3;
+	    lblPlayerName4.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 	    lblName[3] = lblPlayerName4;
 
 	    lblMoney[0] = lblPlayerMoney1;
@@ -189,6 +194,7 @@ public class PanelBoard extends JPanel {
 
 		panelLeft.add(Box.createRigidArea(new Dimension(0, 20)));
 
+		btnTurn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		panelLeft.add(btnTurn);
 
 		gbc.gridx = 0;
@@ -288,7 +294,8 @@ public class PanelBoard extends JPanel {
 					else if (position == -2) {
 						gbcB.gridwidth = 3;
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
-
+						
+						btnBuy.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 						btnBuy.setFont(new Font("Arial", Font.BOLD, 12));
 						panelGame.add(btnBuy, gbcB);
 					}
@@ -297,6 +304,7 @@ public class PanelBoard extends JPanel {
 						gbcB.gridwidth = 3;
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
 
+						btnDices.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 						btnDices.setFont(new Font("Arial", Font.BOLD, 12));
 						panelGame.add(btnDices, gbcB);
 					}
@@ -307,6 +315,7 @@ public class PanelBoard extends JPanel {
 					    if (squareItem != null) {
 					        
 					        JPanel squarePanel = new JPanel(new BorderLayout());
+					        squarePanel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 					        squarePanel.setBorder(BorderFactory.createLineBorder(Color.GRAY));
 					        squarePanel.setBackground(new Color(205, 230, 208));
 					        

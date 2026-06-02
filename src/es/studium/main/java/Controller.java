@@ -1,6 +1,7 @@
 package es.studium.main.java;
 
 
+import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -46,6 +47,7 @@ public class Controller implements ActionListener, MouseListener{
 		this.m = model;
 		this.v = v;
 		this.squares = m.getSquares();
+		SoundOption.musicLoop(v.getFrame(), "/es/studium/main/resources/sound/happy.wav");
 
 		// Panel Home Buttons
 		this.v.getPanelHome().btnGame.addActionListener(this);
@@ -56,6 +58,7 @@ public class Controller implements ActionListener, MouseListener{
 
 		// Panel Options Buttons
 		this.v.getPanelOptions().btnBack.addActionListener(this);
+		this.v.getPanelOptions().btnConfirm.addActionListener(this);
 
 		// Panel Start Buttons
 		this.v.getPanelStart().choPlayers.addActionListener(this);
@@ -114,6 +117,15 @@ public class Controller implements ActionListener, MouseListener{
 		}
 		else if (e.getSource().equals(v.getPanelOptions().btnConfirm)) {
 
+			Checkbox selectedFont = v.getPanelOptions().chkTextF.getSelectedCheckbox();
+			if (selectedFont != null ) {
+				String newFont = selectedFont.getLabel();
+				FontOption.changeFontFamily(v.getFrame(), newFont);
+				v.getFrame().revalidate();
+				System.out.println(newFont);
+			}
+			
+			v.showPanel("HOME");
 		}
 
 		// Panel Help actions
