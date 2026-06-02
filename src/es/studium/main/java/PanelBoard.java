@@ -418,6 +418,16 @@ public class PanelBoard extends JPanel {
 	
 	
 	public JPanel[] getSquaresBoard() { return squaresBoard; }
+	
+	public JLabel[] getPlayerLbls() { return lblName; }
+	// Refactor?
+	public JLabel getPlayerLbl1() { return lblPlayerName1; }
+	
+	public JLabel getPlayerLbl2() { return lblPlayerName2; }
+	
+	public JLabel getPlayerLbl3() { return lblPlayerName3; }
+	
+	public JLabel getPlayerLbl4() { return lblPlayerName4; }
 
 
 } 
