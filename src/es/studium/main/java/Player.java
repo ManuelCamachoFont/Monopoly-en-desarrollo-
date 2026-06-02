@@ -10,7 +10,7 @@ public class Player {
 	private int money;
 	private int position;
 	private boolean prison;
-	private ArrayList<Integer> properties;
+	private ArrayList<Square> properties;
 	
 	public Player(String name, int moneyStarting) {
         this.name = name;
@@ -41,17 +41,17 @@ public class Player {
 	
 	public boolean getPrison() { return prison; }
 	
-	public ArrayList<Integer> getProperties(){ return properties; }
+	public ArrayList<Square> getProperties(){ return properties; }
 	
 	
 	
 	public int getTotalHouses(List<Square> squares) {
 		
 		int totalHouses = 0;
-		
-		for (int id : this.properties) {
-			Square s = squares.get(id - 1);
-			totalHouses += s.getHouses();
+		// Need fix
+		for (Square s : this.properties) {
+			Square sq = squares.get(id - 1);
+			totalHouses += sq.getHouses();
 		}
 		
 		return totalHouses;
@@ -59,10 +59,10 @@ public class Player {
 	
 	public int getTotalHotels(List<Square> squares) {
 	    int totalHotels = 0;
-	  
-	    for (int id : this.properties) {
-	        Square s = squares.get(id - 1);
-	        if (s.hasHotel()) {
+	    // Need fix
+	    for (Square s : this.properties) {
+	        Square sq = squares.get(id - 1);
+	        if (sq.hasHotel()) {
 	           totalHotels++;
 	        }
 	    }
