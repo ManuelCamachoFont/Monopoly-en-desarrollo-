@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -23,7 +24,8 @@ public class Controller implements ActionListener, MouseListener{
 	private int players;
 	private List<Player> playersList = new ArrayList<>();
 	private HashMap<Integer, Square> squares;
-	private List<Card> cardsList;
+	private List<Card> communityDeck = new ArrayList<>();;
+	private List<Card> luckDeck = new ArrayList<>();;
 
 
 	private final int[][] board = {
@@ -191,14 +193,15 @@ public class Controller implements ActionListener, MouseListener{
 
 
 	private void initializeBoard() {
-		HashMap<Integer, Square> squares = m.getSquares();
+		squares = m.getSquares();
 		v.getPanelBoard().createBoard(board, squares);
 		squaresListeners();
 		labelsListeners();
+		shuffleCards();
 		startGame();
 	}
 
-	public void squaresListeners() {
+	private void squaresListeners() {
 		JPanel[] squaresBoard = v.getPanelBoard().getSquaresBoard(); 
 
 		for (int i = 0; i < squaresBoard.length; i++) {
@@ -210,8 +213,8 @@ public class Controller implements ActionListener, MouseListener{
 			}
 		}
 	}
-	
-	public void labelsListeners() {
+
+	private void labelsListeners() {
 		JLabel[] labels = v.getPanelBoard().getPlayerLbls();
 
 		for(int i = 0; i < labels.length; i++) {
@@ -221,8 +224,37 @@ public class Controller implements ActionListener, MouseListener{
 				lblPlayer.addMouseListener(this);
 			}
 		}
-		
-		
+
+
+	}
+	private void shuffleCards() {
+		List<Card> cardsDeck = m.getCards();
+
+		for (Card card : cardsDeck) {
+			if(("LUCK").equalsIgnoreCase(card.getType())){
+				luckDeck.add(card);
+			}
+			else if(("COMMUNITY").equalsIgnoreCase(card.getType())) {
+				communityDeck.add(card);
+			}
+		}
+		Collections.shuffle(luckDeck);
+		Collections.shuffle(communityDeck);
+	}
+
+	private void drawCard(String type) {
+		Card obtainedCard = null;
+		if(("LUCK").equalsIgnoreCase(type)){
+			if(!luckDeck.isEmpty()){
+				obtainedCard = luckDeck.remove(0);
+			}
+		}
+		else if (("COMMUNITY").equalsIgnoreCase(type)){
+			if(!communityDeck.isEmpty()) {
+				obtainedCard = communityDeck.remove(0);
+			}
+		}
+		CardInfo.showInfo(v.getFrame(), obtainedCard);
 	}
 
 	@Override

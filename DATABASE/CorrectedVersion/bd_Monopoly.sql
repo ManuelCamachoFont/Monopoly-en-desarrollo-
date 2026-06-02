@@ -89,3 +89,35 @@ INSERT INTO casillas (nombreCasilla, tipoCasilla, colorCasilla, grupoCasilla, pr
 ('Paseo del Prado',     'PROPIEDAD',  '#0072BB', 8,    350,  35),
 ('Impuesto Lujo',       'IMPUESTO',   NULL,      NULL, NULL, NULL),
 ('Paseo de la Castellana', 'PROPIEDAD','#0072BB', 8,   400,  50);
+
+
+-- INSERT CARTAS
+-- =========================================================================
+-- CARTAS DE SUERTE
+-- =========================================================================
+
+INSERT INTO cartas (tipoCarta, textoCarta, accionCarta, valorCarta, destinoCarta) VALUES 
+('SUERTE', 'Avance hasta la casilla de Salida.', 'MOVER', 0, 1),
+('SUERTE', 'Avance hasta la Calle Alcalá. Si pasa por la casilla de Salida, cobre 200€.', 'MOVER', 200, 25),
+('SUERTE', 'Avance hasta el Paseo de la Castellana.', 'MOVER', 0, 40),
+('SUERTE', 'La banca le paga un dividendo de 50€.', 'COBRAR', 50, NULL),
+('SUERTE', 'Multa por exceso de velocidad. Pague 15€.', 'PAGAR', 15, NULL),
+('SUERTE', 'Vaya directamente a la cárcel sin pasar por la casilla de Salida y sin cobrar los 200€.', 'IR_A_CARCEL', 0, 11),
+('SUERTE', 'Retroceda tres casillas.', 'MOVER_ATRAS', 3, NULL),
+('SUERTE', 'Haga reparaciones en todas sus propiedades. Pague 25€ por cada casa.', 'REPARAR_CASAS', 25, NULL),
+('SUERTE', 'Queda libre de la cárcel. Esta carta puede conservarse hasta que se necesite.', 'SALIR_CARCEL', 0, NULL);
+
+-- =========================================================================
+-- CARTAS DE CAJA DE COMUNIDAD
+-- =========================================================================
+
+INSERT INTO cartas (tipoCarta, textoCarta, accionCarta, valorCarta, destinoCarta) VALUES 
+('COMUNIDAD', 'Error de la banca a su favor. Cobre 200€.', 'COBRAR', 200, NULL),
+('COMUNIDAD', 'Gastos médicos. Pague 50€.', 'PAGAR', 50, NULL),
+('COMUNIDAD', 'Por la venta de sus acciones, recibe 100€.', 'COBRAR', 100, NULL),
+('COMUNIDAD', 'Hacienda le devuelve 20€.', 'COBRAR', 20, NULL),
+('COMUNIDAD', 'Es su cumpleaños. Recibe 10€ de cada jugador.', 'CUMPLEANOS', 10, NULL),
+('COMUNIDAD', 'Le toca el premio anual de la lotería. Cobre 100€.', 'COBRAR', 100, NULL),
+('COMUNIDAD', 'Pague la fianza del hospital de 100€.', 'PAGAR', 100, NULL),
+('COMUNIDAD', 'Pague la escuela privada. 150€.', 'PAGAR', 150, NULL),
+('COMUNIDAD', 'Vaya directamente a la cárcel sin pasar por la casilla de Salida y sin cobrar los 200€.', 'IR_A_CARCEL', 0, 11);
