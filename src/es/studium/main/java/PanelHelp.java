@@ -1,6 +1,7 @@
 package es.studium.main.java;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -35,9 +36,9 @@ public class PanelHelp extends JPanel {
 	// Properties Tab
 	JScrollPane scrollHelpProperties = new JScrollPane();
 	JPanel panelHelpProperties = new JPanel();
-	JTextArea txtProperties1 = new JTextArea(10, 30);
-	JTextArea txtProperties2 = new JTextArea(10, 30);
-	JTextArea txtProperties3 = new JTextArea(10, 30);
+	JTextArea txtProperties1 = new JTextArea(5, 30);
+	JTextArea txtProperties2 = new JTextArea(7, 30);
+	JTextArea txtProperties3 = new JTextArea(7, 30);
 	ImageIcon icoProperties1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/properties.png"));
 	Image icoPropertiesRedim1 = icoProperties1.getImage().getScaledInstance(80, 80, Image.SCALE_SMOOTH);
 	ImageIcon icoPropertiesR1 = new ImageIcon(icoPropertiesRedim1);
@@ -52,7 +53,8 @@ public class PanelHelp extends JPanel {
 	// Cards Tab
 	JScrollPane scrollHelpCards = new JScrollPane();
 	JPanel panelHelpCards = new JPanel();
-	JTextArea txtCards = new JTextArea();
+	JTextArea txtCards1 = new JTextArea(7, 30);
+	JTextArea txtCards2 = new JTextArea(5, 30);
 
 	
 	// South panel
@@ -110,14 +112,17 @@ public class PanelHelp extends JPanel {
 
 		// Properties tab
 		panelHelpProperties.setLayout(gridbagP);
+		panelHelpProperties.setBackground(Color.BLACK);
 		panelHelpProperties.setBorder(new EmptyBorder(20, 20, 20, 20));
 		gbcP.gridx = 0;
 		gbcP.gridy = 0;
 		gbcP.weightx = 0.75;
 		gbcP.insets = new Insets(10, 10, 10, 10);
 
+		txtProperties1.setForeground(Color.WHITE);
+		txtProperties1.setOpaque(false);
 		txtProperties1.setEditable(false);
-		txtProperties1.setText("Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble");
+		txtProperties1.setText("\tOWNERSHIP:\n\nWhen landing on an unowned street, railroad, or utility, you can buy it from the Bank for the listed price.");
 		txtProperties1.setLineWrap(true);
 		txtProperties1.setWrapStyleWord(true);
 		panelHelpProperties.add(txtProperties1, gbcP);
@@ -128,8 +133,10 @@ public class PanelHelp extends JPanel {
 		gbcP.gridx = 0;
 		gbcP.gridy = 1;
 		gbcP.weightx = 0.75;
-		txtProperties2.setEnabled(false);
-		txtProperties2.setText("\tLorem Ipsum \n, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble");
+		txtProperties2.setForeground(Color.WHITE);
+		txtProperties2.setOpaque(false);
+		txtProperties2.setEditable(false);
+		txtProperties2.setText("\tCONSTRUCTION:\n\nHouses must be built evenly (you can't have 3 houses on one street and 1 on another in the same group). Before you can build a hotel, you need 4 houses in each property within the group.");
 		txtProperties2.setLineWrap(true);
 		txtProperties2.setWrapStyleWord(true);
 		panelHelpProperties.add(txtProperties2, gbcP);
@@ -137,8 +144,10 @@ public class PanelHelp extends JPanel {
 		gbcP.gridx = 0;
 		gbcP.gridy = 2;
 		gbcP.weightx = 0.75;
+		txtProperties3.setForeground(Color.WHITE);
+		txtProperties3.setOpaque(false);
 		txtProperties3.setEditable(false);
-		txtProperties3.setText("Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble Lorem Ipsum, blebleble");
+		txtProperties3.setText("\tMONOPOLY:\n\nIf you own all properties of a single color group, you have a monopoly. This allows you to build houses/hotels and doubles the base rent on unimproved properties in that group");
 		txtProperties3.setLineWrap(true);
 		txtProperties3.setWrapStyleWord(true);
 		panelHelpProperties.add(txtProperties3, gbcP);
@@ -163,13 +172,38 @@ public class PanelHelp extends JPanel {
 
 		// Cards tab
 		panelHelpCards.setLayout(gridbagC);
+		panelHelpCards.setBackground(Color.BLACK);
 		panelHelpCards.setBorder(new EmptyBorder(20, 20, 20, 20));
 		gbcC.gridx = 0;
 		gbcC.gridy = 0;
 		gbcC.insets = new Insets(10, 10, 10, 10);
 
-		txtCards.setText("Lorem Ipsum, blebleble");
-		panelHelpCards.add(txtCards, gbcC);
+		txtCards1.setForeground(Color.WHITE);
+		txtCards1.setOpaque(false);
+		txtCards1.setEditable(false);
+		txtCards1.setText("\tCOMMUNITY:\n\nHistorically focused on social, municipal, and financial windfalls or minor penalties.\n\n"
+			    + "- Common Rewards: Bank errors in your favor, tax refunds, or collecting money from every player for birthdays. \n\n"
+				+"- Common Penalties: Doctor's fees, school taxes, or insurance premiums. \n\n" 
+				+"- Key Card: Contains a \"Get Out of Jail Free\" card, which can be kept until needed or traded to another player. \n");
+		txtCards1.setLineWrap(true);
+		txtCards1.setWrapStyleWord(true);
+		panelHelpCards.add(txtCards1, gbcP);
+		gbcP.gridx = 1;
+		gbcP.weightx = 0.25;
+		
+		gbcP.gridx = 0;
+		gbcP.gridy = 1;
+		gbcP.weightx = 0.75;
+		txtCards2.setForeground(Color.WHITE);
+		txtCards2.setOpaque(false);
+		txtCards2.setEditable(false);
+		txtCards2.setText("\tLUCK:\n\nHistorically focused on movement, unpredictability, and high-risk/high-reward scenarios. \n\n"
+				+ "- Common Movements: Commands to advance directly to specific properties (like Boardwalk or Illinois Avenue), the nearest Railroad, or directly to Jail. \n\n"
+				+ "- Common Rewards/Penalties: Dividend payouts or general property repair assessments (where you must pay a specific fee per house and hotel you own). \n\n"
+				+ "- Key Card: Also contains a \"Get Out of Jail Free\" card.");
+		txtCards2.setLineWrap(true);
+		txtCards2.setWrapStyleWord(true);
+		panelHelpCards.add(txtCards2, gbcP);
 		scrollHelpCards.setViewportView(panelHelpCards);
 		tabs.addTab("Cards", scrollHelpCards);
 
