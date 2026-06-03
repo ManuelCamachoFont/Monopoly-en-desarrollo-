@@ -22,11 +22,15 @@ public class Controller implements ActionListener, MouseListener{
 
 	private Model m;
 	private View v;
-	private int players;
+	private int currentTurn = 0;
+	private Player currentPlayer;
+	private boolean rolledDices = false;
+	private int players = 0;
 	private List<Player> playersList = new ArrayList<>();
 	private HashMap<Integer, Square> squares;
-	private List<Card> communityDeck = new ArrayList<>();;
-	private List<Card> luckDeck = new ArrayList<>();;
+	private List<Card> communityDeck = new ArrayList<>();
+	private List<Card> luckDeck = new ArrayList<>();
+	private DialogsInfo dialogs;
 
 
 	private final int[][] board = {
@@ -47,6 +51,7 @@ public class Controller implements ActionListener, MouseListener{
 		this.m = model;
 		this.v = v;
 		this.squares = m.getSquares();
+		this.dialogs = new DialogsInfo(v.getFrame(), this.squares);
 		SoundOption.musicLoop(v.getFrame(), "/es/studium/main/resources/sound/happy.wav");
 
 		// Panel Home Buttons
@@ -76,6 +81,11 @@ public class Controller implements ActionListener, MouseListener{
 
 		// Panel Ranking Buttons
 		this.v.getPanelRank().btnBack.addActionListener(this);
+		
+		//Panel Board Buttons
+		this.v.getPanelBoard().btnDices.addActionListener(this);
+		this.v.getPanelBoard().btnBuy.addActionListener(this);
+		this.v.getPanelBoard().btnTurn.addActionListener(this);
 	}
 
 	@Override
@@ -140,6 +150,23 @@ public class Controller implements ActionListener, MouseListener{
 		else if(e.getSource().equals(v.getPanelRank().btnBack)) {
 			v.showPanel("HOME");
 		}
+		
+		// Panel Board actions
+		else if(e.getSource().equals(v.getPanelBoard().btnDices)) {
+			
+			movePlayer();
+			
+
+			
+			
+		}
+		
+		else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
+			
+		}
+		else if (e.getSource().equals(v.getPanelBoard().btnTurn)) {
+			turnEnd();
+		}
 
 		// Activate END GAME SCreen
 		//	v.showPanel("END");
@@ -148,12 +175,62 @@ public class Controller implements ActionListener, MouseListener{
 
 
 	}
+	
+	private int rollDices()
+	{
+		DiceInfo dialog = new DiceInfo(v.getFrame(),10);
+		int sumDices = m.throwingDices();
+		dialog.resultDice.setText(""+ sumDices);
+		dialog.resultDice.setVisible(true);
+		return sumDices;
+	}
+	
+	private void movePlayer() {
+		if (rolledDices) {
+			return;
+		}
+	 currentPlayer = playersList.get(currentTurn);
+	 int movement = rollDices();
+	 int newPosition = currentPlayer.getPosition() + movement;
+	 
+	 if (newPosition > 40) {
+		 newPosition = newPosition - 40;
+		 currentPlayer.updateMoney(200);
+	 }
+	 
+	 currentPlayer.setPosition(newPosition);
+	 rolledDices = true;
+	 
+	 v.getPanelBoard().updatePlayersPosition(playersList);
+	 
+	 squareEvent(newPosition, currentPlayer);
+	 
+	}
+	
+	private void squareEvent(int position, Player player) {
+		Square square = squares.get(position);
+		if (square == null) {
+			return;
+		}
+		// Switch tipo de casillas
+	}
+	
+	private void turnEnd(){
+		if(!rolledDices) {
+			return;
+		}
+		currentTurn++;
+		if (currentTurn>= playersList.size()){
+			currentTurn = 0;
+		}
+		rolledDices = false;
+		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
+	}
 
 	private void selectPlayers() {
 
 		String selection = v.getPanelStart().choPlayers.getSelectedItem().toString();
 
-		players = 0;
 		switch(selection) {
 		case "2 Players": 
 			players = 2; 
@@ -165,7 +242,7 @@ public class Controller implements ActionListener, MouseListener{
 			players = 4; 
 			break;
 		default:          
-			players = 0; 
+			players = 2; 
 			break;
 		}
 
@@ -199,6 +276,9 @@ public class Controller implements ActionListener, MouseListener{
 		}
 		v.getPanelBoard().updatePlayers(playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);
+		currentTurn = 0;
+		currentPlayer = playersList.get(currentTurn);
+		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
 
 		v.showPanel("BOARD");
 	}
@@ -239,6 +319,8 @@ public class Controller implements ActionListener, MouseListener{
 
 
 	}
+	
+	
 	private void shuffleCards() {
 		List<Card> cardsDeck = m.getCards();
 
@@ -297,7 +379,7 @@ public class Controller implements ActionListener, MouseListener{
 								square.getType().equals("SERVICIO"))) {
 
 
-							SquareInfo.showInfo(v.getFrame(), square);
+							dialogs.showPropertyInfo(square);;
 						}
 					}
 				} catch (NumberFormatException nfe) {
@@ -307,16 +389,16 @@ public class Controller implements ActionListener, MouseListener{
 			}
 		}
 		else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl1())){
-			PlayerInfo.showInfo(v.getFrame(), playersList.get(0));
+			dialogs.showPlayerInfo(playersList.get(0));
 		}
 		else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl2())){
-			PlayerInfo.showInfo(v.getFrame(), playersList.get(1));
+			dialogs.showPlayerInfo(playersList.get(1));
 		}
 		else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl3())){
-			PlayerInfo.showInfo(v.getFrame(), playersList.get(2));
+			dialogs.showPlayerInfo(playersList.get(2));
 		}
 		else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl4())){
-			PlayerInfo.showInfo(v.getFrame(), playersList.get(3));
+			dialogs.showPlayerInfo(playersList.get(3));
 		}
 	}
 

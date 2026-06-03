@@ -10,6 +10,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -28,7 +29,7 @@ public class PlayerInfo extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	JButton btnClose = new JButton("Close");
 
-	public PlayerInfo(JFrame mainFrame, Player player) {
+	public PlayerInfo(JFrame mainFrame, Player player, Map<Integer, Square> squares) {
 		
 		super(mainFrame, player.getName(), true);
 		
@@ -163,8 +164,8 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		
 		JPanel panelPosition = new JPanel();
 		JLabel lblPositionTitle = new JLabel("Actual position:");
-		// Square hashmap
-		JLabel lblPosition = new JLabel(player.getPosition() +"");
+		Square currentSquare = squares.get(player.getPosition());
+		JLabel lblPosition = new JLabel(currentSquare.getName());
 		panelPosition.setLayout(new FlowLayout());
 		panelPosition.add(lblPositionTitle);
 		panelPosition.add(lblPosition);
@@ -180,8 +181,8 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		this.repaint();
 	}
 		
-		public static void showInfo(JFrame mainFrame, Player player) {
-			PlayerInfo dialog = new PlayerInfo(mainFrame, player);
+		public static void showInfo(JFrame mainFrame, Player player, Map<Integer, Square> squares) {
+			PlayerInfo dialog = new PlayerInfo(mainFrame, player, squares);
 			dialog.setVisible(true);
 		}
 

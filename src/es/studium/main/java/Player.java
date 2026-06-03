@@ -44,6 +44,10 @@ public class Player {
 	public ArrayList<Square> getProperties(){ return properties; }
 	
 	
+	public void updateMoney (int updated) {
+		this.money += updated;
+	}
+	
 	
 	public int getTotalHouses(List<Square> squares) {
 		

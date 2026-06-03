@@ -3,6 +3,7 @@ package es.studium.main.java;
 import java.sql.Connection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class Model {
 
@@ -33,6 +34,14 @@ public class Model {
 	public HashMap<Integer, Square> getSquares()
 	{
 		return this.daoSquares.obtainSquares();
+	}
+	
+	public int throwingDices()
+	{
+		Random randomDices = new Random();
+		int diceOne = randomDices.nextInt(6) + 1;
+		int diceTwo = randomDices.nextInt(6) + 1;
+		return diceOne + diceTwo;
 	}
 
 }
