@@ -35,9 +35,4 @@ public class Model {
 		return this.daoSquares.obtainSquares();
 	}
 
-
-	public void setPlayers(int players) {
-		// TODO Auto-generated method stub
-		
-	}
 }

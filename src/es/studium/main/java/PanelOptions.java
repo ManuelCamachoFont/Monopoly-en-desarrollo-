@@ -37,8 +37,8 @@ public class PanelOptions extends JPanel{
 	Checkbox chkRed = new Checkbox("Red", false, chkTextC);
 	Checkbox chkGreen = new Checkbox("Green", false, chkTextC);
 	CheckboxGroup chkTextF = new CheckboxGroup();
-	Checkbox chkComf = new Checkbox("Comfortaa", false, chkTextF);
-	Checkbox chkHelv = new Checkbox("Helvetica", false, chkTextF);
+	Checkbox chkF1 = new Checkbox("Courier New", false, chkTextF);
+	Checkbox chkF2 = new Checkbox("Candara", false, chkTextF);
 	
 	JLabel lblBoard = new JLabel("Board");
 	CheckboxGroup chkBoard = new CheckboxGroup();
@@ -100,9 +100,9 @@ public class PanelOptions extends JPanel{
 		gbc.gridx = 2;
 		panelCenter.add(chkRed, gbc);
 		gbc.gridx = 3;
-		panelCenter.add(chkComf, gbc);
+		panelCenter.add(chkF1, gbc);
 		gbc.gridx = 4;
-		panelCenter.add(chkHelv, gbc);
+		panelCenter.add(chkF2, gbc);
 		
 		// Board
 		gbc.gridx = 0;

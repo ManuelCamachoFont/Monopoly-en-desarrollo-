@@ -5,7 +5,7 @@ import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class View {
+public class MainView {
 
 	private JFrame mainFrame = new JFrame("Monopoly");
 	private CardLayout panels = new CardLayout();
@@ -19,9 +19,8 @@ public class View {
 	private PanelBoard panelBoard = new PanelBoard();
 	private PanelEnd panelEnd = new PanelEnd();
 
-	public View() {
+	public MainView() {
 		mainFrame.setSize(600, 600);
-		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -74,16 +73,6 @@ public class View {
 	
 	public PanelEnd getPanelEnd() {
 		return panelEnd;
-	}
-	
-	// Prueba para diferentes tamaños
-	public void updateFrame() {
-		mainFrame.revalidate();
-		mainFrame.repaint();
-	}
-	
-	public JFrame getFrame() {
-		return mainFrame;
 	}
 }
 
