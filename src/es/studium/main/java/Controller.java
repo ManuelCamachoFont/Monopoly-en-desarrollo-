@@ -23,6 +23,7 @@ public class Controller implements ActionListener, MouseListener{
 	private Model m;
 	private View v;
 	private int players;
+	private int turn = 1;
 	private List<Player> playersList = new ArrayList<>();
 	private HashMap<Integer, Square> squares;
 	private List<Card> communityDeck = new ArrayList<>();;
@@ -74,6 +75,9 @@ public class Controller implements ActionListener, MouseListener{
 		this.v.getPanelHelp().btnBack.addActionListener(this);
 		this.v.getPanelHelp().btnMHelp.addActionListener(this);
 
+		//Panel Board Buttons
+		this.v.getPanelBoard().btnDices.addActionListener(this);
+		this.v.getPanelBoard().btnTurn.addActionListener(this);
 		// Panel Ranking Buttons
 		this.v.getPanelRank().btnBack.addActionListener(this);
 	}
@@ -106,6 +110,13 @@ public class Controller implements ActionListener, MouseListener{
 			v.showPanel("HOME");
 		}
 		else if (e.getSource().equals(v.getPanelStart().btnPlay)) {
+			if(v.getPanelStart().choPlayers.getSelectedIndex() == 0) {
+				
+				//TODO:Aquí ponemos el error, o un dialogo para que al menos haya dos jugadores
+			
+				System.out.println("selecciona al menos dos jugadores");
+			return;
+			}
 			initializeBoard();
 			v.getFrame().pack();
 			v.getFrame().setLocationRelativeTo(null);
@@ -140,6 +151,22 @@ public class Controller implements ActionListener, MouseListener{
 		else if(e.getSource().equals(v.getPanelRank().btnBack)) {
 			v.showPanel("HOME");
 		}
+		else if(e.getSource().equals(v.getPanelBoard().btnTurn)){
+			turn ++;
+			 players = playersList.size();
+			 if (turn > players){
+				 turn = 1;
+			 }
+			 turnManager();
+		}
+		else if(e.getSource().equals(v.getPanelBoard().btnDices)) {
+			rollDice();
+			//movementManager(playersList[]);
+			
+
+			
+			
+		}
 
 		// Activate END GAME SCreen
 		//	v.showPanel("END");
@@ -147,6 +174,39 @@ public class Controller implements ActionListener, MouseListener{
 		//	v.getFrame().setLocationRelativeTo(null);
 
 
+	}
+	private void turnManager() {
+		switch (turn) {
+		case 1:
+			//TODO cosas que hace el jugador 1
+			System.out.println("Turno del jugador 1");
+		case 2:
+			//TODO cosas que hace el jugador 1
+			System.out.println("Turno del jugador 2");
+		case 3:
+			//TODO cosas que hace el jugador 1
+			System.out.println("Turno del jugador 3");
+		case 4:
+			//TODO cosas que hace el jugador 1
+			System.out.println("Turno del jugador 4");
+		}
+	}
+	
+	private void movementManager(Player player) {
+		int movement = rollDice();
+		player.setPosition(player.getPosition() + movement);
+		v.getPanelBoard().updatePlayers(playersList);
+			
+	}
+
+	private int rollDice()
+	{
+		DiceInfo dialog = new DiceInfo(v.getFrame(),10);
+		int sumDices = m.throwingDices();
+		dialog.resultDice.setText(""+ sumDices);
+		dialog.resultDice.setVisible(true);
+		v.getPanelBoard().btnDices.setEnabled(false);
+		return sumDices;
 	}
 
 	private void selectPlayers() {
@@ -243,10 +303,10 @@ public class Controller implements ActionListener, MouseListener{
 		List<Card> cardsDeck = m.getCards();
 
 		for (Card card : cardsDeck) {
-			if(("LUCK").equalsIgnoreCase(card.getType())){
+			if(("SUERTE").equalsIgnoreCase(card.getType())){
 				luckDeck.add(card);
 			}
-			else if(("COMMUNITY").equalsIgnoreCase(card.getType())) {
+			else if(("COMUNIDAD").equalsIgnoreCase(card.getType())) {
 				communityDeck.add(card);
 			}
 		}
