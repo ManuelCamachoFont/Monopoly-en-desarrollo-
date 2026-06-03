@@ -4,9 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -16,14 +13,12 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-public class DiceInfo extends JDialog implements ActionListener
+public class DiceInfo extends JDialog
 {
 	private static final long serialVersionUID = 1L;
 
-	ImageIcon icoDices = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/dices.png"));
-	Image icoDicesRedim = icoDices.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoDicesR = new ImageIcon(icoDicesRedim);
-	JLabel lblIconDice = new JLabel(icoDicesR);
+	ImageIcon icoDices = new ImageIcon(getClass().getResource("/es/studium/main/resources/gif/dice-rolling.gif"));
+	JLabel lblIconDice = new JLabel(icoDices);
 	
 	JLabel oneDot = new JLabel(".", JLabel.CENTER);
 	JLabel twoDot = new JLabel("..", JLabel.CENTER);
@@ -60,13 +55,7 @@ public class DiceInfo extends JDialog implements ActionListener
 		add(resultDice);
 		
 		setVisible(true);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		// TODO Auto-generated method stub
-
+	
 	}
 
 }
