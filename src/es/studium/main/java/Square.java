@@ -57,7 +57,7 @@ public class Square {
 	}
 	
 	public void buildHouse() {
-		if (this.houses < 4) {
+		if (this.houses < 4 && !this.hotel) {
 			this.houses++;
 		}
 		else if (this.houses == 4 && !this.hotel) {

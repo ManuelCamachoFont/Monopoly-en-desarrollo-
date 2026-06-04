@@ -32,12 +32,19 @@ public class Controller implements ActionListener, MouseListener
 	private List<Card> luckDeck = new ArrayList<>();
 	private DialogsInfo dialogs;
 
-	private final int[][] board = { { 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 },
-					{ 20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32 }, { 19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33 },
-					{ 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34 }, { 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35 },
-					{ 16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36 }, { 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, 37 },
-					{ 14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38 }, { 13, -1, -1, -1, -2, -1, -1, -1, -1, -1, 39 },
-					{ 12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40 }, { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 } };
+	private final int[][] board = { 
+					{ 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 },
+					{ 20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32 }, 
+					{ 19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33 },
+					{ 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34 }, 
+					{ 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35 },
+					{ 16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36 }, 
+					{ 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, 37 },
+					{ 14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38 }, 
+					{ 13, -1, -1, -1, -2, -1, -1, -1, -1, -1, 39 },
+					{ 12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40 }, 
+					{ 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 } 
+					};
 
 	public Controller(Model model, View v) {
 		this.m = model;
@@ -79,6 +86,7 @@ public class Controller implements ActionListener, MouseListener
 		this.v.getPanelBoard().btnDices.addActionListener(this);
 		this.v.getPanelBoard().btnBuy.addActionListener(this);
 		this.v.getPanelBoard().btnTurn.addActionListener(this);
+		
 	}
 
 	@Override
@@ -171,9 +179,9 @@ public class Controller implements ActionListener, MouseListener
 		if (rolledDices) {
 			return;
 		}
+		
 		currentPlayer = playersList.get(currentTurn);
 		int movement = rollDices();
-		movement = 7;
 		int newPosition = currentPlayer.getPosition() + movement;
 
 		if (newPosition > 40) {
@@ -185,42 +193,9 @@ public class Controller implements ActionListener, MouseListener
 		rolledDices = true;
 
 		v.getPanelBoard().updatePlayersPosition(playersList);
-
-		squareEvent(newPosition, currentPlayer);
-
-	}
-
-	private void squareEvent(int position, Player player)
-	{
-		Square square = squares.get(position);
-		if (square == null) {
-			return;
-		}
-		switch (square.getType().toUpperCase()) {
-		case "PROPIEDAD":
-		case "ESTACION":
-		case "SERVICIO":
-			propertyEvent(square, player);
-			break;
-		// Change type for cards on BD
-		case "SUERTE":
-		case "COMUNIDAD":
-			drawCard(square.getType());
-			break;
-		case "IMPUESTO":
-			player.updateMoney(-150);
-			break;
-		case "ESPECIAL":
-			if (square.getName().equals("Ir a la Cárcel")) {
-				player.setPosition(10);
-				player.setPrison(true);
-				v.getPanelBoard().updatePlayersPosition(playersList);
-				break;
-			}
-
-		}
-		v.getPanelBoard().updatePlayers(playersList);
-
+		Square currentSquare = squares.get(newPosition);
+		
+		TurnManager.squareEvents(currentPlayer, currentSquare, squares);
 	}
 
 	private void propertyEvent(Square square, Player player)
@@ -245,20 +220,6 @@ public class Controller implements ActionListener, MouseListener
 		}
 	}
 
-	private void buyProperty(Square square, Player player)
-	{
-
-		if (!square.hasOwner()) {
-
-			if (player.getMoney() >= square.getPrice()) {
-				player.updateMoney(-square.getPrice());
-				square.setOwner(player.getName());
-				player.getProperties().add(square);
-			} else {
-				return;
-			}
-		}
-	}
 
 	private void turnEnd()
 	{
@@ -269,6 +230,7 @@ public class Controller implements ActionListener, MouseListener
 		if (currentTurn >= playersList.size()) {
 			currentTurn = 0;
 		}
+		currentPlayer = playersList.get(currentTurn);
 		rolledDices = false;
 		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
 	}

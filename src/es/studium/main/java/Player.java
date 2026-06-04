@@ -10,6 +10,9 @@ public class Player {
 	private int money;
 	private int position;
 	private boolean prison;
+	private int jailTurns = 0;
+	private int jailCards = 0;
+	private int doublesDices = 0;
 	private ArrayList<Square> properties;
 	
 	public Player(String name, int moneyStarting) {
@@ -52,26 +55,60 @@ public class Player {
 	public int getTotalHouses(List<Square> squares) {
 		
 		int totalHouses = 0;
-		// Need fix
+		// Need fix - COMPLETED?
 		for (Square s : this.properties) {
-			Square sq = squares.get(id - 1);
+			Square sq = squares.get(s.getId() - 1);
 			totalHouses += sq.getHouses();
 		}
-		
 		return totalHouses;
 	}
 	
 	public int getTotalHotels(List<Square> squares) {
 	    int totalHotels = 0;
-	    // Need fix
+	    // Need fix - COMPLETED?
 	    for (Square s : this.properties) {
-	        Square sq = squares.get(id - 1);
+	        Square sq = squares.get(s.getId() - 1);
 	        if (sq.hasHotel()) {
 	           totalHotels++;
 	        }
 	    }
-	    
 	    return totalHotels;
+	}
+
+	public int getJailTurns()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setJailTurns(int turnInJail)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getJailCards()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setJailCards(int i)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	public int getDoublesDices()
+	{
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	public void setDoublesDices(int anotherDouble)
+	{
+		// TODO Auto-generated method stub
+		
 	}
 	
 }
