@@ -10,7 +10,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,7 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-public class PanelBoard extends JPanel {
+public class PanelBoard extends BackgroundPanel {
 
 	private static final long serialVersionUID = 1L;
 
@@ -92,6 +91,7 @@ public class PanelBoard extends JPanel {
 	Border borderTitle = BorderFactory.createCompoundBorder(southBorder, padding);
 	
 	public PanelBoard() {
+		super("homeb_background2.png");
 		setLayout(gridbag);
 		setPreferredSize(new Dimension(1450, 900));
 

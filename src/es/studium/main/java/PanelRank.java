@@ -17,7 +17,7 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class PanelRank extends JPanel{
+public class PanelRank extends BackgroundPanel{
 
 	JPanel panelNorth = new JPanel();
 	JLabel rankTitle = new JLabel("Ranking");
@@ -76,6 +76,7 @@ public class PanelRank extends JPanel{
 	SpringLayout spring = new SpringLayout();
 
 	public PanelRank() {
+		super("options.png");
 		setLayout(new BorderLayout());
 
 		// North Panel
@@ -84,6 +85,7 @@ public class PanelRank extends JPanel{
 		rankTitle.setFont(new Font("Cooper Black", 1, 62));
 		rankTitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelNorth.add(rankTitle);
+		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
 
 		// Center Panel
@@ -197,6 +199,7 @@ public class PanelRank extends JPanel{
 		
 		
 		panelCenter.add(divider, BorderLayout.CENTER);
+		panelCenter.setOpaque(false);
 		add(panelCenter, BorderLayout.CENTER);
 
 		// South Panel
@@ -204,6 +207,7 @@ public class PanelRank extends JPanel{
 
 		btnBack.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnBack.setVerticalTextPosition(SwingConstants.BOTTOM);
+		panelSouth.setOpaque(false);
 		panelSouth.add(btnBack);
 		spring.putConstraint(SpringLayout.WEST, btnBack, 10, SpringLayout.WEST, panelSouth);
 		spring.putConstraint(SpringLayout.NORTH, btnBack, 10, SpringLayout.NORTH, panelSouth);

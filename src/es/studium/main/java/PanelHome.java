@@ -1,6 +1,7 @@
 package es.studium.main.java;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -10,6 +11,7 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -18,7 +20,7 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class PanelHome extends JPanel{
+public class PanelHome extends BackgroundPanel{
 
 	JPanel panelNorth = new JPanel();
 	JLabel mainTitle = new JLabel("Monopoly");
@@ -51,33 +53,52 @@ public class PanelHome extends JPanel{
 	
 	SpringLayout spring = new SpringLayout();
 	
+	Color colorBackground = new Color( 20, 20, 25);
+	Color colorForeground = new Color(255, 0, 127);
+	
 	
 	public PanelHome() {
+		super("homeb_background2.png");
 		setLayout(new BorderLayout());
 		
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
-		panelNorth.setBorder(new EmptyBorder(80, 0, 0, 0));
-		mainTitle.setFont(new Font("Cooper Black", 1, 62));
+		panelNorth.setBorder(new EmptyBorder(110, 0, 0, 0));
+		mainTitle.setForeground(colorForeground);
+		mainTitle.setFont(new Font("Arcade Classic", 1, 62));
 		mainTitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelNorth.add(mainTitle);
+		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
 		
 		// Center Panel
 		panelCenter.setLayout(gridbag);
+		gbc.anchor = GridBagConstraints.NORTH;
+		
 		btnGame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnGame.setFont(new Font("Cooper Black", 0, 24));
+		btnGame.setBackground(colorBackground);
+		btnGame.setForeground(colorForeground);
+		btnGame.setFocusPainted(false);
+		btnGame.setBorder(BorderFactory.createLineBorder(colorForeground, 2));
 		btnGame.setPreferredSize(new Dimension(200, 80));
 		gbc.gridx = 0;
 		gbc.gridy = 0;
+		gbc.insets = new Insets(40, 10, 10, 10);
 		panelCenter.add(btnGame, gbc);
-		gbc.insets = new Insets(10, 10, 10, 10);
+		
 		gbc.gridy = 1;
+		gbc.anchor = GridBagConstraints.NORTH;
+		gbc.weighty = 1.0;
 		btnExit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnExit.setFont(new Font("Cooper Black", 0, 24));
+		btnExit.setBackground(colorBackground);
+		btnExit.setForeground(colorForeground);
+		btnExit.setFocusPainted(false);
+		btnExit.setBorder(BorderFactory.createLineBorder(colorForeground, 2));
 		btnExit.setPreferredSize(new Dimension(200, 80));
 		panelCenter.add(btnExit, gbc);
-		
+		panelCenter.setOpaque(false);
 		add(panelCenter, BorderLayout.CENTER);
 		
 		// South Panel
@@ -104,7 +125,7 @@ public class PanelHome extends JPanel{
 		panelSouth.add(btnRank);
         spring.putConstraint(SpringLayout.EAST, btnRank, -10, SpringLayout.EAST, panelSouth);
         spring.putConstraint(SpringLayout.NORTH, btnRank, 10, SpringLayout.NORTH, panelSouth);
-        
+        panelSouth.setOpaque(false);
         add(panelSouth, BorderLayout.PAGE_END);
 		
 

@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class PanelEnd extends JPanel{
+public class PanelEnd extends BackgroundPanel{
 
 	JPanel panelNorth = new JPanel();
 	JLabel endTitle = new JLabel("End Game");
@@ -15,6 +15,7 @@ public class PanelEnd extends JPanel{
 
 	JPanel panelSouth = new JPanel();
 	public PanelEnd() {
+		super("homeb_background2.png");
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(600, 600));
 

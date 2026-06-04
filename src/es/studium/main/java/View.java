@@ -26,7 +26,8 @@ public class View {
 	private JLabel lblDialog = new JLabel();
 
 	public View() {
-		mainFrame.setSize(600, 600);
+		Utilities.setExactSize(mainFrame, 800, 800);
+		FontOption.registerCustomFont("ARCADECLASSIC.TTF");
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

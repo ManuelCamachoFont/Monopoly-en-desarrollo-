@@ -3,6 +3,8 @@ package es.studium.main.java;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
+import java.awt.GraphicsEnvironment;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
@@ -10,7 +12,28 @@ import javax.swing.UIManager;
 
 public class FontOption {
 
-	// Need to revalidate some dialogs and may not be working on every new created component
+	public static String registerCustomFont(String filename) {
+		try {
+			String path = "/es/studium/main/resources/fonts/" + filename;
+			URL url = FontOption.class.getResource(path);
+			if (url == null) {
+				System.err.println("Error file not found: " + path);
+				return null;
+			}
+			
+			Font customFont = Font.createFont(Font.TRUETYPE_FONT, url.openStream());
+			
+			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			ge.registerFont(customFont);
+			
+			return customFont.getFamily();
+			
+		} catch (Exception e) {
+			System.err.println("Error loading font: " + e.getMessage());
+			return null;
+		}
+	}
+	
 	public static void changeFontFamily (Component component, String fontFamily) {
 		List<Object> keys = Collections.list(UIManager.getDefaults().keys());
 		for (Object key : keys) {

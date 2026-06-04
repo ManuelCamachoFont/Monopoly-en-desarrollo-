@@ -2,9 +2,11 @@ package es.studium.main.java;
 
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Insets;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Utilities {
@@ -34,5 +36,17 @@ public class Utilities {
 		
 		Image imgResize = icon.getImage().getScaledInstance(widthResize, heightResize, Image.SCALE_SMOOTH);
 		label.setIcon(new ImageIcon(imgResize));
+	}
+	
+	public static void setExactSize(JFrame mainFrame, int widthInner, int heightInner) {
+
+	    mainFrame.setVisible(true); 
+
+	    Insets insets = mainFrame.getInsets();
+
+	    int widthTotal = widthInner + insets.left + insets.right;
+	    int heightTotal = heightInner + insets.top + insets.bottom;
+	    
+	    mainFrame.setSize(widthTotal, heightTotal);
 	}
 }

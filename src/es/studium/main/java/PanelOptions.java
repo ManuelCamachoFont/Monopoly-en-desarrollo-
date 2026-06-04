@@ -19,7 +19,7 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class PanelOptions extends JPanel{
+public class PanelOptions extends BackgroundPanel{
 
 	JPanel panelNorth = new JPanel();
 	JLabel optionsTitle = new JLabel("Options");
@@ -63,6 +63,7 @@ public class PanelOptions extends JPanel{
 	SpringLayout spring = new SpringLayout();
 
 	public PanelOptions() {
+		super("options.png");
 		setLayout(new BorderLayout());
 
 		// North Panel
@@ -71,6 +72,7 @@ public class PanelOptions extends JPanel{
 		optionsTitle.setFont(new Font("Cooper Black", 1, 62));
 		optionsTitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelNorth.add(optionsTitle);
+		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
 
 		// Center Panel
@@ -115,6 +117,7 @@ public class PanelOptions extends JPanel{
 		panelCenter.add(chkBw, gbc);
 		gbc.gridwidth = 1;
 
+		panelCenter.setOpaque(false);
 		add(panelCenter, BorderLayout.CENTER);
 
 		// South Panel
@@ -133,6 +136,7 @@ public class PanelOptions extends JPanel{
 		spring.putConstraint(SpringLayout.EAST, btnConfirm, -10, SpringLayout.EAST, panelSouth);
 		spring.putConstraint(SpringLayout.NORTH, btnConfirm, 10, SpringLayout.NORTH, panelSouth);
 
+		panelSouth.setOpaque(false);
 		add(panelSouth, BorderLayout.PAGE_END);
 
 	}

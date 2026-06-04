@@ -74,5 +74,10 @@ public class Player {
 	    
 	    return totalHotels;
 	}
+
+	public int getJailCards() {
+		
+		return 0;
+	}
 	
 }

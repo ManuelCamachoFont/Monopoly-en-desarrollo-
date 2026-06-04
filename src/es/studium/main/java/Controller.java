@@ -157,9 +157,6 @@ public class Controller implements ActionListener, MouseListener{
 
 			movePlayer();
 
-
-
-
 		}
 
 		else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
@@ -203,42 +200,44 @@ public class Controller implements ActionListener, MouseListener{
 		rolledDices = true;
 
 		v.getPanelBoard().updatePlayersPosition(playersList);
-
-		squareEvent(newPosition, currentPlayer);
-
-	}
-
-	private void squareEvent(int position, Player player) {
-		Square square = squares.get(position);
-		if (square == null) {
-			return;
-		}
-		switch (square.getType().toUpperCase()) {
-		case "PROPIEDAD":
-		case "ESTACION":
-		case "SERVICIO":
-			propertyEvent(square, player);
-			break;
-			// Change type for cards on BD
-		case "SUERTE":
-		case "COMUNIDAD":
-			drawCard(square.getType());
-			break;
-		case "IMPUESTO":
-			player.updateMoney(-150);
-			break;
-		case "ESPECIAL":
-			if (square.getName().equals("Ir a la Cárcel")){
-				player.setPosition(10);
-				player.setPrison(true);
-				v.getPanelBoard().updatePlayersPosition(playersList);
-				break;
-			}
-
-		}
-		v.getPanelBoard().updatePlayers(playersList);
+	
+		Square currentSquare = squares.get(newPosition);
+		
+		TurnManager.squareEvents(currentPlayer, currentSquare, squares, playersList);
 
 	}
+
+//	private void squareEvent(int position, Player player) {
+//		Square square = squares.get(position);
+//		if (square == null) {
+//			return;
+//		}
+//		switch (square.getType().toUpperCase()) {
+//		case "PROPIEDAD":
+//		case "ESTACION":
+//		case "SERVICIO":
+//			propertyEvent(square, player);
+//			break;
+//			// Change type for cards on BD
+//		case "SUERTE":
+//		case "COMUNIDAD":
+//			drawCard(square.getType());
+//			break;
+//		case "IMPUESTO":
+//			player.updateMoney(-150);
+//			break;
+//		case "ESPECIAL":
+//			if (square.getName().equals("Ir a la Cárcel")){
+//				player.setPosition(10);
+//				player.setPrison(true);
+//				v.getPanelBoard().updatePlayersPosition(playersList);
+//				break;
+//			}
+//
+//		}
+//		v.getPanelBoard().updatePlayers(playersList);
+//
+//	}
 
 	private void propertyEvent(Square square, Player player) {
 		
@@ -265,6 +264,7 @@ public class Controller implements ActionListener, MouseListener{
 
 	private void buyProperty(Square square, Player player) {
 
+		
 		if (!square.hasOwner()) {
 
 			if(player.getMoney() >= square.getPrice()) {
@@ -286,6 +286,7 @@ public class Controller implements ActionListener, MouseListener{
 		if (currentTurn>= playersList.size()){
 			currentTurn = 0;
 		}
+		currentPlayer = playersList.get(currentTurn);
 		rolledDices = false;
 		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
 		
@@ -428,7 +429,7 @@ public class Controller implements ActionListener, MouseListener{
 		if (e.getSource() instanceof JTextField) {
 			JTextField txtClicked = (JTextField) e.getSource();       
 			txtClicked.setText("");
-			txtClicked.setFont(new Font("Arial", Font.BOLD, 12));
+			txtClicked.setFont(new Font("Arial", Font.BOLD, 16));
 			txtClicked.setForeground(Color.BLACK);
 		}
 		else if (e.getSource() instanceof JPanel) {
