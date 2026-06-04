@@ -10,6 +10,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
@@ -53,22 +54,10 @@ public class PanelBoard extends JPanel {
 	JLabel lblPlayerMoney3 = new JLabel();
 	JLabel lblPlayerName4 = new JLabel();
 	JLabel lblPlayerMoney4 = new JLabel();
-	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer1Redim = icoPlayer1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer1R = new ImageIcon(icoPlayer1Redim);
-	JLabel lblIcon1 = new JLabel(icoPlayer1R);
-	ImageIcon icoPlayer2 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer2Redim = icoPlayer2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer2R = new ImageIcon(icoPlayer2Redim);
-	JLabel lblIcon2 = new JLabel(icoPlayer2R);
-	ImageIcon icoPlayer3 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer3Redim = icoPlayer3.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer3R = new ImageIcon(icoPlayer3Redim);
-	JLabel lblIcon3 = new JLabel(icoPlayer3R);
-	ImageIcon icoPlayer4 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer4Redim = icoPlayer4.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer4R = new ImageIcon(icoPlayer4Redim);
-	JLabel lblIcon4 = new JLabel(icoPlayer4R);
+	JLabel lblIcon1 = new JLabel();
+	JLabel lblIcon2 = new JLabel();
+	JLabel lblIcon3 = new JLabel();
+	JLabel lblIcon4 = new JLabel();
 	JLabel[] lblName = new JLabel[4];
 	JLabel[] lblMoney = new JLabel[4];
 	JLabel[] lblIcon = new JLabel[4];
@@ -133,9 +122,13 @@ public class PanelBoard extends JPanel {
 	    lblMoney[2] = lblPlayerMoney3;
 	    lblMoney[3] = lblPlayerMoney4;
 	    
+	    Utilities.setIco(lblIcon1, "dog.png", 30, 30);
 	    lblIcon[0] = lblIcon1;
+	    Utilities.setIco(lblIcon2, "iron.png", 30, 30);
 	    lblIcon[1] = lblIcon2;
+	    Utilities.setIco(lblIcon3, "boots.png", 30, 30);
 	    lblIcon[2] = lblIcon3;
+	    Utilities.setIco(lblIcon4, "thimble.png", 30, 30);
 	    lblIcon[3] = lblIcon4;
 
 	    for (int i = 0; i < 4; i++) {
@@ -424,7 +417,7 @@ public class PanelBoard extends JPanel {
 	    this.revalidate();
 	    this.repaint();
 	}
-	
+
 	
 	public JPanel[] getSquaresBoard() { return squaresBoard; }
 	

@@ -192,7 +192,6 @@ public class Controller implements ActionListener, MouseListener{
 		}
 		currentPlayer = playersList.get(currentTurn);
 		int movement = rollDices();
-		movement = 7;
 		int newPosition = currentPlayer.getPosition() + movement;
 
 		if (newPosition > 40) {
@@ -289,6 +288,7 @@ public class Controller implements ActionListener, MouseListener{
 		}
 		rolledDices = false;
 		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
+		
 	}
 
 	private void selectPlayers() {
@@ -335,7 +335,7 @@ public class Controller implements ActionListener, MouseListener{
 				playerName = "Player " + i;
 			}
 
-			Player newPlayer = new Player(playerName, 500);
+			Player newPlayer = new Player(i, playerName, 500);
 			playersList.add(newPlayer);
 		}
 		v.getPanelBoard().updatePlayers(playersList);
@@ -389,10 +389,10 @@ public class Controller implements ActionListener, MouseListener{
 		List<Card> cardsDeck = m.getCards();
 
 		for (Card card : cardsDeck) {
-			if(("LUCK").equalsIgnoreCase(card.getType())){
+			if(("SUERTE").equalsIgnoreCase(card.getType())){
 				luckDeck.add(card);
 			}
-			else if(("COMMUNITY").equalsIgnoreCase(card.getType())) {
+			else if(("COMUNIDAD").equalsIgnoreCase(card.getType())) {
 				communityDeck.add(card);
 			}
 		}
@@ -404,13 +404,11 @@ public class Controller implements ActionListener, MouseListener{
 		Card obtainedCard = null;
 		if(("SUERTE").equalsIgnoreCase(type)){
 			if(!luckDeck.isEmpty()){
-				System.out.println(obtainedCard);
 				obtainedCard = luckDeck.remove(0);
 			}
 		}
 		else if (("COMUNIDAD").equalsIgnoreCase(type)){
 			if(!communityDeck.isEmpty()) {
-				System.out.println(obtainedCard);
 				obtainedCard = communityDeck.remove(0);
 			}
 		}

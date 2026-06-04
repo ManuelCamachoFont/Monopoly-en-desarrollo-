@@ -2,12 +2,14 @@ package es.studium.main.java;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -33,28 +35,16 @@ public class PanelStart extends JPanel{
 
 	// Player1
 	JTextField txtPlayer1 = new JTextField("Player 1", 20);
-	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer1Redim = icoPlayer1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer1R = new ImageIcon(icoPlayer1Redim);
-	JLabel lblIcoPlayer1 = new JLabel(icoPlayer1R);
+	JLabel lblIcoPlayer1 = new JLabel();
 	// Player2
 	JTextField txtPlayer2 = new JTextField("Player 2", 20);
-	ImageIcon icoPlayer2 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer2Redim = icoPlayer2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer2R = new ImageIcon(icoPlayer2Redim);
-	JLabel lblIcoPlayer2 = new JLabel(icoPlayer2R);
+	JLabel lblIcoPlayer2 = new JLabel();
 	// Player3
 	JTextField txtPlayer3 = new JTextField("Player 3", 20);
-	ImageIcon icoPlayer3 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer3Redim = icoPlayer3.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer3R = new ImageIcon(icoPlayer3Redim);
-	JLabel lblIcoPlayer3 = new JLabel(icoPlayer3R);
+	JLabel lblIcoPlayer3 = new JLabel();
 	// Player 4
 	JTextField txtPlayer4 = new JTextField("Player 4", 20);
-	ImageIcon icoPlayer4 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer4Redim = icoPlayer4.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer4R = new ImageIcon(icoPlayer4Redim);
-	JLabel lblIcoPlayer4 = new JLabel(icoPlayer4R);
+	JLabel lblIcoPlayer4 = new JLabel();
 
 	JPanel panelSouth = new JPanel();
 	ImageIcon icoBack = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/back.png"));
@@ -102,6 +92,7 @@ public class PanelStart extends JPanel{
 		txtPlayer1.setFont(new Font("Arial", Font.ITALIC, 12));
 		panelPlayers.add(txtPlayer1, gbc);
 		gbc.gridx = 1;
+		Utilities.setIco(lblIcoPlayer1, "dog.png", 30, 30);
 		panelPlayers.add(lblIcoPlayer1, gbc);
 		gbc.gridx = 0;
 
@@ -111,6 +102,7 @@ public class PanelStart extends JPanel{
 		txtPlayer2.setFont(new Font("Arial", Font.ITALIC, 12));
 		panelPlayers.add(txtPlayer2, gbc);
 		gbc.gridx = 1;
+		Utilities.setIco(lblIcoPlayer2, "iron.png", 30, 30);
 		panelPlayers.add(lblIcoPlayer2, gbc);
 		gbc.gridx = 0;
 
@@ -120,6 +112,7 @@ public class PanelStart extends JPanel{
 		txtPlayer3.setFont(new Font("Arial", Font.ITALIC, 12));
 		panelPlayers.add(txtPlayer3, gbc);
 		gbc.gridx = 1;
+		Utilities.setIco(lblIcoPlayer3, "boots.png", 30, 30);
 		panelPlayers.add(lblIcoPlayer3, gbc);
 		gbc.gridx = 0;
 
@@ -129,6 +122,7 @@ public class PanelStart extends JPanel{
 		txtPlayer4.setFont(new Font("Arial", Font.ITALIC, 12));
 		panelPlayers.add(txtPlayer4, gbc);
 		gbc.gridx = 1;
+		Utilities.setIco(lblIcoPlayer4, "thimble.png", 30, 30);
 		panelPlayers.add(lblIcoPlayer4, gbc);
 		gbc.gridx = 0;
 		
@@ -160,6 +154,7 @@ public class PanelStart extends JPanel{
 
 		add(panelSouth, BorderLayout.PAGE_END);
 	}
+	
 	
 	public void updatePlayers(int playersNumber) {
 	    Component[] components = panelPlayers.getComponents();

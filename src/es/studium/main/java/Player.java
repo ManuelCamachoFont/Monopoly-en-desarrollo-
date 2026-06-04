@@ -12,7 +12,8 @@ public class Player {
 	private boolean prison;
 	private ArrayList<Square> properties;
 	
-	public Player(String name, int moneyStarting) {
+	public Player(int id, String name, int moneyStarting) {
+		this.id = id;
         this.name = name;
         this.money = moneyStarting;
         this.position = 1;

@@ -40,28 +40,38 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		setLayout(null);
 		
 		JLabel lblPlayer = new JLabel(player.getName());
-		ImageIcon icoPlayer = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-		Image icoPlayerRedim = icoPlayer.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon icoPlayerR = new ImageIcon(icoPlayerRedim);
-		JLabel lblIconPlayer = new JLabel(icoPlayerR);
+		JLabel lblIconPlayer = new JLabel();
 		lblPlayer.setBounds(90, 30, 100, 40);
 		add(lblPlayer);
 		lblIconPlayer.setBounds(90, 80, 50, 50);
+		int id = player.getId();
+		switch(id) {
+		case 1:
+			Utilities.setIco(lblIconPlayer, "dog.png", 50, 50);
+			break;
+		case 2:
+			Utilities.setIco(lblIconPlayer, "iron.png", 50, 50);
+			break;
+		case 3:
+			Utilities.setIco(lblIconPlayer, "boots.png", 50, 50);
+			break;
+		case 4:
+			Utilities.setIco(lblIconPlayer, "thimble.png", 50, 50);
+			break;
+		}
 		add(lblIconPlayer);
 		
 		JLabel lblMoney = new JLabel(player.getMoney() + " €");
-		ImageIcon icoMoney = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-		Image icoMoneyRedim = icoMoney.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-		ImageIcon icoMoneyR = new ImageIcon(icoMoneyRedim);
-		JLabel lblIconMoney = new JLabel(icoMoneyR);
+		JLabel lblIconMoney = new JLabel();
 		lblMoney.setBounds(90, 180, 100, 40);
 		add(lblMoney);
 		lblIconMoney.setBounds(90, 230, 50, 50);
+		Utilities.setIco(lblIconMoney, "money.png", 50, 50);
 		add(lblIconMoney);
 		
 
 		JPanel panelProperties = new JPanel();
-		panelProperties.setLayout(new BorderLayout());
+		panelProperties.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
 		JScrollPane scroll = new JScrollPane(panelProperties, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		ArrayList<Square> properties = player.getProperties();
 		if (properties == null || properties.isEmpty()) {
@@ -74,7 +84,7 @@ public class PlayerInfo extends JDialog implements ActionListener {
 				panelProperty.setPreferredSize(new Dimension(150, 180));
 				panelProperty.setLayout(new BorderLayout());
 				JPanel panelTitle = new JPanel();
-				panelTitle.setPreferredSize(new Dimension(0, 20));
+				panelTitle.setPreferredSize(new Dimension(150, 20));
 				Border line = BorderFactory.createLineBorder(Color.BLACK, 1);
 				Border padding = BorderFactory.createEmptyBorder(5, 5, 5, 5);
 				panelTitle.setBorder(BorderFactory.createCompoundBorder(line, padding));
@@ -154,7 +164,7 @@ public class PlayerInfo extends JDialog implements ActionListener {
 				
 				panelProperty.add(panelTitle, BorderLayout.NORTH);
 				panelProperty.add(panelInfo, BorderLayout.CENTER);
-				panelProperties.add(panelProperty, BorderLayout.CENTER);
+				panelProperties.add(panelProperty);
 				
 			}
 		}
