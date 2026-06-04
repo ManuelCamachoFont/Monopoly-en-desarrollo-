@@ -42,14 +42,5 @@ public class Model
 		int diceOne = randomDices.nextInt(6) + 1;
 		int diceTwo = randomDices.nextInt(6) + 1;
 		return diceOne + diceTwo;
-	}
-
-	public int throwingDices()
-	{
-		Random randomDices = new Random();
-		int diceOne = randomDices.nextInt(6) + 1;
-		int diceTwo = randomDices.nextInt(6) + 1;
-		return diceOne + diceTwo;
-	}
-	
+	}	
 }

@@ -41,7 +41,7 @@ public class CardInfo extends JDialog implements ActionListener {
 		
 	}
 	
-	public static void showInfo(JFrame mainFrame, Card cards) {
+	public void showInfo(JFrame mainFrame, Card cards) {
 		CardInfo dialog = new CardInfo(mainFrame, cards);
 		dialog.setVisible(true);
 	}

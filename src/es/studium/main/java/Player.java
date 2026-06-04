@@ -35,7 +35,7 @@ public class Player {
 	
 	public int getPosition() { return position;}
 	
-	public void setPosition(int position) { this.position = position % 40; }
+	public void setPosition(int position) { this.position = position; }
 	
 	public void setPrison(boolean prison) { this.prison = prison; }
 	

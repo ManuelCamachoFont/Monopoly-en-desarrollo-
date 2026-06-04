@@ -102,7 +102,7 @@ public class PanelBoard extends JPanel {
 	
 	Border southBorder = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
 	Border borderTitle = BorderFactory.createCompoundBorder(southBorder, padding);
-
+	
 	public PanelBoard() {
 		setLayout(gridbag);
 		setPreferredSize(new Dimension(1450, 900));
