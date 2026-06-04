@@ -47,7 +47,8 @@ public class PanelHome extends BackgroundPanel{
     ImageIcon icoRankR = new ImageIcon(icoRankRedim);
 	JButton btnRank = new JButton("Ranking", icoRankR);
 	
-
+	Dimension btnSize = new Dimension (90, 70);
+	
 	GridBagLayout gridbag = new GridBagLayout();
 	GridBagConstraints gbc = new GridBagConstraints();
 	
@@ -65,7 +66,7 @@ public class PanelHome extends BackgroundPanel{
 		panelNorth.setLayout(new FlowLayout());
 		panelNorth.setBorder(new EmptyBorder(110, 0, 0, 0));
 		mainTitle.setForeground(colorForeground);
-		mainTitle.setFont(new Font("Arcade Classic", 1, 62));
+		mainTitle.setFont(getFont().deriveFont(62f));
 		mainTitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelNorth.add(mainTitle);
 		panelNorth.setOpaque(false);
@@ -76,7 +77,7 @@ public class PanelHome extends BackgroundPanel{
 		gbc.anchor = GridBagConstraints.NORTH;
 		
 		btnGame.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnGame.setFont(new Font("Cooper Black", 0, 24));
+		btnGame.setFont(getFont().deriveFont(24f));
 		btnGame.setBackground(colorBackground);
 		btnGame.setForeground(colorForeground);
 		btnGame.setFocusPainted(false);
@@ -91,7 +92,7 @@ public class PanelHome extends BackgroundPanel{
 		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.weighty = 1.0;
 		btnExit.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnExit.setFont(new Font("Cooper Black", 0, 24));
+		btnExit.setFont(getFont().deriveFont(24f));
 		btnExit.setBackground(colorBackground);
 		btnExit.setForeground(colorForeground);
 		btnExit.setFocusPainted(false);
@@ -104,6 +105,7 @@ public class PanelHome extends BackgroundPanel{
 		// South Panel
 		panelSouth.setLayout(spring);
 		
+		btnOptions.setPreferredSize(btnSize);
 		btnOptions.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnOptions.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnOptions.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -112,6 +114,7 @@ public class PanelHome extends BackgroundPanel{
         spring.putConstraint(SpringLayout.NORTH, btnOptions, 10, SpringLayout.NORTH, panelSouth);
         spring.putConstraint(SpringLayout.SOUTH, panelSouth, 10, SpringLayout.SOUTH, btnOptions);
 
+        btnHelp.setPreferredSize(btnSize);
         btnHelp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnHelp.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnHelp.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -119,6 +122,7 @@ public class PanelHome extends BackgroundPanel{
         spring.putConstraint(SpringLayout.WEST, btnHelp, 10, SpringLayout.EAST, btnOptions);
         spring.putConstraint(SpringLayout.NORTH, btnHelp, 10, SpringLayout.NORTH, panelSouth);
 
+        btnRank.setPreferredSize(btnSize);
         btnRank.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         btnRank.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnRank.setVerticalTextPosition(SwingConstants.BOTTOM);

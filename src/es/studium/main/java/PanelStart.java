@@ -1,6 +1,7 @@
 package es.studium.main.java;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -27,7 +28,7 @@ public class PanelStart extends BackgroundPanel{
 	JLabel startTitle = new JLabel("Players");
 
 	JPanel panelCenter = new JPanel();
-	JLabel lblPlayers = new JLabel("How many persons want to play?");
+	JLabel lblPlayers = new JLabel("How many players will play?");
 	String[] playersNumber = {"Select Players...", "2 Players", "3 Players", "4 Players"};
 	// Add revalidate and repaint when selected change
 	JComboBox<String> choPlayers = new JComboBox<String>(playersNumber);
@@ -64,6 +65,9 @@ public class PanelStart extends BackgroundPanel{
 	GridBagConstraints gbcP = new GridBagConstraints();
 
 	SpringLayout spring = new SpringLayout();
+	
+	Color colorBackground = new Color( 20, 20, 25);
+	Color colorForeground = new Color(255, 0, 127);
 
 
 	public PanelStart() {
@@ -73,7 +77,8 @@ public class PanelStart extends BackgroundPanel{
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
 		panelNorth.setBorder(new EmptyBorder(110, 0, 0, 0));
-		startTitle.setFont(new Font("Cooper Black", 1, 62));
+		startTitle.setForeground(colorForeground);
+		startTitle.setFont(getFont().deriveFont(62f));
 		startTitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelNorth.add(startTitle);
 		panelNorth.setOpaque(false);
@@ -86,6 +91,7 @@ public class PanelStart extends BackgroundPanel{
 		gbc.gridy = 0;
 		gbc.insets = new Insets (10, 10, 10, 10);
 	
+		lblPlayers.setForeground(colorForeground);
 		lblPlayers.setFont(getFont().deriveFont(20f));
 		panelCenter.add(lblPlayers, gbc);
 		
@@ -101,7 +107,6 @@ public class PanelStart extends BackgroundPanel{
 
 		panelPlayers.setLayout(gridbagP);
 		panelPlayers.setOpaque(false);
-		panelPlayers.setBorder(new EmptyBorder(20, 0, 0, 0));
 		gbcP.gridx = 0;
 		gbcP.gridy = 0;
 		gbcP.insets = new Insets (10, 10, 10, 10);

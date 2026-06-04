@@ -90,12 +90,16 @@ public class PanelBoard extends BackgroundPanel {
 	Border southBorder = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
 	Border borderTitle = BorderFactory.createCompoundBorder(southBorder, padding);
 	
+	Color colorBackground = new Color( 20, 20, 25);
+	Color colorForeground = new Color(255, 0, 127);
+	
 	public PanelBoard() {
-		super("homeb_background2.png");
+		super("background.png");
 		setLayout(gridbag);
 		setPreferredSize(new Dimension(1450, 900));
 
 		panelLeft.setLayout(box);
+		panelLeft.setOpaque(false);
 		panelLeft.setBorder(new EmptyBorder(20, 20, 20, 20));
 
 		panelPlayers.setLayout(new BorderLayout());
@@ -200,7 +204,9 @@ public class PanelBoard extends BackgroundPanel {
 		add(panelLeft, gbc);
 
 		panelRight.setLayout(new BorderLayout());
+		panelRight.setOpaque(false);
 		panelGame.setLayout(gridbagB);
+		panelGame.setOpaque(false);
 
 		panelRight.add(panelGame, BorderLayout.CENTER);
 
@@ -289,7 +295,7 @@ public class PanelBoard extends BackgroundPanel {
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
 						
 						btnBuy.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						btnBuy.setFont(new Font("Arial", Font.BOLD, 12));
+						btnBuy.setFont(getFont().deriveFont(Font.BOLD));;
 						panelGame.add(btnBuy, gbcB);
 					}
 
@@ -298,7 +304,7 @@ public class PanelBoard extends BackgroundPanel {
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
 
 						btnDices.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						btnDices.setFont(new Font("Arial", Font.BOLD, 12));
+						btnDices.setFont(getFont().deriveFont(Font.BOLD));;
 						panelGame.add(btnDices, gbcB);
 					}
 

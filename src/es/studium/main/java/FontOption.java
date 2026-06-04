@@ -50,7 +50,16 @@ public class FontOption {
 	private static void executeFontChange(Component component, String fontFamily) {
 		Font f = component.getFont();
 		if (f != null) {
-			component.setFont(new Font(fontFamily, f.getStyle(), f.getSize()));
+			int newSize = f.getSize();
+			String oldFont = f.getFamily();
+			
+			if (oldFont.equals("Pixel Operator")) {
+	            newSize = (int)(f.getSize() / 1.4);
+	        }
+			if (fontFamily.equals("Pixel Operator")) {
+	            newSize = (int)(f.getSize() * 1.4);
+	        }
+			component.setFont(new Font(fontFamily, f.getStyle(), newSize));
 			if (component instanceof Container container) {
 				for (Component child : container.getComponents()) {
 					executeFontChange(child, fontFamily);

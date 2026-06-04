@@ -27,7 +27,7 @@ public class View {
 
 	public View() {
 		Utilities.setExactSize(mainFrame, 800, 800);
-		FontOption.registerCustomFont("ARCADECLASSIC.TTF");
+		FontOption.registerCustomFont("PixelOperator.ttf");
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

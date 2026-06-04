@@ -38,7 +38,7 @@ public class PanelOptions extends BackgroundPanel{
 	Checkbox chkGreen = new Checkbox("Green", false, chkTextC);
 	CheckboxGroup chkTextF = new CheckboxGroup();
 	Checkbox chkF1 = new Checkbox("Courier New", false, chkTextF);
-	Checkbox chkF2 = new Checkbox("Candara", false, chkTextF);
+	Checkbox chkF2 = new Checkbox("Pixel Operator", false, chkTextF);
 	
 	JLabel lblBoard = new JLabel("Board");
 	CheckboxGroup chkBoard = new CheckboxGroup();

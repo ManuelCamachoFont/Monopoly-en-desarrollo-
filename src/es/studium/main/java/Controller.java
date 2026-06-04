@@ -429,7 +429,7 @@ public class Controller implements ActionListener, MouseListener{
 		if (e.getSource() instanceof JTextField) {
 			JTextField txtClicked = (JTextField) e.getSource();       
 			txtClicked.setText("");
-			txtClicked.setFont(new Font("Arial", Font.BOLD, 16));
+			txtClicked.setFont(txtClicked.getFont().deriveFont(Font.BOLD));
 			txtClicked.setForeground(Color.BLACK);
 		}
 		else if (e.getSource() instanceof JPanel) {

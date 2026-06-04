@@ -6,7 +6,6 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -36,6 +34,10 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		setSize(600, 420);
 		setLocationRelativeTo(null);
 		setResizable(false);
+
+		BackgroundPanel backgroundPanel = new BackgroundPanel("background.png");
+		backgroundPanel.setLayout(null);
+		setContentPane(backgroundPanel);
 		
 		setLayout(null);
 		
@@ -164,6 +166,7 @@ public class PlayerInfo extends JDialog implements ActionListener {
 				
 				panelProperty.add(panelTitle, BorderLayout.NORTH);
 				panelProperty.add(panelInfo, BorderLayout.CENTER);
+				panelProperties.setOpaque(false);
 				panelProperties.add(panelProperty);
 				
 			}
@@ -180,9 +183,10 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		panelPosition.add(lblPositionTitle);
 		panelPosition.add(lblPosition);
 		panelPosition.setBounds(360, 250, 100, 100);
+		panelPosition.setOpaque(false);
 		add(panelPosition);
 
-		btnClose.setFont(new Font("Arial", Font.BOLD, 12));
+		btnClose.setFont(getFont().deriveFont(62f));
 		btnClose.addActionListener(this);
 		btnClose.setBounds(250, 340, 100, 30);
 		add(btnClose);
