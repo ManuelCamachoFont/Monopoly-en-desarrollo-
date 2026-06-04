@@ -1,8 +1,11 @@
 package es.studium.main.java;
 
 import java.awt.CardLayout;
+import java.awt.FlowLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class View {
@@ -18,6 +21,9 @@ public class View {
 	private PanelStart panelStart = new PanelStart();
 	private PanelBoard panelBoard = new PanelBoard();
 	private PanelEnd panelEnd = new PanelEnd();
+	
+	private JDialog dialog = new JDialog(mainFrame, "Dialog", true);
+	private JLabel lblDialog = new JLabel();
 
 	public View() {
 		mainFrame.setSize(600, 600);
@@ -38,6 +44,14 @@ public class View {
 		showPanel("HOME");
 
 		mainFrame.setVisible(true);
+		
+		
+		dialog.setSize(200, 200);
+		dialog.setResizable(false);
+		dialog.setLocationRelativeTo(null);
+		dialog.setLayout(new FlowLayout());
+		dialog.add(lblDialog);
+		
 	}
 
 	public void showPanel(String name) {
@@ -84,6 +98,17 @@ public class View {
 	
 	public JFrame getFrame() {
 		return mainFrame;
+	}
+	
+	public JDialog getDialog() {
+		return dialog;
+	}
+	
+	public void showDialog(String message) {
+		lblDialog.setText(message);
+		dialog.setVisible(true);
+		dialog.pack();
+		dialog.revalidate();
 	}
 }
 

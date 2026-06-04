@@ -27,6 +27,7 @@ public class Controller implements ActionListener, MouseListener{
 	private boolean rolledDices = false;
 	private int players = 0;
 	private List<Player> playersList = new ArrayList<>();
+	//
 	private HashMap<Integer, Square> squares;
 	private List<Card> communityDeck = new ArrayList<>();
 	private List<Card> luckDeck = new ArrayList<>();
@@ -52,7 +53,7 @@ public class Controller implements ActionListener, MouseListener{
 		this.v = v;
 		this.squares = m.getSquares();
 		this.dialogs = new DialogsInfo(v.getFrame(), this.squares);
-		SoundOption.musicLoop(v.getFrame(), "/es/studium/main/resources/sound/happy.wav");
+		//SoundOption.musicLoop(v.getFrame(), "/es/studium/main/resources/sound/happy.wav");
 
 		// Panel Home Buttons
 		this.v.getPanelHome().btnGame.addActionListener(this);
@@ -81,7 +82,7 @@ public class Controller implements ActionListener, MouseListener{
 
 		// Panel Ranking Buttons
 		this.v.getPanelRank().btnBack.addActionListener(this);
-		
+
 		//Panel Board Buttons
 		this.v.getPanelBoard().btnDices.addActionListener(this);
 		this.v.getPanelBoard().btnBuy.addActionListener(this);
@@ -134,7 +135,7 @@ public class Controller implements ActionListener, MouseListener{
 				v.getFrame().revalidate();
 				System.out.println(newFont);
 			}
-			
+
 			v.showPanel("HOME");
 		}
 
@@ -150,19 +151,19 @@ public class Controller implements ActionListener, MouseListener{
 		else if(e.getSource().equals(v.getPanelRank().btnBack)) {
 			v.showPanel("HOME");
 		}
-		
+
 		// Panel Board actions
 		else if(e.getSource().equals(v.getPanelBoard().btnDices)) {
-			
-			movePlayer();
-			
 
-			
-			
+			movePlayer();
+
+
+
+
 		}
-		
+
 		else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
-			
+			buyProperty(squares.get(currentPlayer.getPosition()), currentPlayer);
 		}
 		else if (e.getSource().equals(v.getPanelBoard().btnTurn)) {
 			turnEnd();
@@ -175,7 +176,7 @@ public class Controller implements ActionListener, MouseListener{
 
 
 	}
-	
+
 	private int rollDices()
 	{
 		DiceInfo dialog = new DiceInfo(v.getFrame(),10);
@@ -184,37 +185,100 @@ public class Controller implements ActionListener, MouseListener{
 		dialog.resultDice.setVisible(true);
 		return sumDices;
 	}
-	
+
 	private void movePlayer() {
 		if (rolledDices) {
 			return;
 		}
-	 currentPlayer = playersList.get(currentTurn);
-	 int movement = rollDices();
-	 int newPosition = currentPlayer.getPosition() + movement;
-	 
-	 if (newPosition > 40) {
-		 newPosition = newPosition - 40;
-		 currentPlayer.updateMoney(200);
-	 }
-	 
-	 currentPlayer.setPosition(newPosition);
-	 rolledDices = true;
-	 
-	 v.getPanelBoard().updatePlayersPosition(playersList);
-	 
-	 squareEvent(newPosition, currentPlayer);
-	 
+		currentPlayer = playersList.get(currentTurn);
+		int movement = rollDices();
+		movement = 7;
+		int newPosition = currentPlayer.getPosition() + movement;
+
+		if (newPosition > 40) {
+			newPosition = newPosition - 40;
+			currentPlayer.updateMoney(200);
+		}
+
+		currentPlayer.setPosition(newPosition);
+		rolledDices = true;
+
+		v.getPanelBoard().updatePlayersPosition(playersList);
+
+		squareEvent(newPosition, currentPlayer);
+
 	}
-	
+
 	private void squareEvent(int position, Player player) {
 		Square square = squares.get(position);
 		if (square == null) {
 			return;
 		}
-		// Switch tipo de casillas
+		switch (square.getType().toUpperCase()) {
+		case "PROPIEDAD":
+		case "ESTACION":
+		case "SERVICIO":
+			propertyEvent(square, player);
+			break;
+			// Change type for cards on BD
+		case "SUERTE":
+		case "COMUNIDAD":
+			drawCard(square.getType());
+			break;
+		case "IMPUESTO":
+			player.updateMoney(-150);
+			break;
+		case "ESPECIAL":
+			if (square.getName().equals("Ir a la Cárcel")){
+				player.setPosition(10);
+				player.setPrison(true);
+				v.getPanelBoard().updatePlayersPosition(playersList);
+				break;
+			}
+
+		}
+		v.getPanelBoard().updatePlayers(playersList);
+
 	}
+
+	private void propertyEvent(Square square, Player player) {
+		
+		if (square.getOwner() == null) {
+	        v.showDialog(square.getName() + " has no owner yet. Player can buy it.");
+	        return; 
+	    }
+		
+		if (square.getOwner().equals(player.getName())) {
+	        v.showDialog(square.getName() + " landed on their own property: " + square.getName());
+	        return;
+	    }
+	      int rent = square.getRent();
 	
+	        for (Player owner : playersList) {
+	            if (owner.getName().equals(square.getOwner())) {
+	                player.updateMoney(-rent);
+	                owner.updateMoney(rent);
+	            }
+	        }
+	 }
+		
+	
+
+	private void buyProperty(Square square, Player player) {
+
+		if (!square.hasOwner()) {
+
+			if(player.getMoney() >= square.getPrice()) {
+				player.updateMoney(-square.getPrice());
+				square.setOwner(player.getName());
+				player.getProperties().add(square);
+			}
+			else {
+				return;
+			}
+		}
+	}
+
 	private void turnEnd(){
 		if(!rolledDices) {
 			return;
@@ -319,8 +383,8 @@ public class Controller implements ActionListener, MouseListener{
 
 
 	}
-	
-	
+
+
 	private void shuffleCards() {
 		List<Card> cardsDeck = m.getCards();
 
@@ -338,17 +402,21 @@ public class Controller implements ActionListener, MouseListener{
 
 	private void drawCard(String type) {
 		Card obtainedCard = null;
-		if(("LUCK").equalsIgnoreCase(type)){
+		if(("SUERTE").equalsIgnoreCase(type)){
 			if(!luckDeck.isEmpty()){
+				System.out.println(obtainedCard);
 				obtainedCard = luckDeck.remove(0);
 			}
 		}
-		else if (("COMMUNITY").equalsIgnoreCase(type)){
+		else if (("COMUNIDAD").equalsIgnoreCase(type)){
 			if(!communityDeck.isEmpty()) {
+				System.out.println(obtainedCard);
 				obtainedCard = communityDeck.remove(0);
 			}
 		}
-		CardInfo.showInfo(v.getFrame(), obtainedCard);
+		
+		CardInfo cardInfo = new CardInfo(v.getFrame(), obtainedCard);
+		cardInfo.showInfo(v.getFrame(), obtainedCard);
 	}
 
 	@Override
