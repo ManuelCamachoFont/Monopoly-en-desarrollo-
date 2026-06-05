@@ -545,9 +545,7 @@ public class Controller implements ActionListener, MouseListener
 					if (position >= 1 && position <= 40) {
 						Square square = squares.get(position);
 
-						if (square != null && (square.getType().equals("PROPIEDAD")
-								|| square.getType().equals("ESTACION") || square.getType().equals("SERVICIO"))) {
-
+						if (square != null && (square.getType().equals("PROPIEDAD") || square.getType().equals("ESTACION") || square.getType().equals("SERVICIO"))) {
 							dialogs.showPropertyInfo(square);
 							;
 						}
@@ -558,13 +556,13 @@ public class Controller implements ActionListener, MouseListener
 
 			}
 		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl1())) {
-			dialogs.showPlayerInfo(playersList.get(0));
+		    dialogs.showPlayerInfo(getPlayerById(1));
 		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl2())) {
-			dialogs.showPlayerInfo(playersList.get(1));
+		    dialogs.showPlayerInfo(getPlayerById(2));
 		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl3())) {
-			dialogs.showPlayerInfo(playersList.get(2));
+		    dialogs.showPlayerInfo(getPlayerById(3));
 		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl4())) {
-			dialogs.showPlayerInfo(playersList.get(3));
+		    dialogs.showPlayerInfo(getPlayerById(4));
 		}
 	}
 
