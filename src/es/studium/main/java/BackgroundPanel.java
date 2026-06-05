@@ -1,14 +1,21 @@
 package es.studium.main.java;
 
+import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
+
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class BackgroundPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
+	Color colorBackground = new Color( 20, 20, 25);
+	Color colorForeground = new Color(255, 0, 127);
 
 	public BackgroundPanel(String fileName) {
 		setBackgroundImage(fileName);
@@ -51,5 +58,13 @@ public class BackgroundPanel extends JPanel {
 			this.backgroundImage = null; 
 			this.repaint(); 
 		}
+	}
+	
+	public void setButtonStyle(JButton button) {
+		button.setBackground(colorBackground);
+		button.setForeground(colorForeground);
+		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		button.setFocusPainted(false);
+		button.setBorder(BorderFactory.createLineBorder(colorForeground, 2));
 	}
 }

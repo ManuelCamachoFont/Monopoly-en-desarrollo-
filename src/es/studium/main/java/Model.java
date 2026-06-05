@@ -36,12 +36,12 @@ public class Model {
 		return this.daoSquares.obtainSquares();
 	}
 	
-	public int throwingDices()
+	public int[] throwingDices()
 	{
 		Random randomDices = new Random();
 		int diceOne = randomDices.nextInt(6) + 1;
 		int diceTwo = randomDices.nextInt(6) + 1;
-		return diceOne + diceTwo;
+		return new int[] {diceOne, diceTwo};
 	}
 
 }

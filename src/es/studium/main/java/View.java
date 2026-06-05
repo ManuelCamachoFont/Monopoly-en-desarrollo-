@@ -110,9 +110,9 @@ public class View {
 	
 	public void showDialog(String message) {
 		lblDialog.setText(message);
-		dialog.setVisible(true);
-		dialog.pack();
 		dialog.revalidate();
+		dialog.pack();
+		dialog.setVisible(true);
 	}
 }
 

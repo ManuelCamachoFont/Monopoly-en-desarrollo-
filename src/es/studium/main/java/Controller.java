@@ -181,11 +181,12 @@ public class Controller implements ActionListener, MouseListener{
 
 	private int rollDices()
 	{
-		DiceInfo dialog = new DiceInfo(v.getFrame(),10);
-		int sumDices = m.throwingDices();
-		dialog.resultDice.setText(""+ sumDices);
-		dialog.resultDice.setVisible(true);
-		return sumDices;
+		int[] sumDices = m.throwingDices();
+		int dice1 = sumDices[0];
+		int dice2 = sumDices[1];
+		DiceInfo dialog = new DiceInfo(v.getFrame(), sumDices, currentPlayer.getName());
+	
+		return dice1+dice2;
 	}
 
 	private void movePlayer() {

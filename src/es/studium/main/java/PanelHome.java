@@ -54,8 +54,7 @@ public class PanelHome extends BackgroundPanel{
 	
 	SpringLayout spring = new SpringLayout();
 	
-	Color colorBackground = new Color( 20, 20, 25);
-	Color colorForeground = new Color(255, 0, 127);
+	
 	
 	
 	public PanelHome() {
@@ -106,7 +105,8 @@ public class PanelHome extends BackgroundPanel{
 		panelSouth.setLayout(spring);
 		
 		btnOptions.setPreferredSize(btnSize);
-		btnOptions.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnOptions.setFont(getFont().deriveFont(18f));
+		setButtonStyle(btnOptions);
 		btnOptions.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnOptions.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnOptions);
@@ -115,7 +115,7 @@ public class PanelHome extends BackgroundPanel{
         spring.putConstraint(SpringLayout.SOUTH, panelSouth, 10, SpringLayout.SOUTH, btnOptions);
 
         btnHelp.setPreferredSize(btnSize);
-        btnHelp.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        setButtonStyle(btnOptions);
         btnHelp.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnHelp.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnHelp);
@@ -134,6 +134,7 @@ public class PanelHome extends BackgroundPanel{
 		
 
 	}
-
+	
+	
 }
 
