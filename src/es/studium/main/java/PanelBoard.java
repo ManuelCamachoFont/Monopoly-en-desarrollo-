@@ -438,9 +438,8 @@ public class PanelBoard extends BackgroundPanel {
 	
 	public JLabel getPlayerLbl4() { return lblPlayerName4; }
 	
-	public void setLogs(String log) {
-		String text = txtLogs.getText();
-		txtLogs.setText(text += ("\n" + log));
+	public void writeLogs(String log) {
+		txtLogs.append(log);
 	}
 
 
