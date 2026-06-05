@@ -135,8 +135,7 @@ public class Controller implements ActionListener, MouseListener
 		} else if (e.getSource().equals(v.getPanelBoard().btnDices)) {
 			movePlayer();
 		} else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
-			TurnManager.buyProperty(currentPlayer, squares.get(currentPlayer.getPosition()));
-			v.getPanelBoard().updatePlayers(playersList);
+			checkCanBuy();
 		} else if (e.getSource().equals(v.getPanelBoard().btnTurn)) {
 			turnEnd();			
 		} else if (e.getActionCommand().equals("JAIL_PAY")) {
@@ -160,6 +159,20 @@ public class Controller implements ActionListener, MouseListener
 		// v.getFrame().setLocationRelativeTo(null);
 
 	}
+	
+	private void checkCanBuy(){
+		if (!rolledDices) return;
+
+	    Square currentSquare = squares.get(currentPlayer.getPosition());
+
+	    boolean bought = TurnManager.buyProperty(currentPlayer, currentSquare);
+	    if (bought) {
+	        v.getPanelBoard().updatePlayers(playersList);
+	        v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
+	    } else {
+	        v.showDialog("No se puede comprar esta propiedad.");
+	    }
+	}
 
 	private int rollDices()
 	{
@@ -179,12 +192,10 @@ public class Controller implements ActionListener, MouseListener
 		if (currentPlayer.getPrison()) {
 			saveMovement = rollDices();
 			boolean isDouble = m.isDouble();
-			
-			if(isDouble) {
-				currentPlayer.setPrison(false);
-	            currentPlayer.setJailTurns(0);
-	            executeSaveMovement();
-	            return;
+			boolean staysInJail = TurnManager.handleJailRoll(currentPlayer, isDouble);
+			if (!staysInJail) {
+			    executeSaveMovement();
+			    return;
 			}
 			
 	        JailInfo jailWindow = this.dialogs.prepareJailInfo(currentPlayer);
@@ -203,13 +214,10 @@ public class Controller implements ActionListener, MouseListener
 	    //currentPlayer.setJailCards(1);
 	    //saveMovement = 30;
 	    //=======================================
-	    currentPlayer.setJailCards(1);
-		TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);
+	    
+	    rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);
-		
-		if (isDouble && !currentPlayer.getPrison()) {
-	        rolledDices = false;
-	    }
+	    v.getPanelBoard().updatePlayers(playersList);
 	}
 
 	private void executeSaveMovement()
@@ -217,6 +225,7 @@ public class Controller implements ActionListener, MouseListener
 		rolledDices = true;
 		TurnManager.movementToSquare(currentPlayer, saveMovement, false, squares, playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);
+	    v.getPanelBoard().updatePlayers(playersList);
 		
 	}
 

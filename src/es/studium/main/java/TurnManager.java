@@ -56,24 +56,19 @@ public class TurnManager
 		return true; 
 	}
 
-	public static boolean rollingDicesInJain(Player player, int movement, boolean isDouble) {
-		if(isDouble) {
-			player.setPrison(false);
-			player.setJailTurns(0);
-			System.out.println(player.getName()+"queda libre de la cárcel");
-			return false;
-		}
-		
-		int turnsInJail = player.getJailTurns()+1;
-		player.setJailTurns(turnsInJail);
-		if (turnsInJail >= 3) {
-			player.setPrison(false);
-			player.setJailTurns(0);
-			System.out.println(player.getName() + " alcanzó los 3 turnos preso. Saldrá libre en el próximo turno.");
-		} else {
-			System.out.println(player.getName() + " no sacó dobles. Permanece en la cárcel (Intento " + turnsInJail + "/3).");
-		}
-		return true;
+	public static boolean handleJailRoll(Player player, boolean isDouble) {
+	    if (isDouble) {
+	        player.setPrison(false);
+	        player.setJailTurns(0);
+	        return false;
+	    }
+	    int turns = player.getJailTurns() + 1;
+	    player.setJailTurns(turns);
+	    if (turns >= 3) {
+	        player.setPrison(false);
+	        player.setJailTurns(0);
+	    }
+	    return true;
 	}
 	public static boolean movementToSquare(Player player, int movement, boolean isDouble, HashMap<Integer, Square> squares, List<Player> playersList)
 	{
@@ -175,12 +170,16 @@ public class TurnManager
 				
 	}
 
-	public static void buyProperty(Player player, Square square)
+	public static boolean buyProperty(Player player, Square square)
 	{
+		if (square == null) return false;
+		if (square.hasOwner()) return false;
+		if (player.getMoney() < square.getPrice()) return false;
+		
 		player.updateMoney(-square.getPrice());
 		square.setOwner(player.getName());
 		player.getProperties().add(square);
-
+		return true;
 	}
 
 	private static int calculateRent(Square square, HashMap<Integer, Square> allSquares)
