@@ -7,8 +7,15 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-public class TurnManager
-{
+public class TurnManager{
+
+	private String log = "";
+	
+	
+	public String getLog() {
+		return this.log;
+	}
+
 	public static boolean jailCheckOptions(Player player)
 	{
 		if (!player.getPrison()) return false;
@@ -151,13 +158,8 @@ public class TurnManager
 	private static void propertySquare(Player player, Square square, HashMap<Integer, Square> allSquares, List<Player> playersList)
 	{
 		if (!square.hasOwner()) {
-			System.out.println(player.getName() + " puede comprar " + square.getName() + " por " + square.getPrice() + "€.");
-			if (player.getMoney() >= square.getPrice()) {
-				return;			
-			}
-			else {
-				System.out.println(player.getName()+"No tiene dinero suficiente");
-			}
+			buyProperty(player, square);
+			
 		} else if (!square.getOwner().equals(player.getName())) {
 				int rentToPay = calculateRent(square, allSquares);
 				player.updateMoney(-rentToPay);
@@ -173,8 +175,9 @@ public class TurnManager
 
 	public static boolean buyProperty(Player player, Square square)
 	{
-		//Propiedad
-		if (square == null) return false;
+		String type = square.getType();
+		if (!type.equals("PROPIEDAD") || !type.equals("ESTACION") || !type.equals("SERVICIO")) return false;
+
 		if (square.hasOwner()) return false;
 		if (player.getMoney() < square.getPrice()) return false;
 		
