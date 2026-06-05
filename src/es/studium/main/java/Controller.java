@@ -133,7 +133,12 @@ public class Controller implements ActionListener, MouseListener{
 				String newFont = selectedFont.getLabel();
 				FontOption.changeFontFamily(v.getFrame(), newFont);
 				v.getFrame().revalidate();
-				System.out.println(newFont);
+			}
+			
+			Checkbox selectedBackground = v.getPanelOptions().chkBoard.getSelectedCheckbox();
+			if(selectedBackground != null) {
+				String newBackground = selectedBackground.getLabel() + ".png";
+				v.getPanelBoard().setBackgroundImage(newBackground);
 			}
 
 			v.showPanel("HOME");

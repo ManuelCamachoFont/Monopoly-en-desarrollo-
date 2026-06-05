@@ -35,17 +35,30 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		BackgroundPanel backgroundPanel = new BackgroundPanel("background.png");
-		backgroundPanel.setLayout(null);
+		BackgroundPanel backgroundPanel = new BackgroundPanel("Sky.png");
+		backgroundPanel.setLayout(new BorderLayout(20, 20));
+		backgroundPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		setContentPane(backgroundPanel);
 		
-		setLayout(null);
+		JPanel leftPanel = new JPanel();
+		leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+		leftPanel.setOpaque(false);
+		leftPanel.setPreferredSize(new Dimension(150, 0));
 		
-		JLabel lblPlayer = new JLabel(player.getName());
+		
+		leftPanel.add(Box.createRigidArea(new Dimension(0, 5)));
+		
+		
+		JLabel lblPlayer = new JLabel(player.getName(), JLabel.CENTER);
+		lblPlayer.setFont(lblPlayer.getFont().deriveFont(1, 20f));
+		lblPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		leftPanel.add(Box.createRigidArea(new Dimension(0, 20)));
+		
 		JLabel lblIconPlayer = new JLabel();
-		lblPlayer.setBounds(90, 30, 100, 40);
-		add(lblPlayer);
-		lblIconPlayer.setBounds(90, 80, 50, 50);
+		lblIconPlayer.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		leftPanel.add(lblPlayer);
 		int id = player.getId();
 		switch(id) {
 		case 1:
@@ -61,23 +74,35 @@ public class PlayerInfo extends JDialog implements ActionListener {
 			Utilities.setIco(lblIconPlayer, "thimble.png", 50, 50);
 			break;
 		}
-		add(lblIconPlayer);
+		leftPanel.add(lblIconPlayer);
+		
+		leftPanel.add(Box.createRigidArea(new Dimension(0, 60)));
 		
 		JLabel lblMoney = new JLabel(player.getMoney() + " €");
+		lblMoney.setFont(lblMoney.getFont().deriveFont(20f));
+		lblMoney.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		JLabel lblIconMoney = new JLabel();
-		lblMoney.setBounds(90, 180, 100, 40);
-		add(lblMoney);
-		lblIconMoney.setBounds(90, 230, 50, 50);
+		lblIconMoney.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		leftPanel.add(lblMoney);
+		leftPanel.add(Box.createRigidArea(new Dimension(0, 20)));
 		Utilities.setIco(lblIconMoney, "money.png", 50, 50);
-		add(lblIconMoney);
+		leftPanel.add(lblIconMoney);
 		
 
 		JPanel panelProperties = new JPanel();
 		panelProperties.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
+		panelProperties.setOpaque(false);
+		
 		JScrollPane scroll = new JScrollPane(panelProperties, JScrollPane.VERTICAL_SCROLLBAR_NEVER, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.getViewport().setOpaque(false);
+		scroll.setBorder(null);
+		
 		ArrayList<Square> properties = player.getProperties();
 		if (properties == null || properties.isEmpty()) {
 			JLabel propertiesInfo = new JLabel ("Player has no properties", JLabel.CENTER);
+			propertiesInfo.setFont(propertiesInfo.getFont().deriveFont(1, 20f));
 			panelProperties.add(propertiesInfo, BorderLayout.CENTER);
 		}
 		else {
@@ -171,31 +196,40 @@ public class PlayerInfo extends JDialog implements ActionListener {
 				
 			}
 		}
-		scroll.setBounds(260, 30, 300, 200);
-		add(scroll);
 		
+		JPanel southPanel = new JPanel();
+		southPanel.setLayout(new BoxLayout(southPanel, BoxLayout.Y_AXIS));
+		southPanel.setOpaque(false);
 		
 		JPanel panelPosition = new JPanel();
 		JLabel lblPositionTitle = new JLabel("Actual position:");
+		lblPositionTitle.setFont(lblPositionTitle.getFont().deriveFont(1, 20f));
 		Square currentSquare = squares.get(player.getPosition());
 		JLabel lblPosition = new JLabel(currentSquare.getName());
+		lblPosition.setFont(lblPosition.getFont().deriveFont(1, 20f));
 		panelPosition.setLayout(new FlowLayout());
 		panelPosition.add(lblPositionTitle);
 		panelPosition.add(lblPosition);
 		panelPosition.setBounds(360, 250, 100, 100);
 		panelPosition.setOpaque(false);
-		add(panelPosition);
+		southPanel.add(panelPosition);
+		southPanel.add(Box.createRigidArea(new Dimension(0, 10)));
 
-		btnClose.setFont(getFont().deriveFont(62f));
+		btnClose.setAlignmentX(Component.CENTER_ALIGNMENT);
+		btnClose.setPreferredSize(new Dimension(100, 30));
+		btnClose.setMaximumSize(new Dimension(100, 30));
 		btnClose.addActionListener(this);
-		btnClose.setBounds(250, 340, 100, 30);
-		add(btnClose);
+		southPanel.add(btnClose);
+		
+		backgroundPanel.add(leftPanel, BorderLayout.WEST);
+		backgroundPanel.add(scroll, BorderLayout.CENTER);
+		backgroundPanel.add(southPanel, BorderLayout.SOUTH);
 		
 		this.revalidate();
 		this.repaint();
 	}
 		
-		public static void showInfo(JFrame mainFrame, Player player, Map<Integer, Square> squares) {
+		public void showInfo(JFrame mainFrame, Player player, Map<Integer, Square> squares) {
 			PlayerInfo dialog = new PlayerInfo(mainFrame, player, squares);
 			dialog.setVisible(true);
 		}

@@ -42,8 +42,8 @@ public class PanelOptions extends BackgroundPanel{
 	
 	JLabel lblBoard = new JLabel("Board");
 	CheckboxGroup chkBoard = new CheckboxGroup();
-	Checkbox chkClas = new Checkbox("Classic", false, chkBoard);
-	Checkbox chkBw = new Checkbox("Black and White", false, chkBoard);
+	Checkbox chkBg1 = new Checkbox("Forest", false, chkBoard);
+	Checkbox chkBg2 = new Checkbox("Sky", false, chkBoard);
 
 	JPanel panelSouth = new JPanel();
 	ImageIcon icoBack = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/back.png"));
@@ -112,9 +112,9 @@ public class PanelOptions extends BackgroundPanel{
 		panelCenter.add(lblBoard, gbc);
 		gbc.gridwidth = 2;
 		gbc.gridx = 1;
-		panelCenter.add(chkClas, gbc);
+		panelCenter.add(chkBg1, gbc);
 		gbc.gridx = 3;
-		panelCenter.add(chkBw, gbc);
+		panelCenter.add(chkBg2, gbc);
 		gbc.gridwidth = 1;
 
 		panelCenter.setOpaque(false);

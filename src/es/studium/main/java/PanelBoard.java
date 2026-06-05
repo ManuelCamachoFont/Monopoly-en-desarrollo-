@@ -94,7 +94,7 @@ public class PanelBoard extends BackgroundPanel {
 	Color colorForeground = new Color(255, 0, 127);
 	
 	public PanelBoard() {
-		super("background.png");
+		super("Sky.png");
 		setLayout(gridbag);
 		setPreferredSize(new Dimension(1450, 900));
 

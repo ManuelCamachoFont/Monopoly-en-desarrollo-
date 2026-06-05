@@ -28,6 +28,7 @@ public class View {
 	public View() {
 		Utilities.setExactSize(mainFrame, 800, 800);
 		FontOption.registerCustomFont("PixelOperator.ttf");
+
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -52,6 +53,8 @@ public class View {
 		dialog.setLocationRelativeTo(null);
 		dialog.setLayout(new FlowLayout());
 		dialog.add(lblDialog);
+		
+		FontOption.changeFontFamily(mainFrame, "Pixel Operator");
 		
 	}
 

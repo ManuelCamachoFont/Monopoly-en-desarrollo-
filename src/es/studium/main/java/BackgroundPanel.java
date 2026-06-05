@@ -7,43 +7,49 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 public class BackgroundPanel extends JPanel {
-    private static final long serialVersionUID = 1L;
-    private Image backgroundImage;
+	private static final long serialVersionUID = 1L;
+	private Image backgroundImage;
 
-    public BackgroundPanel(String fileName) {
-        String path = "/es/studium/main/resources/img/" + fileName;
-        URL resourcePath = BackgroundPanel.class.getResource(path);
-        
-        if (resourcePath != null) {
-            this.backgroundImage = new ImageIcon(resourcePath).getImage();
-        } else {
-            System.err.println("File not found: " + path);
-        }
-    }
+	public BackgroundPanel(String fileName) {
+		setBackgroundImage(fileName);
+	}
 
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        
-        if (backgroundImage != null) {
-            int panelWidth = getWidth();
-            int panelHeight = getHeight();
-            int imgWidth = backgroundImage.getWidth(this);
-            int imgHeight = backgroundImage.getHeight(this);
+	@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
+
+		if (backgroundImage != null) {
+			int panelWidth = getWidth();
+			int panelHeight = getHeight();
+			int imgWidth = backgroundImage.getWidth(this);
+			int imgHeight = backgroundImage.getHeight(this);
 
 
-            double widthRatio = (double) panelWidth / imgWidth;
-            double heightRatio = (double) panelHeight / imgHeight;
-            double ratio = Math.max(widthRatio, heightRatio);
+			double widthRatio = (double) panelWidth / imgWidth;
+			double heightRatio = (double) panelHeight / imgHeight;
+			double ratio = Math.max(widthRatio, heightRatio);
 
-            int widthResize = (int) (imgWidth * ratio);
-            int heightResize = (int) (imgHeight * ratio);
+			int widthResize = (int) (imgWidth * ratio);
+			int heightResize = (int) (imgHeight * ratio);
 
 
-            int x = (panelWidth - widthResize) / 2;
-            int y = (panelHeight - heightResize) / 2;
+			int x = (panelWidth - widthResize) / 2;
+			int y = (panelHeight - heightResize) / 2;
 
-            g.drawImage(backgroundImage, x, y, widthResize, heightResize, this);
-        }
-    }
+			g.drawImage(backgroundImage, x, y, widthResize, heightResize, this);
+		}
+	}
+
+	public void setBackgroundImage(String fileName) {
+		String path = "/es/studium/main/resources/img/" + fileName;
+		URL resourcePath = BackgroundPanel.class.getResource(path);
+
+		if (resourcePath != null) {
+			this.backgroundImage = new ImageIcon(resourcePath).getImage();
+		} else {
+			System.err.println("File not found: " + path);
+			this.backgroundImage = null; 
+			this.repaint(); 
+		}
+	}
 }
