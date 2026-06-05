@@ -266,13 +266,17 @@ public class Controller implements ActionListener, MouseListener
 	
 		return dice1+dice2;
 	}
+	
+	private void updateLogs(String log) {
+		v.getPanelBoard().setLogs(log);
+	}
 
 	private void movePlayer()
 	{
 		if (rolledDices)
 			return;
 
-		currentPlayer = playersList.get(currentTurn);
+		currentPlayer = getPlayerById(currentTurn);
 
 		if (currentPlayer.getPrison()) {
 			saveMovement = rollDices();
@@ -300,10 +304,49 @@ public class Controller implements ActionListener, MouseListener
 		// currentPlayer.setJailCards(1);
 		// saveMovement = 30;
 		// =======================================
+		saveMovement = 4;
 
 		rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);
 		v.getPanelBoard().updatePlayers(playersList);
+		
+		if (currentPlayer.getMoney() < 0) {
+			v.showDialog("¡" + currentPlayer.getName() + " get eliminated!");
+	
+
+			playersList.remove(currentPlayer); 
+
+			if (playersList.size() == 1) {
+				endGame(playersList.get(0));
+				return;
+			}
+			
+			nextTurn();
+		}
+	
+	}
+		
+	private void endGame(Player player) {
+		int houses = player.getTotalHouses();
+		int hotels = player.getTotalHotels();
+		int totalProperties = player.getProperties().size();
+		v.getPanelEnd().setWinner(player.getName(), player.getMoney(), totalProperties,  houses, hotels);
+		v.showPanel("END");
+		resetGame();
+	}
+	
+	private void resetGame() {
+		playersList.clear();
+	    rankingMoney.clear();
+	    rankingProperties.clear();
+	    
+	    luckDeck.clear();
+	    communityDeck.clear();
+	    currentTurn = 1;
+	    currentPlayer = null;
+	    rolledDices = false;
+	    saveMovement = 0;
+	    players = 0;
 	}
 
 	private void executeSaveMovement()
@@ -320,14 +363,29 @@ public class Controller implements ActionListener, MouseListener
 		if (!rolledDices) {
 			return;
 		}
-		currentTurn++;
-		if (currentTurn >= playersList.size()) {
-			currentTurn = 0;
-		}
-		currentPlayer = playersList.get(currentTurn);
-		rolledDices = false;
-		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
+		nextTurn();
 		
+	}
+	
+	private void nextTurn() {
+		rolledDices = false;
+		boolean found = false;
+		
+		while (!found) {
+			currentTurn++;
+			if (currentTurn > players) {
+				currentTurn = 1;
+			}
+			Player nextPlayer = getPlayerById(currentTurn);
+			
+
+			if (nextPlayer != null) {
+				currentPlayer = nextPlayer;
+				found = true;
+			}
+		}
+		
+		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
 	}
 
 	private void selectPlayers()
@@ -377,11 +435,19 @@ public class Controller implements ActionListener, MouseListener
 		}
 		v.getPanelBoard().updatePlayers(playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);
-		currentTurn = 0;
-		currentPlayer = playersList.get(currentTurn);
+		currentTurn = 1;
+		currentPlayer = getPlayerById(currentTurn);
 		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
-
 		v.showPanel("BOARD");
+	}
+	
+	private Player getPlayerById(int id) {
+		for (Player p : playersList) {
+			if (p.getId() == id) {
+				return p;
+			}
+		}
+		return null;
 	}
 
 	private void initializeBoard()

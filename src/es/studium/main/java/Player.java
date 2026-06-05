@@ -89,23 +89,20 @@ public class Player
 		this.money += updated;
 	}
 
-	public int getTotalHouses(List<Square> squares)
+	public int getTotalHouses()
 	{
-
 		int totalHouses = 0;
 		for (Square s : this.properties) {
-			Square sq = squares.get(s.getId() - 1);
-			totalHouses += sq.getHouses();
+			totalHouses += s.getHouses();
 		}
 		return totalHouses;
 	}
 
-	public int getTotalHotels(List<Square> squares)
+	public int getTotalHotels()
 	{
 		int totalHotels = 0;
 		for (Square s : this.properties) {
-			Square sq = squares.get(s.getId() - 1);
-			if (sq.hasHotel()) {
+			if (s.hasHotel()) {
 				totalHotels++;
 			}
 		}
