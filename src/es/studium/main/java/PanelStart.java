@@ -92,10 +92,11 @@ public class PanelStart extends BackgroundPanel{
 		gbc.insets = new Insets (10, 10, 10, 10);
 	
 		lblPlayers.setForeground(colorForeground);
-		lblPlayers.setFont(getFont().deriveFont(20f));
+		lblPlayers.setFont(getFont().deriveFont(24f));
 		panelCenter.add(lblPlayers, gbc);
 		
 		gbc.gridx = 1;
+		choPlayers.setFont(getFont().deriveFont(24f));
 		panelCenter.add(choPlayers, gbc);
 		
 		gbc.gridx = 0;
@@ -113,7 +114,7 @@ public class PanelStart extends BackgroundPanel{
 
 		
 		// Player1
-		txtPlayer1.setFont(getFont().deriveFont(2, 16f));
+		txtPlayer1.setFont(getFont().deriveFont(2, 24f));
 		panelPlayers.add(txtPlayer1, gbcP);
 		gbcP.gridx = 1;
 		Utilities.setIco(lblIcoPlayer1, "dog.png", 30, 30);
@@ -123,7 +124,7 @@ public class PanelStart extends BackgroundPanel{
 		
 		// Player2
 		gbcP.gridy = 1;
-		txtPlayer2.setFont(getFont().deriveFont(2, 16f));
+		txtPlayer2.setFont(getFont().deriveFont(2, 24f));
 		panelPlayers.add(txtPlayer2, gbcP);
 		gbcP.gridx = 1;
 		Utilities.setIco(lblIcoPlayer2, "iron.png", 30, 30);
@@ -133,7 +134,7 @@ public class PanelStart extends BackgroundPanel{
 		
 		// Player3
 		gbcP.gridy = 2;
-		txtPlayer3.setFont(getFont().deriveFont(2, 16f));
+		txtPlayer3.setFont(getFont().deriveFont(2, 24f));
 		panelPlayers.add(txtPlayer3, gbcP);
 		gbcP.gridx = 1;
 		Utilities.setIco(lblIcoPlayer3, "boots.png", 30, 30);
@@ -143,7 +144,7 @@ public class PanelStart extends BackgroundPanel{
 		
 		// Player4
 		gbcP.gridy = 3;
-		txtPlayer4.setFont(getFont().deriveFont(2, 16f));
+		txtPlayer4.setFont(getFont().deriveFont(2, 24f));
 		panelPlayers.add(txtPlayer4, gbcP);
 		gbcP.gridx = 1;
 		Utilities.setIco(lblIcoPlayer4, "thimble.png", 30, 30);

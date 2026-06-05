@@ -115,7 +115,8 @@ public class PanelHome extends BackgroundPanel{
         spring.putConstraint(SpringLayout.SOUTH, panelSouth, 10, SpringLayout.SOUTH, btnOptions);
 
         btnHelp.setPreferredSize(btnSize);
-        setButtonStyle(btnOptions);
+        btnHelp.setFont(getFont().deriveFont(18f));
+        setButtonStyle(btnHelp);
         btnHelp.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnHelp.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnHelp);
@@ -123,7 +124,8 @@ public class PanelHome extends BackgroundPanel{
         spring.putConstraint(SpringLayout.NORTH, btnHelp, 10, SpringLayout.NORTH, panelSouth);
 
         btnRank.setPreferredSize(btnSize);
-        btnRank.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        btnRank.setFont(getFont().deriveFont(18f));
+       	setButtonStyle(btnRank);
         btnRank.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnRank.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnRank);

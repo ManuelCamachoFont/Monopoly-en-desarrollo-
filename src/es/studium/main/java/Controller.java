@@ -27,7 +27,9 @@ public class Controller implements ActionListener, MouseListener{
 	private boolean rolledDices = false;
 	private int players = 0;
 	private List<Player> playersList = new ArrayList<>();
-	//
+	private List<Ranking> rankingMoney = new ArrayList<>();
+	private List<Ranking> rankingProperties= new ArrayList<>();
+	
 	private HashMap<Integer, Square> squares;
 	private List<Card> communityDeck = new ArrayList<>();
 	private List<Card> luckDeck = new ArrayList<>();
@@ -106,7 +108,7 @@ public class Controller implements ActionListener, MouseListener{
 			v.showPanel("HELP");
 		}
 		else if (e.getSource().equals(v.getPanelHome().btnRank)) {
-			v.showPanel("RANKING");
+			updateRanking();
 		}
 
 		// Panel Start actions
@@ -177,6 +179,29 @@ public class Controller implements ActionListener, MouseListener{
 		//	v.getFrame().setLocationRelativeTo(null);
 
 
+	}
+	
+	private void updateRanking() {
+		rankingMoney = m.getRankingMoney();
+	    rankingProperties = m.getRankingProperties();
+
+
+	    for (int i = 0; i < rankingMoney.size(); i++) {
+	        Ranking ranking = rankingMoney.get(i);
+	        
+	        v.getPanelRank().getLblMoneyName()[i].setText(ranking.getName());
+	        v.getPanelRank().getLblMoney()[i].setText(""+ranking.getMoney());
+	        // Could add visible true
+	    }
+
+	    for (int i = 0; i < rankingProperties.size(); i++) {
+	        Ranking ranking = rankingProperties.get(i);
+	        
+	        v.getPanelRank().getLblPropertiesName()[i].setText(ranking.getName());
+	        v.getPanelRank().getLblHouses()[i].setText(""+ranking.getHouses());
+	        v.getPanelRank().getLblHotels()[i].setText(""+ranking.getHotels());
+	    }
+	    v.showPanel("RANKING");
 	}
 
 	private int rollDices()

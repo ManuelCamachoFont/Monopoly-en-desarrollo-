@@ -36,6 +36,18 @@ public class Model {
 		return this.daoSquares.obtainSquares();
 	}
 	
+	public List<Ranking> getRankingMoney(){
+		return this.daoRanking.obtainRankingMoney();
+	}
+	
+	public List<Ranking> getRankingProperties(){
+		return this.daoRanking.obtainRankingProperties();
+	}
+	
+	public void registerRanking(Player player, List<Square> squares) {
+		this.daoRanking.insertRanking(player, squares);
+	}
+	
 	public int[] throwingDices()
 	{
 		Random randomDices = new Random();

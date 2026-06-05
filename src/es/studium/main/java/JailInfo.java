@@ -27,7 +27,7 @@ public class JailInfo extends JDialog
 	
 	
 	
-	public JailInfo(JFrame mainFrame, boolean rolledDices, Player player) {
+	public JailInfo(JFrame mainFrame, Player player) {
 		super(mainFrame, "Prison", true);
 		
 		setSize(300, 300);
@@ -61,6 +61,12 @@ public class JailInfo extends JDialog
 		container.add(btnPay, gbc);
 		
 		gbc.gridx = 1;
+		btnCard.setEnabled(false);
+		
+		if (player.getJailCards() > 0) {
+			btnCard.setEnabled(true);
+		}
+		
 		container.add(btnCard, gbc);
 		add(container);
 

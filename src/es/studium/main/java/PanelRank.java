@@ -27,6 +27,8 @@ public class PanelRank extends BackgroundPanel{
 	// Panel Money
 	JPanel panelMoney = new JPanel();
 	JLabel lblMoney = new JLabel("€");
+	JLabel[] lblMoneyName = new JLabel[5];
+	JLabel[] lblMoneyAmount = new JLabel[5];
 	JLabel lblMoneyName1 = new JLabel("Placeholder 1");
 	JLabel lblMoneyAmount1 = new JLabel("2200€");
 	JLabel lblMoneyName2 = new JLabel("Placeholder 2");
@@ -41,8 +43,11 @@ public class PanelRank extends BackgroundPanel{
 	// Panel Properties
 	JPanel panelProperties = new JPanel();
 	// Change icon
-	JLabel lblHouses = new JLabel("Houses");
-	JLabel lblHotels = new JLabel("Hotel");
+	JLabel lblHousesTitle = new JLabel("Houses");
+	JLabel lblHotelsTitle = new JLabel("Hotel");
+	JLabel[] lblPropertiesName = new JLabel[5];
+	JLabel[] lblHouses = new JLabel[5];
+	JLabel[] lblHotels = new JLabel[5];
 	JLabel lblPropertiesName1 = new JLabel ("Placeholder 1");
 	JLabel lblHouses1 = new JLabel("12");
 	JLabel lblHotels1 = new JLabel("4");
@@ -67,6 +72,9 @@ public class PanelRank extends BackgroundPanel{
 	ImageIcon icoBackR = new ImageIcon(icoBackRedim);
 	JButton btnBack = new JButton("Back", icoBackR);
 
+	GridBagLayout gridbag = new GridBagLayout();
+	GridBagConstraints gbc = new GridBagConstraints();
+	
 	GridBagLayout gridbagM = new GridBagLayout();
 	GridBagConstraints gbcM = new GridBagConstraints();
 	
@@ -103,37 +111,47 @@ public class PanelRank extends BackgroundPanel{
 		
 		gbcM.gridx = 0;
 		gbcM.gridy = 1;
+		lblMoneyName[0] = lblMoneyName1; 
 		panelMoney.add(lblMoneyName1, gbcM);
 		
 		gbcM.gridx = 1;
+		lblMoneyAmount[0] = lblMoneyAmount1;
 		panelMoney.add(lblMoneyAmount1, gbcM);
 		
 		gbcM.gridx = 0;
 		gbcM.gridy = 2;
+		lblMoneyName[1] = lblMoneyName2; 
 		panelMoney.add(lblMoneyName2, gbcM);
 		
 		gbcM.gridx = 1;
+		lblMoneyAmount[1] = lblMoneyAmount2;
 		panelMoney.add(lblMoneyAmount2, gbcM);
 		
 		gbcM.gridx = 0;
 		gbcM.gridy = 3;
+		lblMoneyName[2] = lblMoneyName3; 
 		panelMoney.add(lblMoneyName3, gbcM);
 		
 		gbcM.gridx = 1;
+		lblMoneyAmount[2] = lblMoneyAmount3;
 		panelMoney.add(lblMoneyAmount3, gbcM);
 		
 		gbcM.gridx = 0;
 		gbcM.gridy = 4;
+		lblMoneyName[3] = lblMoneyName4; 
 		panelMoney.add(lblMoneyName4, gbcM);
 		
 		gbcM.gridx = 1;
+		lblMoneyAmount[3] = lblMoneyAmount4;
 		panelMoney.add(lblMoneyAmount4, gbcM);
 		
 		gbcM.gridx = 0;
 		gbcM.gridy = 5;
+		lblMoneyName[4] = lblMoneyName5; 
 		panelMoney.add(lblMoneyName5, gbcM);
 		
 		gbcM.gridx = 1;
+		lblMoneyAmount[4] = lblMoneyAmount5;
 		panelMoney.add(lblMoneyAmount5, gbcM);
 		
 		
@@ -142,59 +160,74 @@ public class PanelRank extends BackgroundPanel{
 		gbcP.insets = new Insets (10, 10, 10, 10);
 		gbcP.gridx = 1;
 		gbcP.gridy = 0;
-		panelProperties.add(lblHouses, gbcP);
+		panelProperties.add(lblHousesTitle, gbcP);
 		
 		gbcP.gridx = 2;
-		panelProperties.add(lblHotels, gbcP);
+		panelProperties.add(lblHotelsTitle, gbcP);
 		
 		gbcP.gridx = 0;
 		gbcP.gridy = 1;
+		lblPropertiesName[0] = lblPropertiesName1;
 		panelProperties.add(lblPropertiesName1, gbcP);
 		
 		gbcP.gridx = 1;
+		lblHouses[0] = lblHouses1;
 		panelProperties.add(lblHouses1, gbcP);
 		
 		gbcP.gridx = 2;
+		lblHotels[0] = lblHotels1;
 		panelProperties.add(lblHotels1, gbcP);
 		
 		gbcP.gridx = 0;
 		gbcP.gridy = 2;
+		lblPropertiesName[1] = lblPropertiesName2;
 		panelProperties.add(lblPropertiesName2, gbcP);
 		
 		gbcP.gridx = 1;
+		lblHouses[1] = lblHouses2;
 		panelProperties.add(lblHouses2, gbcP);
 		
 		gbcP.gridx = 2;
+		lblHotels[1] = lblHotels2;
 		panelProperties.add(lblHotels2, gbcP);
 		
 		gbcP.gridx = 0;
 		gbcP.gridy = 3;
+		lblPropertiesName[2] = lblPropertiesName3;
 		panelProperties.add(lblPropertiesName3, gbcP);
 		
 		gbcP.gridx = 1;
+		lblHouses[2] = lblHouses3;
 		panelProperties.add(lblHouses3, gbcP);
 		
 		gbcP.gridx = 2;
+		lblHotels[2] = lblHotels3;
 		panelProperties.add(lblHotels3, gbcP);
 		
 		gbcP.gridx = 0;
 		gbcP.gridy = 4;
+		lblPropertiesName[3] = lblPropertiesName4;
 		panelProperties.add(lblPropertiesName4, gbcP);
 		
 		gbcP.gridx = 1;
+		lblHouses[3] = lblHouses4;
 		panelProperties.add(lblHouses4, gbcP);
 		
 		gbcP.gridx = 2;
+		lblHotels[3] = lblHotels4;
 		panelProperties.add(lblHotels4, gbcP);
 		
 		gbcP.gridx = 0;
 		gbcP.gridy = 5;
+		lblPropertiesName[4] = lblPropertiesName5;
 		panelProperties.add(lblPropertiesName5, gbcP);
 		
 		gbcP.gridx = 1;
+		lblHouses[4] = lblHouses5;
 		panelProperties.add(lblHouses5, gbcP);
 		
 		gbcP.gridx = 2;
+		lblHotels[4] = lblHotels5;
 		panelProperties.add(lblHotels5, gbcP);
 		
 		
@@ -214,6 +247,26 @@ public class PanelRank extends BackgroundPanel{
 		spring.putConstraint(SpringLayout.SOUTH, panelSouth, 10, SpringLayout.SOUTH, btnBack);
 
 		add(panelSouth, BorderLayout.PAGE_END);
+	}
+	
+	public JLabel[] getLblMoneyName() {
+		return lblMoneyName;
+	}
+	
+	public JLabel[] getLblMoney() {
+		return lblMoneyAmount;
+	}
+	
+	public JLabel[] getLblPropertiesName() {
+		return lblPropertiesName;
+	}
+	
+	public JLabel[] getLblHouses() {
+		return lblHouses;
+	}
+	
+	public JLabel[] getLblHotels() {
+		return lblHotels;
 	}
 }
 

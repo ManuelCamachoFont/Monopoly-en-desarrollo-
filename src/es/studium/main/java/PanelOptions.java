@@ -63,7 +63,7 @@ public class PanelOptions extends BackgroundPanel{
 	SpringLayout spring = new SpringLayout();
 
 	public PanelOptions() {
-		super("options.png");
+		super("Sky.png");
 		setLayout(new BorderLayout());
 
 		// North Panel
