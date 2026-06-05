@@ -20,7 +20,7 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class PanelHelp extends JPanel {
+public class PanelHelp extends BackgroundPanel {
 
 	JPanel panelNorth = new JPanel();
 	JLabel helpTitle = new JLabel("Help");
@@ -83,6 +83,7 @@ public class PanelHelp extends JPanel {
 	SpringLayout spring = new SpringLayout();
 
 	public PanelHelp() {
+		super("home_background.png");
 		setLayout(new BorderLayout());
 
 		// North Panel
@@ -91,6 +92,7 @@ public class PanelHelp extends JPanel {
 		helpTitle.setFont(new Font("Cooper Black", 1, 62));
 		helpTitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelNorth.add(helpTitle);
+		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
 
 		// Center Panel
@@ -208,6 +210,7 @@ public class PanelHelp extends JPanel {
 		tabs.addTab("Cards", scrollHelpCards);
 
 		panelCenter.add(tabs, BorderLayout.CENTER);
+		panelCenter.setOpaque(false);
 		add(panelCenter, BorderLayout.CENTER);
 		
 		// South Panel
@@ -226,6 +229,7 @@ public class PanelHelp extends JPanel {
 		spring.putConstraint(SpringLayout.EAST, btnMHelp, -10, SpringLayout.EAST, panelSouth);
 		spring.putConstraint(SpringLayout.NORTH, btnMHelp, 10, SpringLayout.NORTH, panelSouth);
 
+		panelSouth.setOpaque(false);
 		add(panelSouth, BorderLayout.PAGE_END);
 	}
 }

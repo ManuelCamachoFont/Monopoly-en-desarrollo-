@@ -1,6 +1,5 @@
 package es.studium.main.java;
 
-
 import java.awt.Checkbox;
 import java.awt.Color;
 import java.awt.Font;
@@ -17,42 +16,40 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-
-public class Controller implements ActionListener, MouseListener{
+public class Controller implements ActionListener, MouseListener
+{
 
 	private Model m;
 	private View v;
 	private int currentTurn = 0;
 	private Player currentPlayer;
 	private boolean rolledDices = false;
+	private int saveMovement = 0;
+
 	private int players = 0;
 	private List<Player> playersList = new ArrayList<>();
+	private List<Ranking> rankingMoney = new ArrayList<>();
+	private List<Ranking> rankingProperties= new ArrayList<>();
+	
 	private HashMap<Integer, Square> squares;
 	private List<Card> communityDeck = new ArrayList<>();
 	private List<Card> luckDeck = new ArrayList<>();
 	private DialogsInfo dialogs;
 
-
-	private final int[][] board = {
-			{21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31},
-			{20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32},
-			{19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33},
-			{18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34},
-			{17, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35},
-			{16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36},
-			{15, -1, -1, -1, -1, -1, -1, -1, -1, -1, 37},
-			{14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38},
-			{13, -1, -1, -1, -2, -1, -1, -1, -1, -1, 39},
-			{12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40},
-			{11, 10,  9,  8,  7,  6,  5,  4,  3,  2,  1}
-	};
+	private final int[][] board = { { 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 },
+					{ 20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32 }, { 19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33 },
+					{ 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34 }, { 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35 },
+					{ 16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36 }, { 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, 37 },
+					{ 14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38 }, { 13, -1, -1, -1, -2, -1, -1, -1, -1, -1, 39 },
+					{ 12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40 }, { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 } };
 
 	public Controller(Model model, View v) {
 		this.m = model;
 		this.v = v;
 		this.squares = m.getSquares();
 		this.dialogs = new DialogsInfo(v.getFrame(), this.squares);
-		SoundOption.musicLoop(v.getFrame(), "/es/studium/main/resources/sound/happy.wav");
+		// SoundOption.musicLoop(v.getFrame(),
+		// "/es/studium/main/resources/sound/happy.wav");
 
 		// Panel Home Buttons
 		this.v.getPanelHome().btnGame.addActionListener(this);
@@ -81,189 +78,293 @@ public class Controller implements ActionListener, MouseListener{
 
 		// Panel Ranking Buttons
 		this.v.getPanelRank().btnBack.addActionListener(this);
-		
-		//Panel Board Buttons
+
+		// Panel Board Buttons
 		this.v.getPanelBoard().btnDices.addActionListener(this);
 		this.v.getPanelBoard().btnBuy.addActionListener(this);
 		this.v.getPanelBoard().btnTurn.addActionListener(this);
+
+		// DIalog jail
+
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent e)
+	{
+		Object src = e.getSource();
 
-		// Panel Home actions
-		if (e.getSource().equals(v.getPanelHome().btnGame)) {
+		// — HOME —
+		if (src.equals(v.getPanelHome().btnGame)) {
 			v.showPanel("START");
+			return;
 		}
-		else if (e.getSource().equals(v.getPanelHome().btnExit)) {
+		if (src.equals(v.getPanelHome().btnExit)) {
 			System.exit(0);
 		}
-		else if (e.getSource().equals(v.getPanelHome().btnOptions)) {
+		if (src.equals(v.getPanelHome().btnOptions)) {
 			v.showPanel("OPTIONS");
+			return;
 		}
-		else if (e.getSource().equals(v.getPanelHome().btnHelp)) {
+		if (src.equals(v.getPanelHome().btnHelp)) {
 			v.showPanel("HELP");
-		}
-		else if (e.getSource().equals(v.getPanelHome().btnRank)) {
-			v.showPanel("RANKING");
+			return;
 		}
 
-		// Panel Start actions
-		else if (e.getSource().equals(v.getPanelStart().choPlayers)) {
+		if (src.equals(v.getPanelHome().btnRank)) {
+			updateRanking();
+			return;
+		}
+
+		// — START —
+		if (src.equals(v.getPanelStart().choPlayers)) {
 			selectPlayers();
+			return;
 		}
-		else if (e.getSource().equals(v.getPanelStart().btnBack)) {
+		if (src.equals(v.getPanelStart().btnBack)) {
 			v.showPanel("HOME");
+			return;
 		}
-		else if (e.getSource().equals(v.getPanelStart().btnPlay)) {
+		if (src.equals(v.getPanelStart().btnPlay)) {
 			initializeBoard();
 			v.getFrame().pack();
 			v.getFrame().setLocationRelativeTo(null);
+			return;
 		}
 
-		// Panel Options actions
-		else if (e.getSource().equals(v.getPanelOptions().btnBack)) {
+		// — OPTIONS —
+		if (src.equals(v.getPanelOptions().btnBack)) {
 			v.previousPanel();
+			return;
 		}
-		else if (e.getSource().equals(v.getPanelOptions().btnConfirm)) {
-
-			Checkbox selectedFont = v.getPanelOptions().chkTextF.getSelectedCheckbox();
-			if (selectedFont != null ) {
-				String newFont = selectedFont.getLabel();
-				FontOption.changeFontFamily(v.getFrame(), newFont);
-				v.getFrame().revalidate();
-				System.out.println(newFont);
-			}
-			
-			v.showPanel("HOME");
+		if (src.equals(v.getPanelOptions().btnConfirm)) {
+			applyOptions();
+			return;
 		}
 
-		// Panel Help actions
-		else if(e.getSource().equals(v.getPanelHelp().btnBack)){
+		// — HELP / RANK —
+		if (src.equals(v.getPanelHelp().btnBack)) {
 			v.showPanel("HOME");
+			return;
 		}
-		else if (e.getSource().equals(v.getPanelHelp().btnMHelp)) {
-			// Open htlm with rules
+		if (src.equals(v.getPanelRank().btnBack)) {
+			v.showPanel("HOME");
+			return;
 		}
 
-		// Panel Rank actions
-		else if(e.getSource().equals(v.getPanelRank().btnBack)) {
-			v.showPanel("HOME");
-		}
-		
-		// Panel Board actions
-		else if(e.getSource().equals(v.getPanelBoard().btnDices)) {
-			
+		// — BOARD —
+		if (src.equals(v.getPanelBoard().btnDices)) {
 			movePlayer();
-			
+			return;
 
-			
-			
 		}
-		
-		else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
-			
+		if (src.equals(v.getPanelBoard().btnBuy)) {
+			checkCanBuy();
+			return;
 		}
-		else if (e.getSource().equals(v.getPanelBoard().btnTurn)) {
+		if (src.equals(v.getPanelBoard().btnTurn)) {
 			turnEnd();
+			return;
+		}
+
+		// — JAIL DIALOG —
+		if ("JAIL_PAY".equals(e.getActionCommand())) {
+			handleJailPay();
+			return;
+		}
+		if ("JAIL_CARD".equals(e.getActionCommand())) {
+			handleJailCard();
+			return;
 		}
 
 		// Activate END GAME SCreen
-		//	v.showPanel("END");
-		//	v.getFrame().pack();
-		//	v.getFrame().setLocationRelativeTo(null);
+		// v.showPanel("END");
+		// v.getFrame().pack();
+		// v.getFrame().setLocationRelativeTo(null);
+	}
 
+	private void applyOptions()
+	{
+		Checkbox selectedFont = v.getPanelOptions().chkTextF.getSelectedCheckbox();
+		if (selectedFont != null ) {
+			String newFont = selectedFont.getLabel();
+			FontOption.changeFontFamily(v.getFrame(), newFont);
+			v.getFrame().revalidate();
+		}
+		
+		Checkbox selectedBackground = v.getPanelOptions().chkBoard.getSelectedCheckbox();
+		if(selectedBackground != null) {
+			String newBackground = selectedBackground.getLabel() + ".png";
+			v.getPanelBoard().setBackgroundImage(newBackground);
+		}
+		v.showPanel("HOME");
+	}
 
+	private void handleJailPay()
+	{
+		currentPlayer.updateMoney(-50);
+		currentPlayer.setPrison(false);
+		currentPlayer.setJailTurns(0);
+		dialogs.hideDialogsInfo();
+		v.getPanelBoard().updatePlayers(playersList);
+		executeSaveMovement();
+	}
+
+	private void handleJailCard()
+	{
+		currentPlayer.setJailCards(currentPlayer.getJailCards() - 1);
+		currentPlayer.setPrison(false);
+		currentPlayer.setJailTurns(0);
+		dialogs.hideDialogsInfo();
+		executeSaveMovement();
+	}
+
+	private void checkCanBuy()
+	{
+		if (!rolledDices)
+			return;
+
+		Square currentSquare = squares.get(currentPlayer.getPosition());
+
+		boolean bought = TurnManager.buyProperty(currentPlayer, currentSquare);
+		if (bought) {
+			v.getPanelBoard().updatePlayers(playersList);
+			v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
+		} else {
+			v.showDialog("No se puede comprar esta propiedad.");
+		}
 	}
 	
+	private void updateRanking() {
+		rankingMoney = m.getRankingMoney();
+	    rankingProperties = m.getRankingProperties();
+
+
+	    for (int i = 0; i < rankingMoney.size(); i++) {
+	        Ranking ranking = rankingMoney.get(i);
+	        
+	        v.getPanelRank().getLblMoneyName()[i].setText(ranking.getName());
+	        v.getPanelRank().getLblMoney()[i].setText(""+ranking.getMoney());
+	        // Could add visible true
+	    }
+
+	    for (int i = 0; i < rankingProperties.size(); i++) {
+	        Ranking ranking = rankingProperties.get(i);
+	        
+	        v.getPanelRank().getLblPropertiesName()[i].setText(ranking.getName());
+	        v.getPanelRank().getLblHouses()[i].setText(""+ranking.getHouses());
+	        v.getPanelRank().getLblHotels()[i].setText(""+ranking.getHotels());
+	    }
+	    v.showPanel("RANKING");
+	}
+
 	private int rollDices()
 	{
-		DiceInfo dialog = new DiceInfo(v.getFrame(),10);
-		int sumDices = m.throwingDices();
-		dialog.resultDice.setText(""+ sumDices);
-		dialog.resultDice.setVisible(true);
-		return sumDices;
-	}
+		int[] sumDices = m.throwingDices();
+		int dice1 = sumDices[0];
+		int dice2 = sumDices[1];
+		DiceInfo dialog = new DiceInfo(v.getFrame(), sumDices, currentPlayer.getName());
 	
-	private void movePlayer() {
-		if (rolledDices) {
+		return dice1+dice2;
+	}
+
+	private void movePlayer()
+	{
+		if (rolledDices)
+			return;
+
+		currentPlayer = playersList.get(currentTurn);
+
+		if (currentPlayer.getPrison()) {
+			saveMovement = rollDices();
+			boolean isDouble = m.isDouble();
+			boolean staysInJail = TurnManager.handleJailRoll(currentPlayer, isDouble);
+			if (!staysInJail) {
+				executeSaveMovement();
+				return;
+			}
+
+			JailInfo jailWindow = this.dialogs.prepareJailInfo(currentPlayer);
+			jailWindow.btnPay.addActionListener(this);
+			jailWindow.btnCard.addActionListener(this);
+			this.dialogs.showJailInfo();
 			return;
 		}
-	 currentPlayer = playersList.get(currentTurn);
-	 int movement = rollDices();
-	 int newPosition = currentPlayer.getPosition() + movement;
-	 
-	 if (newPosition > 40) {
-		 newPosition = newPosition - 40;
-		 currentPlayer.updateMoney(200);
-	 }
-	 
-	 currentPlayer.setPosition(newPosition);
-	 rolledDices = true;
-	 
-	 v.getPanelBoard().updatePlayersPosition(playersList);
-	 
-	 squareEvent(newPosition, currentPlayer);
-	 
+
+		saveMovement = rollDices();
+		rolledDices = true;
+		boolean isDouble = m.isDouble();
+		// ========================
+		// CUIDAO!!! CON ESTAS DOS LÍNEAS... SON APRA TESTERAR LA FUNCIONADLIAD DE LA
+		// CARCEL
+
+		// currentPlayer.setJailCards(1);
+		// saveMovement = 30;
+		// =======================================
+
+		rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);
+		v.getPanelBoard().updatePlayersPosition(playersList);
+		v.getPanelBoard().updatePlayers(playersList);
 	}
-	
-	private void squareEvent(int position, Player player) {
-		Square square = squares.get(position);
-		if (square == null) {
-			return;
-		}
-		// Switch tipo de casillas
+
+	private void executeSaveMovement()
+	{
+		rolledDices = true;
+		TurnManager.movementToSquare(currentPlayer, saveMovement, false, squares, playersList);
+		v.getPanelBoard().updatePlayersPosition(playersList);
+		v.getPanelBoard().updatePlayers(playersList);
+
 	}
-	
-	private void turnEnd(){
-		if(!rolledDices) {
+
+	private void turnEnd()
+	{
+		if (!rolledDices) {
 			return;
 		}
 		currentTurn++;
-		if (currentTurn>= playersList.size()){
+		if (currentTurn >= playersList.size()) {
 			currentTurn = 0;
 		}
+		currentPlayer = playersList.get(currentTurn);
 		rolledDices = false;
 		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
+		
 	}
 
-	private void selectPlayers() {
-
+	private void selectPlayers()
+	{
 		String selection = v.getPanelStart().choPlayers.getSelectedItem().toString();
 
-		switch(selection) {
-		case "2 Players": 
-			players = 2; 
+		switch (selection) {
+		case "2 Players":
+			players = 2;
 			break;
-		case "3 Players": 
-			players = 3; 
+		case "3 Players":
+			players = 3;
 			break;
-		case "4 Players": 
-			players = 4; 
+		case "4 Players":
+			players = 4;
 			break;
-		default:          
-			players = 2; 
+		default:
+			players = 2;
 			break;
 		}
 
 		v.getPanelStart().updatePlayers(players);
 	}
 
-	private void startGame() {
+	private void startGame()
+	{
 		playersList.clear();
 
 		for (int i = 1; i <= players; i++) {
 			String playerName = "";
 			if (i == 1) {
 				playerName = v.getPanelStart().getTxtPlayer1().getText().trim();
-			}
-			else if (i == 2) {
+			} else if (i == 2) {
 				playerName = v.getPanelStart().getTxtPlayer2().getText().trim();
-			}
-			else if (i == 3) {
+			} else if (i == 3) {
 				playerName = v.getPanelStart().getTxtPlayer3().getText().trim();
-			}
-			else if (i == 4) {
+			} else if (i == 4) {
 				playerName = v.getPanelStart().getTxtPlayer4().getText().trim();
 			}
 
@@ -271,7 +372,7 @@ public class Controller implements ActionListener, MouseListener{
 				playerName = "Player " + i;
 			}
 
-			Player newPlayer = new Player(playerName, 500);
+			Player newPlayer = new Player(i, playerName, 500);
 			playersList.add(newPlayer);
 		}
 		v.getPanelBoard().updatePlayers(playersList);
@@ -283,8 +384,8 @@ public class Controller implements ActionListener, MouseListener{
 		v.showPanel("BOARD");
 	}
 
-
-	private void initializeBoard() {
+	private void initializeBoard()
+	{
 		squares = m.getSquares();
 		v.getPanelBoard().createBoard(board, squares);
 		squaresListeners();
@@ -293,8 +394,9 @@ public class Controller implements ActionListener, MouseListener{
 		startGame();
 	}
 
-	private void squaresListeners() {
-		JPanel[] squaresBoard = v.getPanelBoard().getSquaresBoard(); 
+	private void squaresListeners()
+	{
+		JPanel[] squaresBoard = v.getPanelBoard().getSquaresBoard();
 
 		for (int i = 0; i < squaresBoard.length; i++) {
 			JPanel squarePanel = squaresBoard[i];
@@ -306,10 +408,11 @@ public class Controller implements ActionListener, MouseListener{
 		}
 	}
 
-	private void labelsListeners() {
+	private void labelsListeners()
+	{
 		JLabel[] labels = v.getPanelBoard().getPlayerLbls();
 
-		for(int i = 0; i < labels.length; i++) {
+		for (int i = 0; i < labels.length; i++) {
 			JLabel lblPlayer = labels[i];
 			if (lblPlayer != null) {
 				lblPlayer.setName(String.valueOf(i));
@@ -317,55 +420,61 @@ public class Controller implements ActionListener, MouseListener{
 			}
 		}
 
-
 	}
-	
-	
-	private void shuffleCards() {
+
+	private void shuffleCards()
+	{
 		List<Card> cardsDeck = m.getCards();
 
 		for (Card card : cardsDeck) {
-			if(("LUCK").equalsIgnoreCase(card.getType())){
+
+			if(("SUERTE").equalsIgnoreCase(card.getType())){
 				luckDeck.add(card);
 			}
-			else if(("COMMUNITY").equalsIgnoreCase(card.getType())) {
+			else if(("COMUNIDAD").equalsIgnoreCase(card.getType())) {
+
+
 				communityDeck.add(card);
 			}
 		}
 		Collections.shuffle(luckDeck);
 		Collections.shuffle(communityDeck);
+	
 	}
 
-	private void drawCard(String type) {
+	private void drawCard(String type)
+	{
 		Card obtainedCard = null;
-		if(("LUCK").equalsIgnoreCase(type)){
+		if(("SUERTE").equalsIgnoreCase(type)){
 			if(!luckDeck.isEmpty()){
 				obtainedCard = luckDeck.remove(0);
 			}
 		}
-		else if (("COMMUNITY").equalsIgnoreCase(type)){
+		else if (("COMUNIDAD").equalsIgnoreCase(type)){
 			if(!communityDeck.isEmpty()) {
 				obtainedCard = communityDeck.remove(0);
 			}
 		}
-		CardInfo.showInfo(v.getFrame(), obtainedCard);
+
+		CardInfo cardInfo = new CardInfo(v.getFrame(), obtainedCard);
+		cardInfo.showInfo(v.getFrame(), obtainedCard);
 	}
 
 	@Override
-	public void mouseClicked(MouseEvent e) {
-
+	public void mouseClicked(MouseEvent e)
+	{
 
 	}
 
 	@Override
-	public void mousePressed(MouseEvent e) {
+	public void mousePressed(MouseEvent e)
+	{
 		if (e.getSource() instanceof JTextField) {
-			JTextField txtClicked = (JTextField) e.getSource();       
+			JTextField txtClicked = (JTextField) e.getSource();
 			txtClicked.setText("");
-			txtClicked.setFont(new Font("Arial", Font.BOLD, 12));
+			txtClicked.setFont(txtClicked.getFont().deriveFont(Font.BOLD));
 			txtClicked.setForeground(Color.BLACK);
-		}
-		else if (e.getSource() instanceof JPanel) {
+		} else if (e.getSource() instanceof JPanel) {
 			JPanel panelClicked = (JPanel) e.getSource();
 			if (panelClicked.getName() != null) {
 				try {
@@ -374,12 +483,11 @@ public class Controller implements ActionListener, MouseListener{
 					if (position >= 1 && position <= 40) {
 						Square square = squares.get(position);
 
-						if (square != null && (square.getType().equals("PROPIEDAD") || 
-								square.getType().equals("ESTACION") || 
-								square.getType().equals("SERVICIO"))) {
+						if (square != null && (square.getType().equals("PROPIEDAD")
+								|| square.getType().equals("ESTACION") || square.getType().equals("SERVICIO"))) {
 
-
-							dialogs.showPropertyInfo(square);;
+							dialogs.showPropertyInfo(square);
+							;
 						}
 					}
 				} catch (NumberFormatException nfe) {
@@ -387,38 +495,33 @@ public class Controller implements ActionListener, MouseListener{
 				}
 
 			}
-		}
-		else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl1())){
+		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl1())) {
 			dialogs.showPlayerInfo(playersList.get(0));
-		}
-		else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl2())){
+		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl2())) {
 			dialogs.showPlayerInfo(playersList.get(1));
-		}
-		else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl3())){
+		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl3())) {
 			dialogs.showPlayerInfo(playersList.get(2));
-		}
-		else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl4())){
+		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl4())) {
 			dialogs.showPlayerInfo(playersList.get(3));
 		}
 	}
 
 	@Override
-	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
+	public void mouseReleased(MouseEvent e)
+	{
 
 	}
 
 	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
+	public void mouseEntered(MouseEvent e)
+	{
 
 	}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
+	public void mouseExited(MouseEvent e)
+	{
 
 	}
-
 
 }

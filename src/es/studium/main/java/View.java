@@ -1,8 +1,11 @@
 package es.studium.main.java;
 
 import java.awt.CardLayout;
+import java.awt.FlowLayout;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class View {
@@ -18,9 +21,14 @@ public class View {
 	private PanelStart panelStart = new PanelStart();
 	private PanelBoard panelBoard = new PanelBoard();
 	private PanelEnd panelEnd = new PanelEnd();
+	
+	private JDialog dialog = new JDialog(mainFrame, "Dialog", true);
+	private JLabel lblDialog = new JLabel();
 
 	public View() {
-		mainFrame.setSize(600, 600);
+		Utilities.setExactSize(mainFrame, 800, 800);
+		FontOption.registerCustomFont("PixelOperator.ttf");
+
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -38,6 +46,16 @@ public class View {
 		showPanel("HOME");
 
 		mainFrame.setVisible(true);
+		
+		
+		dialog.setSize(200, 200);
+		dialog.setResizable(false);
+		dialog.setLocationRelativeTo(null);
+		dialog.setLayout(new FlowLayout());
+		dialog.add(lblDialog);
+		
+		FontOption.changeFontFamily(mainFrame, "Pixel Operator");
+		
 	}
 
 	public void showPanel(String name) {
@@ -84,6 +102,17 @@ public class View {
 	
 	public JFrame getFrame() {
 		return mainFrame;
+	}
+	
+	public JDialog getDialog() {
+		return dialog;
+	}
+	
+	public void showDialog(String message) {
+		lblDialog.setText(message);
+		dialog.revalidate();
+		dialog.pack();
+		dialog.setVisible(true);
 	}
 }
 
