@@ -87,6 +87,8 @@ public class Controller implements ActionListener, MouseListener
 		this.v.getPanelBoard().btnBuy.addActionListener(this);
 		this.v.getPanelBoard().btnTurn.addActionListener(this);
 		
+		// DIalog jail
+		
 	}
 
 	@Override
@@ -133,9 +135,19 @@ public class Controller implements ActionListener, MouseListener
 		} else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
 			TurnManager.buyProperty(currentPlayer, squares.get(currentPlayer.getPosition()));
 		} else if (e.getSource().equals(v.getPanelBoard().btnTurn)) {
-			turnEnd();
-		}
-
+			turnEnd();			
+		} else if (e.getActionCommand().equals("JAIL_PAY")) {
+	        currentPlayer.updateMoney(-50);
+	        currentPlayer.setPrison(false);
+	        dialogs.hideDialogsInfo();
+	        movePlayer();
+	    } else if (e.getActionCommand().equals("JAIL_CARD")) {
+	        currentPlayer.setJailCards(-1);
+	        currentPlayer.setPrison(false);
+	        dialogs.hideDialogsInfo();
+	        movePlayer();
+	    }
+		
 		// Activate END GAME SCreen
 		// v.showPanel("END");
 		// v.getFrame().pack();
@@ -159,9 +171,20 @@ public class Controller implements ActionListener, MouseListener
 		}
 		
 		currentPlayer = playersList.get(currentTurn);
-		boolean jailRoll = TurnManager.jailCheckOptions(currentPlayer);
+		if (currentPlayer.getPrison()) {
+
+	        JailInfo jailWindow = this.dialogs.prepareJailInfo(currentPlayer);
+	        
+	        jailWindow.btnPay.addActionListener(this);
+	        jailWindow.btnCard.addActionListener(this);
+	  
+	        this.dialogs.showJailInfo();
+	        return;
+	    }
+		//boolean jailRoll = TurnManager.jailCheckOptions(currentPlayer);
 		
 		int movement = rollDices();
+		movement = 30;
 		int newPosition = currentPlayer.getPosition() + movement;
 
 		if (newPosition > 40) {
@@ -172,10 +195,10 @@ public class Controller implements ActionListener, MouseListener
 		currentPlayer.setPosition(newPosition);
 		rolledDices = true;
 
-		v.getPanelBoard().updatePlayersPosition(playersList);
 		Square currentSquare = squares.get(newPosition);
 		
 		TurnManager.squareEvents(currentPlayer, currentSquare, squares, playersList);
+		v.getPanelBoard().updatePlayersPosition(playersList);
 	}
 
 	private void propertyEvent(Square square, Player player)
@@ -390,21 +413,18 @@ public class Controller implements ActionListener, MouseListener
 	@Override
 	public void mouseReleased(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e)
 	{
-		// TODO Auto-generated method stub
 
 	}
 

@@ -12,7 +12,7 @@ public class TurnManager
 	{
 		if (!player.getPrison()) return false;
 		//===================IMPORTANTE========================0
-		//Esto me lo ha hecho la IA, hay que extraerlo de aquí y pasarlo a la vista, después lo manejamos en el controlador y lo mandamos aquí.
+		//Esto me lo ha hecho la IA, hay que cambiarlo por los botones que tu has hecho en el dialogo
 		
 		ArrayList<String> opciones = new ArrayList<>();
 		opciones.add("Tirar dados (Buscar dobles)");
