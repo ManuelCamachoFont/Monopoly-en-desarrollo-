@@ -1,3 +1,4 @@
+
 package es.studium.main.java;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class TurnManager
 	{
 		if (!player.getPrison()) return false;
 		//===================IMPORTANTE========================0
-		//Esto me lo ha hecho la IA, hay que extraerlo de aquí y pasarlo a la vista, después lo manejamos en el controlador y lo mandamos aquí.
+		//Esto me lo ha hecho la IA, hay que cambiarlo por los botones que tu has hecho en el dialogo
 		
 		ArrayList<String> opciones = new ArrayList<>();
 		opciones.add("Tirar dados (Buscar dobles)");
@@ -56,24 +57,19 @@ public class TurnManager
 		return true; 
 	}
 
-	public static boolean rollingDicesInJain(Player player, int movement, boolean isDouble) {
-		if(isDouble) {
-			player.setPrison(false);
-			player.setJailTurns(0);
-			System.out.println(player.getName()+"queda libre de la cárcel");
-			return false;
-		}
-		
-		int turnsInJail = player.getJailTurns()+1;
-		player.setJailTurns(turnsInJail);
-		if (turnsInJail >= 3) {
-			player.setPrison(false);
-			player.setJailTurns(0);
-			System.out.println(player.getName() + " alcanzó los 3 turnos preso. Saldrá libre en el próximo turno.");
-		} else {
-			System.out.println(player.getName() + " no sacó dobles. Permanece en la cárcel (Intento " + turnsInJail + "/3).");
-		}
-		return true;
+	public static boolean handleJailRoll(Player player, boolean isDouble) {
+	    if (isDouble) {
+	        player.setPrison(false);
+	        player.setJailTurns(0);
+	        return false;
+	    }
+	    int turns = player.getJailTurns() + 1;
+	    player.setJailTurns(turns);
+	    if (turns >= 3) {
+	        player.setPrison(false);
+	        player.setJailTurns(0);
+	    }
+	    return true;
 	}
 	public static boolean movementToSquare(Player player, int movement, boolean isDouble, HashMap<Integer, Square> squares, List<Player> playersList)
 	{
@@ -157,7 +153,6 @@ public class TurnManager
 		if (!square.hasOwner()) {
 			System.out.println(player.getName() + " puede comprar " + square.getName() + " por " + square.getPrice() + "€.");
 			if (player.getMoney() >= square.getPrice()) {
-				buyProperty(player, square);
 				return;			
 			}
 			else {
@@ -176,15 +171,16 @@ public class TurnManager
 				
 	}
 
-	private static void buyProperty(Player player, Square square)
+	public static boolean buyProperty(Player player, Square square)
 	{
-		// TODO Auto-generated method stub
-		// Tengo que traer la opción del action perfermed para que si estás en esta
-		// casilla y pulsas en comprar, se compre.
+		if (square == null) return false;
+		if (square.hasOwner()) return false;
+		if (player.getMoney() < square.getPrice()) return false;
+		
 		player.updateMoney(-square.getPrice());
 		square.setOwner(player.getName());
 		player.getProperties().add(square);
-
+		return true;
 	}
 
 	private static int calculateRent(Square square, HashMap<Integer, Square> allSquares)
@@ -199,4 +195,5 @@ public class TurnManager
 
 		return rent;
 	}
+
 }

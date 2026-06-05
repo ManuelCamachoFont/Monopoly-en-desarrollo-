@@ -71,7 +71,7 @@ public class DiceInfo extends JDialog
 
 		
 		setVisible(true);
+	
 	}
-
 
 }

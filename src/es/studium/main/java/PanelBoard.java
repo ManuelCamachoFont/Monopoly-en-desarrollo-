@@ -28,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 public class PanelBoard extends BackgroundPanel {
 
 	private static final long serialVersionUID = 1L;
+	JPanel panelNorth = new JPanel();
 
 	JPanel panelLeft = new JPanel();
 	ImageIcon icoDices = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/dices.png"));
