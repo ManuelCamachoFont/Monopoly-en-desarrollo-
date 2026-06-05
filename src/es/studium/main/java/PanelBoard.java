@@ -42,7 +42,7 @@ public class PanelBoard extends BackgroundPanel {
 
 	JPanel panelRight = new JPanel();
 	JButton btnDices = new JButton("Roll the Dices");
-	JButton btnBuy = new JButton("Buy property");
+	JButton btnBuy = new JButton("Buy property / Buildings");
 
 	JPanel panelPlayers = new JPanel();
 	JLabel lblPlayerTitle = new JLabel("Players");

@@ -30,18 +30,18 @@ public class Controller implements ActionListener, MouseListener
 	private List<Player> playersList = new ArrayList<>();
 	private List<Ranking> rankingMoney = new ArrayList<>();
 	private List<Ranking> rankingProperties= new ArrayList<>();
-	
+
 	private HashMap<Integer, Square> squares;
 	private List<Card> communityDeck = new ArrayList<>();
 	private List<Card> luckDeck = new ArrayList<>();
 	private DialogsManager dialogs;
 
 	private final int[][] board = { { 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 },
-					{ 20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32 }, { 19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33 },
-					{ 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34 }, { 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35 },
-					{ 16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36 }, { 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, 37 },
-					{ 14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38 }, { 13, -1, -1, -1, -2, -1, -1, -1, -1, -1, 39 },
-					{ 12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40 }, { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 } };
+			{ 20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32 }, { 19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33 },
+			{ 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34 }, { 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35 },
+			{ 16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36 }, { 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, 37 },
+			{ 14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38 }, { 13, -1, -1, -1, -2, -1, -1, -1, -1, -1, 39 },
+			{ 12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40 }, { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 } };
 
 	public Controller(Model model, View v) {
 		this.m = model;
@@ -190,7 +190,7 @@ public class Controller implements ActionListener, MouseListener
 			FontOption.changeFontFamily(v.getFrame(), newFont);
 			v.getFrame().revalidate();
 		}
-		
+
 		Checkbox selectedBackground = v.getPanelOptions().chkBoard.getSelectedCheckbox();
 		if(selectedBackground != null) {
 			String newBackground = selectedBackground.getLabel() + ".png";
@@ -221,56 +221,63 @@ public class Controller implements ActionListener, MouseListener
 	private void checkCanBuy()
 	{
 		if (!rolledDices) {
-			v.showDialog("¡You have to roll the dices first");
+			v.showDialog("¡You have to roll the dices first!");
 			return;
 		}
-		
+
 		Square currentSquare = squares.get(currentPlayer.getPosition());
 
 		if (currentSquare == null) return;
-		
+
 		String type = currentSquare.getType().toUpperCase();
-		
+
 		boolean isBuyable = type.equals("PROPIEDAD") || type.equals("ESTACION") || type.equals("SERVICIO");
-		
+
 		if (!isBuyable) {
-	        v.showDialog("This place is not buyable.");
-	        return;
-	    }
-		
+			v.showDialog("This place is not buyable.");
+			return;
+		}
+
 		if (!currentSquare.hasOwner()) {
-	        boolean bought = TurnManager.buyProperty(currentPlayer, currentSquare);
-	        if (bought) {
-	            v.getPanelBoard().updatePlayers(playersList);
-	            updateLogs();
-	            v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
-	        } else {
-	            v.showDialog("No tienes suficiente dinero para comprar esta propiedad.");
-	        }
-	    }
-		
+			boolean bought = TurnManager.buyProperty(currentPlayer, currentSquare);
+			if (bought) {
+				v.getPanelBoard().updatePlayers(playersList);
+				updateLogs();
+				v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
+			} else {
+				v.showDialog("No tienes suficiente dinero para comprar esta propiedad.");
+			}
+		}
+
 		else if (currentSquare.getOwner().equals(currentPlayer.getName())) {
-	        
-	        if (!type.equals("PROPIEDAD")) {
-	            v.showDialog("No puedes edificar casas en Estaciones o Servicios.");
-	            return;
-	        }
-	        
-	        if (currentSquare.hasHotel()) {
+
+			if (!type.equals("PROPIEDAD")) {
+				v.showDialog("No puedes edificar casas en Estaciones o Servicios.");
+				return;
+			}
+
+			boolean monopoly = TurnManager.hasMonopoly(currentPlayer, currentSquare, squares);
+
+			if (!monopoly) {
+				v.showDialog("¡No puedes edificar! Primero debes poseer todas las propiedades del grupo de color ");
+				return; 
+			}
+
+			if (currentSquare.hasHotel()) {
 				v.showDialog("¡Ya has construido un Hotel aquí! No se puede edificar más.");
 				return;
 			}
 
-	        int buildPrice = 50; 
+			int buildPrice = 50; 
 
-	        if (currentPlayer.getMoney() < buildPrice) {
+			if (currentPlayer.getMoney() < buildPrice) {
 				v.showDialog("No tienes suficiente dinero para edificar (Coste: " + buildPrice + "€).");
 				return;
 			}
 
 			currentPlayer.updateMoney(-buildPrice);
 			currentSquare.buildHouse();
-			
+
 			if (currentSquare.hasHotel()) {
 				Logger.saveLog(currentPlayer.getName() + " upgraded to a HOTEL in " + currentSquare.getName() + " for " + buildPrice + "€.", currentPlayer.getColor());
 				v.showDialog("¡" + currentPlayer.getName() + " ha construido un HOTEL en " + currentSquare.getName() + "!");
@@ -278,37 +285,37 @@ public class Controller implements ActionListener, MouseListener
 				Logger.saveLog(currentPlayer.getName() + " built house nº " + currentSquare.getHouses() + " in " + currentSquare.getName() + " for " + buildPrice + "€.", currentPlayer.getColor());
 				v.showDialog(currentPlayer.getName() + " ha edificado la casa nº " + currentSquare.getHouses() + " en " + currentSquare.getName());
 			}
-			
+
 			v.getPanelBoard().updatePlayers(playersList);
 			updateLogs();
 		} 
-	
+
 		else {
 			v.showDialog("Esta propiedad pertenece a " + currentSquare.getOwner() + ". ¡Ya has pagado el alquiler de tu turno!");
 		}
 	}
-	
+
 	private void updateRanking() {
 		rankingMoney = m.getRankingMoney();
-	    rankingProperties = m.getRankingProperties();
+		rankingProperties = m.getRankingProperties();
 
 
-	    for (int i = 0; i < rankingMoney.size(); i++) {
-	        Ranking ranking = rankingMoney.get(i);
-	        
-	        v.getPanelRank().getLblMoneyName()[i].setText(ranking.getName());
-	        v.getPanelRank().getLblMoney()[i].setText(""+ranking.getMoney());
-	        // Could add visible true
-	    }
+		for (int i = 0; i < rankingMoney.size(); i++) {
+			Ranking ranking = rankingMoney.get(i);
 
-	    for (int i = 0; i < rankingProperties.size(); i++) {
-	        Ranking ranking = rankingProperties.get(i);
-	        
-	        v.getPanelRank().getLblPropertiesName()[i].setText(ranking.getName());
-	        v.getPanelRank().getLblHouses()[i].setText(""+ranking.getHouses());
-	        v.getPanelRank().getLblHotels()[i].setText(""+ranking.getHotels());
-	    }
-	    v.showPanel("RANKING");
+			v.getPanelRank().getLblMoneyName()[i].setText(ranking.getName());
+			v.getPanelRank().getLblMoney()[i].setText(""+ranking.getMoney());
+			// Could add visible true
+		}
+
+		for (int i = 0; i < rankingProperties.size(); i++) {
+			Ranking ranking = rankingProperties.get(i);
+
+			v.getPanelRank().getLblPropertiesName()[i].setText(ranking.getName());
+			v.getPanelRank().getLblHouses()[i].setText(""+ranking.getHouses());
+			v.getPanelRank().getLblHotels()[i].setText(""+ranking.getHotels());
+		}
+		v.showPanel("RANKING");
 	}
 
 	private int rollDices()
@@ -317,15 +324,15 @@ public class Controller implements ActionListener, MouseListener
 		int dice1 = sumDices[0];
 		int dice2 = sumDices[1];
 		dialogs.showDiceInfo(sumDices, currentPlayer.getName());
-	
+
 		return dice1+dice2;
 	}
-	
+
 	private void updateLogs() {
 		List<Logger.LogEntry> newLogs = Logger.readAndEmpty();
-	    for (Logger.LogEntry entry : newLogs) {
-	        v.getPanelBoard().writeLogs(entry.text, entry.color);
-	    }
+		for (Logger.LogEntry entry : newLogs) {
+			v.getPanelBoard().writeLogs(entry.text, entry.color);
+		}
 	}
 
 	private void movePlayer()
@@ -337,6 +344,7 @@ public class Controller implements ActionListener, MouseListener
 
 		if (currentPlayer.getPrison()) {
 			saveMovement = rollDices();
+			rolledDices = true;
 			boolean isDouble = m.isDouble();
 			boolean staysInJail = TurnManager.handleJailRoll(currentPlayer, isDouble);
 			if (!staysInJail) {
@@ -345,10 +353,10 @@ public class Controller implements ActionListener, MouseListener
 				return;
 			}
 
-			JailInfo jailWindow = this.dialogs.prepareJailInfo(currentPlayer);
+			JailInfo jailWindow = dialogs.prepareJailInfo(currentPlayer);
 			jailWindow.btnPay.addActionListener(this);
 			jailWindow.btnCard.addActionListener(this);
-			this.dialogs.showJailInfo();
+			dialogs.showJailInfo();
 			updateLogs();
 			return;
 		}
@@ -356,13 +364,22 @@ public class Controller implements ActionListener, MouseListener
 		saveMovement = rollDices();
 		rolledDices = true;
 		boolean isDouble = m.isDouble();
-		
+
 		Logger.saveLog(currentPlayer.getName() + " rolled the dices and got " + saveMovement + ".", currentPlayer.getColor());
 
 		rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList, this);
 		v.getPanelBoard().updatePlayersPosition(playersList);
 		v.getPanelBoard().updatePlayers(playersList);
-		
+
+		checkBankrupt();
+
+		v.getPanelBoard().updatePlayersPosition(playersList);
+		v.getPanelBoard().updatePlayers(playersList);
+		updateLogs();
+
+	}
+
+	private void checkBankrupt() {
 		if (currentPlayer.getMoney() < 0) {
 			v.showDialog("¡" + currentPlayer.getName() + " get eliminated!");
 			Logger.saveLog("¡" + currentPlayer.getName() + " GOT BANKRRUPT AND IS ELIMINATED!", currentPlayer.getColor());
@@ -378,16 +395,12 @@ public class Controller implements ActionListener, MouseListener
 				endGame(playersList.get(0));
 				return;
 			}
-			
-			nextTurn();
+			else {
+				nextTurn();
+			}
 		}
-		
-		v.getPanelBoard().updatePlayersPosition(playersList);
-		v.getPanelBoard().updatePlayers(playersList);
-		updateLogs();
-	
 	}
-		
+
 	private void endGame(Player player) {
 		int houses = player.getTotalHouses();
 		int hotels = player.getTotalHotels();
@@ -396,19 +409,19 @@ public class Controller implements ActionListener, MouseListener
 		v.showPanel("END");
 		resetGame();
 	}
-	
+
 	private void resetGame() {
 		playersList.clear();
-	    rankingMoney.clear();
-	    rankingProperties.clear();
-	    
-	    luckDeck.clear();
-	    communityDeck.clear();
-	    currentTurn = 1;
-	    currentPlayer = null;
-	    rolledDices = false;
-	    saveMovement = 0;
-	    players = 0;
+		rankingMoney.clear();
+		rankingProperties.clear();
+
+		luckDeck.clear();
+		communityDeck.clear();
+		currentTurn = 1;
+		currentPlayer = null;
+		rolledDices = false;
+		saveMovement = 0;
+		players = 0;
 	}
 
 	private void executeSaveMovement()
@@ -426,27 +439,27 @@ public class Controller implements ActionListener, MouseListener
 			return;
 		}
 		nextTurn();
-		
+
 	}
-	
+
 	private void nextTurn() {
 		rolledDices = false;
 		boolean found = false;
-		
+
 		while (!found) {
 			currentTurn++;
 			if (currentTurn > players) {
 				currentTurn = 1;
 			}
 			Player nextPlayer = getPlayerById(currentTurn);
-			
+
 
 			if (nextPlayer != null) {
 				currentPlayer = nextPlayer;
 				found = true;
 			}
 		}
-		
+
 		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
 	}
 
@@ -477,12 +490,12 @@ public class Controller implements ActionListener, MouseListener
 		playersList.clear();
 
 		Color[] colors = {
-		        new Color(220, 53, 69),
-		        new Color(0, 123, 255),
-		        new Color(40, 167, 69),
-		        new Color(253, 126, 20)
-		    };
-		
+				new Color(220, 53, 69),
+				new Color(0, 123, 255),
+				new Color(40, 167, 69),
+				new Color(253, 126, 20)
+		};
+
 		for (int i = 1; i <= players; i++) {
 			String playerName = "";
 			if (i == 1) {
@@ -500,7 +513,7 @@ public class Controller implements ActionListener, MouseListener
 			}
 
 			Color colorPlayer = colors[i-1];
-			
+
 			Player newPlayer = new Player(i, playerName, 500, colorPlayer);
 			playersList.add(newPlayer);
 		}
@@ -511,7 +524,7 @@ public class Controller implements ActionListener, MouseListener
 		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
 		v.showPanel("BOARD");
 	}
-	
+
 	private Player getPlayerById(int id) {
 		for (Player p : playersList) {
 			if (p.getId() == id) {
@@ -576,7 +589,7 @@ public class Controller implements ActionListener, MouseListener
 		}
 		Collections.shuffle(luckDeck);
 		Collections.shuffle(communityDeck);
-	
+
 	}
 
 	public void drawCard(String type)
@@ -592,11 +605,11 @@ public class Controller implements ActionListener, MouseListener
 				obtainedCard = communityDeck.remove(0);
 			}
 		}
-		
+
 		if (obtainedCard!= null) {
 			applyCard(obtainedCard);
 			if (!"SALIR_CARCEL".equalsIgnoreCase(obtainedCard.getAction())) {
-				
+
 				if (("SUERTE").equalsIgnoreCase(type)) {
 					luckDeck.add(obtainedCard);
 					Collections.shuffle(luckDeck);
@@ -608,17 +621,17 @@ public class Controller implements ActionListener, MouseListener
 			}
 
 			dialogs.showCardInfo(obtainedCard);
-		
+
 		}
 	}
-	
+
 	private void applyCard(Card card) {
 		if(card == null) return;
-		
+
 		String action = card.getAction().toUpperCase();
 		int value = card.getValue();
 		int position = card.getDestination();
-		
+
 		switch (action) {
 		case "COBRAR":
 			currentPlayer.updateMoney(value);
@@ -633,7 +646,7 @@ public class Controller implements ActionListener, MouseListener
 			}
 			Square square = squares.get(currentPlayer.getPosition());
 			if (square != null) {
-				TurnManager.squareEvents(currentPlayer, square, squares, playersList, this);
+				TurnManager.squareEvents(currentPlayer, square, squares, playersList, this, saveMovement);
 			}
 			break;
 		case "MOVER_ATRAS":
@@ -645,7 +658,7 @@ public class Controller implements ActionListener, MouseListener
 			currentPlayer.setPosition(newPosition);
 			Square tile = squares.get(newPosition);
 			if (tile != null) {
-				TurnManager.squareEvents(currentPlayer, tile, squares, playersList, this);
+				TurnManager.squareEvents(currentPlayer, tile, squares, playersList, this, saveMovement);
 			}
 			break;
 		case "IR_A_CARCEL":
@@ -653,6 +666,7 @@ public class Controller implements ActionListener, MouseListener
 			currentPlayer.setPosition(11);
 			currentPlayer.setJailTurns(0);
 			currentPlayer.setDoublesDices(0);
+			break;
 		case "SALIR_CARCEL":
 			currentPlayer.setJailCards(currentPlayer.getJailCards() + 1);
 			break;
@@ -669,13 +683,13 @@ public class Controller implements ActionListener, MouseListener
 		case "REPARAR_CASAS":
 			int priceHouse = value;
 			int priceHotel = value * 4;
-			
+
 			int totalPriceHouses = currentPlayer.getTotalHouses() * priceHouse;
 			int totalPriceHotels = currentPlayer.getTotalHotels() * priceHotel;
 			int total = totalPriceHouses + totalPriceHotels;
-			
+
 			currentPlayer.updateMoney(-total);
-			
+
 			break;
 		default:
 			System.err.println("Carta desconocida");
