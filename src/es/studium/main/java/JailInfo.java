@@ -29,7 +29,7 @@ public class JailInfo extends JDialog
 	
 	
 	public JailInfo(JFrame mainFrame, Player player) {
-		super(mainFrame, "Prison", true);
+		super(mainFrame, "Prison", false);
 		
 		setSize(300, 300);
 		setLocationRelativeTo(null);

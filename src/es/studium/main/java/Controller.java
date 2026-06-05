@@ -259,7 +259,6 @@ public class Controller implements ActionListener, MouseListener
 	private int rollDices()
 	{
 		int[] sumDices = m.throwingDices();
-		//DiceInfo dialog = new DiceInfo(v.getFrame(), sumDices, currentPlayer.getName());
 	    dialogs.showDiceInfo(sumDices, currentPlayer.getName());
 		return sumDices[0] + sumDices[1];
 	}
@@ -298,8 +297,8 @@ public class Controller implements ActionListener, MouseListener
 		// CUIDAO!!! CON ESTAS DOS LÍNEAS... SON APRA TESTERAR LA FUNCIONADLIAD DE LA
 		// CARCEL
 
-		currentPlayer.setJailCards(1);
-		saveMovement = 30;
+		//currentPlayer.setJailCards(1);
+		//saveMovement = 30;
 		// =======================================
 
 		rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);

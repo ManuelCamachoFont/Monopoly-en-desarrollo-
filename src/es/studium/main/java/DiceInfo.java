@@ -28,7 +28,7 @@ public class DiceInfo extends JDialog
 	JLabel resultTotal = new JLabel("", JLabel.CENTER);
 	
 	public DiceInfo(JFrame mainFrame, int[] resultRollingDice, String playerName) {
-		super(mainFrame, "Rolling dices...", true);
+		super(mainFrame, "Rolling dices...", false);
 		
 		setSize(300, 300);
 		setLocationRelativeTo(null);
