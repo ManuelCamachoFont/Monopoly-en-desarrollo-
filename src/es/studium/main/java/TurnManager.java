@@ -174,7 +174,7 @@ public class TurnManager
 	public static boolean buyProperty(Player player, Square square)
 	{
 		//Propiedad
-		if (square == null) return false;
+		if (square.getType().equals("PROPIEDAD")) return false;
 		if (square.hasOwner()) return false;
 		if (player.getMoney() < square.getPrice()) return false;
 		
