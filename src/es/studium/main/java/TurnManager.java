@@ -177,9 +177,6 @@ public class TurnManager
 
 	public static void buyProperty(Player player, Square square)
 	{
-		// TODO Auto-generated method stub
-		// Tengo que traer la opción del action perfermed para que si estás en esta
-		// casilla y pulsas en comprar, se compre.
 		player.updateMoney(-square.getPrice());
 		square.setOwner(player.getName());
 		player.getProperties().add(square);

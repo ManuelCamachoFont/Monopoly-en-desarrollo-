@@ -24,6 +24,8 @@ public class Controller implements ActionListener, MouseListener
 	private int currentTurn = 0;
 	private Player currentPlayer;
 	private boolean rolledDices = false;
+	private int saveMovement = 0;
+	
 	private int players = 0;
 	private List<Player> playersList = new ArrayList<>();
 	//
@@ -134,18 +136,22 @@ public class Controller implements ActionListener, MouseListener
 			movePlayer();
 		} else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
 			TurnManager.buyProperty(currentPlayer, squares.get(currentPlayer.getPosition()));
+			v.getPanelBoard().updatePlayers(playersList);
 		} else if (e.getSource().equals(v.getPanelBoard().btnTurn)) {
 			turnEnd();			
 		} else if (e.getActionCommand().equals("JAIL_PAY")) {
-	        currentPlayer.updateMoney(-50);
-	        currentPlayer.setPrison(false);
-	        dialogs.hideDialogsInfo();
-	        movePlayer();
+			currentPlayer.updateMoney(-50);
+			v.getPanelBoard().updatePlayers(playersList);
+		    currentPlayer.setPrison(false);
+		    currentPlayer.setJailTurns(0);
+		    dialogs.hideDialogsInfo();
+		    executeSaveMovement();
 	    } else if (e.getActionCommand().equals("JAIL_CARD")) {
-	        currentPlayer.setJailCards(-1);
+	    	currentPlayer.setJailCards(currentPlayer.getJailCards() - 1);
 	        currentPlayer.setPrison(false);
+	        currentPlayer.setJailTurns(0);
 	        dialogs.hideDialogsInfo();
-	        movePlayer();
+	        executeSaveMovement();
 	    }
 		
 		// Activate END GAME SCreen
@@ -166,39 +172,52 @@ public class Controller implements ActionListener, MouseListener
 
 	private void movePlayer()
 	{
-		if (rolledDices) {
-			return;
-		}
+		if (rolledDices) return;
 		
 		currentPlayer = playersList.get(currentTurn);
+		
 		if (currentPlayer.getPrison()) {
-
+			saveMovement = rollDices();
+			boolean isDouble = m.isDouble();
+			
+			if(isDouble) {
+				currentPlayer.setPrison(false);
+	            currentPlayer.setJailTurns(0);
+	            executeSaveMovement();
+	            return;
+			}
+			
 	        JailInfo jailWindow = this.dialogs.prepareJailInfo(currentPlayer);
-	        
 	        jailWindow.btnPay.addActionListener(this);
 	        jailWindow.btnCard.addActionListener(this);
-	  
 	        this.dialogs.showJailInfo();
 	        return;
 	    }
-		//boolean jailRoll = TurnManager.jailCheckOptions(currentPlayer);
 		
-		int movement = rollDices();
-		movement = 30;
-		int newPosition = currentPlayer.getPosition() + movement;
+		saveMovement = rollDices();
+	    rolledDices = true;
+	    boolean isDouble = m.isDouble();
+	    //========================
+	    //CUIDAO!!! CON ESTAS DOS LÍNEAS... SON APRA TESTERAR LA FUNCIONADLIAD DE LA CARCEL
 
-		if (newPosition > 40) {
-			newPosition = newPosition - 40;
-			currentPlayer.updateMoney(200);
-		}
-
-		currentPlayer.setPosition(newPosition);
-		rolledDices = true;
-
-		Square currentSquare = squares.get(newPosition);
-		
-		TurnManager.squareEvents(currentPlayer, currentSquare, squares, playersList);
+	    //currentPlayer.setJailCards(1);
+	    //saveMovement = 30;
+	    //=======================================
+	    currentPlayer.setJailCards(1);
+		TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);
+		
+		if (isDouble && !currentPlayer.getPrison()) {
+	        rolledDices = false;
+	    }
+	}
+
+	private void executeSaveMovement()
+	{
+		rolledDices = true;
+		TurnManager.movementToSquare(currentPlayer, saveMovement, false, squares, playersList);
+		v.getPanelBoard().updatePlayersPosition(playersList);
+		
 	}
 
 	private void propertyEvent(Square square, Player player)
