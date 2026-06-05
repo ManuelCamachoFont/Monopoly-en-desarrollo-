@@ -25,7 +25,7 @@ public class Controller implements ActionListener, MouseListener
 	private Player currentPlayer;
 	private boolean rolledDices = false;
 	private int saveMovement = 0;
-	
+
 	private int players = 0;
 	private List<Player> playersList = new ArrayList<>();
 	//
@@ -34,19 +34,12 @@ public class Controller implements ActionListener, MouseListener
 	private List<Card> luckDeck = new ArrayList<>();
 	private DialogsInfo dialogs;
 
-	private final int[][] board = { 
-					{ 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 },
-					{ 20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32 }, 
-					{ 19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33 },
-					{ 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34 }, 
-					{ 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35 },
-					{ 16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36 }, 
-					{ 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, 37 },
-					{ 14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38 }, 
-					{ 13, -1, -1, -1, -2, -1, -1, -1, -1, -1, 39 },
-					{ 12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40 }, 
-					{ 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 } 
-					};
+	private final int[][] board = { { 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 },
+					{ 20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32 }, { 19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33 },
+					{ 18, -1, -1, -1, -1, -1, -1, -1, -1, -1, 34 }, { 17, -1, -1, -1, -1, -1, -1, -1, -1, -1, 35 },
+					{ 16, -1, -1, -1, -1, -1, -1, -1, -1, -1, 36 }, { 15, -1, -1, -1, -1, -1, -1, -1, -1, -1, 37 },
+					{ 14, -1, -1, -1, -1, -1, -1, -1, -1, -1, 38 }, { 13, -1, -1, -1, -2, -1, -1, -1, -1, -1, 39 },
+					{ 12, -1, -1, -1, -1, -1, -1, -1, -1, -1, 40 }, { 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1 } };
 
 	public Controller(Model model, View v) {
 		this.m = model;
@@ -88,90 +81,146 @@ public class Controller implements ActionListener, MouseListener
 		this.v.getPanelBoard().btnDices.addActionListener(this);
 		this.v.getPanelBoard().btnBuy.addActionListener(this);
 		this.v.getPanelBoard().btnTurn.addActionListener(this);
-		
+
 		// DIalog jail
-		
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
+		Object src = e.getSource();
 
-		// Panel Home actions
-		if (e.getSource().equals(v.getPanelHome().btnGame)) {
+		// — HOME —
+		if (src.equals(v.getPanelHome().btnGame)) {
 			v.showPanel("START");
-		} else if (e.getSource().equals(v.getPanelHome().btnExit)) {
+			return;
+		}
+		if (src.equals(v.getPanelHome().btnExit)) {
 			System.exit(0);
-		} else if (e.getSource().equals(v.getPanelHome().btnOptions)) {
+		}
+		if (src.equals(v.getPanelHome().btnOptions)) {
 			v.showPanel("OPTIONS");
-		} else if (e.getSource().equals(v.getPanelHome().btnHelp)) {
+			return;
+		}
+		if (src.equals(v.getPanelHome().btnHelp)) {
 			v.showPanel("HELP");
-		} else if (e.getSource().equals(v.getPanelHome().btnRank)) {
+			return;
+		}
+		if (src.equals(v.getPanelHome().btnRank)) {
 			v.showPanel("RANKING");
-		} else if (e.getSource().equals(v.getPanelStart().choPlayers)) {
+			return;
+		}
+
+		// — START —
+		if (src.equals(v.getPanelStart().choPlayers)) {
 			selectPlayers();
-		} else if (e.getSource().equals(v.getPanelStart().btnBack)) {
+			return;
+		}
+		if (src.equals(v.getPanelStart().btnBack)) {
 			v.showPanel("HOME");
-		} else if (e.getSource().equals(v.getPanelStart().btnPlay)) {
+			return;
+		}
+		if (src.equals(v.getPanelStart().btnPlay)) {
 			initializeBoard();
 			v.getFrame().pack();
 			v.getFrame().setLocationRelativeTo(null);
-		} else if (e.getSource().equals(v.getPanelOptions().btnBack)) {
+			return;
+		}
+
+		// — OPTIONS —
+		if (src.equals(v.getPanelOptions().btnBack)) {
 			v.previousPanel();
-		} else if (e.getSource().equals(v.getPanelOptions().btnConfirm)) {
-			Checkbox selectedFont = v.getPanelOptions().chkTextF.getSelectedCheckbox();
-			if (selectedFont != null) {
-				String newFont = selectedFont.getLabel();
-				FontOption.changeFontFamily(v.getFrame(), newFont);
-				v.getFrame().revalidate();
-				System.out.println(newFont);
-			} v.showPanel("HOME");
-		} else if (e.getSource().equals(v.getPanelHelp().btnBack)) {
+			return;
+		}
+		if (src.equals(v.getPanelOptions().btnConfirm)) {
+			applyOptions();
+			return;
+		}
+
+		// — HELP / RANK —
+		if (src.equals(v.getPanelHelp().btnBack)) {
 			v.showPanel("HOME");
-		} else if (e.getSource().equals(v.getPanelHelp().btnMHelp)) {
-			// Open htlm with rules
-		} else if (e.getSource().equals(v.getPanelRank().btnBack)) {
+			return;
+		}
+		if (src.equals(v.getPanelRank().btnBack)) {
 			v.showPanel("HOME");
-		} else if (e.getSource().equals(v.getPanelBoard().btnDices)) {
+			return;
+		}
+
+		// — BOARD —
+		if (src.equals(v.getPanelBoard().btnDices)) {
 			movePlayer();
-		} else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
+			return;
+		}
+		if (src.equals(v.getPanelBoard().btnBuy)) {
 			checkCanBuy();
-		} else if (e.getSource().equals(v.getPanelBoard().btnTurn)) {
-			turnEnd();			
-		} else if (e.getActionCommand().equals("JAIL_PAY")) {
-			currentPlayer.updateMoney(-50);
-			v.getPanelBoard().updatePlayers(playersList);
-		    currentPlayer.setPrison(false);
-		    currentPlayer.setJailTurns(0);
-		    dialogs.hideDialogsInfo();
-		    executeSaveMovement();
-	    } else if (e.getActionCommand().equals("JAIL_CARD")) {
-	    	currentPlayer.setJailCards(currentPlayer.getJailCards() - 1);
-	        currentPlayer.setPrison(false);
-	        currentPlayer.setJailTurns(0);
-	        dialogs.hideDialogsInfo();
-	        executeSaveMovement();
-	    }
-		
+			return;
+		}
+		if (src.equals(v.getPanelBoard().btnTurn)) {
+			turnEnd();
+			return;
+		}
+
+		// — JAIL DIALOG —
+		if ("JAIL_PAY".equals(e.getActionCommand())) {
+			handleJailPay();
+			return;
+		}
+		if ("JAIL_CARD".equals(e.getActionCommand())) {
+			handleJailCard();
+			return;
+		}
+
 		// Activate END GAME SCreen
 		// v.showPanel("END");
 		// v.getFrame().pack();
 		// v.getFrame().setLocationRelativeTo(null);
-
 	}
-	
-	private void checkCanBuy(){
-		if (!rolledDices) return;
 
-	    Square currentSquare = squares.get(currentPlayer.getPosition());
+	private void applyOptions()
+	{
+		Checkbox selectedFont = v.getPanelOptions().chkTextF.getSelectedCheckbox();
+		if (selectedFont != null) {
+			FontOption.changeFontFamily(v.getFrame(), selectedFont.getLabel());
+			v.getFrame().revalidate();
+		}
+		v.showPanel("HOME");
+	}
 
-	    boolean bought = TurnManager.buyProperty(currentPlayer, currentSquare);
-	    if (bought) {
-	        v.getPanelBoard().updatePlayers(playersList);
-	        v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
-	    } else {
-	        v.showDialog("No se puede comprar esta propiedad.");
-	    }
+	private void handleJailPay()
+	{
+		currentPlayer.updateMoney(-50);
+		currentPlayer.setPrison(false);
+		currentPlayer.setJailTurns(0);
+		dialogs.hideDialogsInfo();
+		v.getPanelBoard().updatePlayers(playersList);
+		executeSaveMovement();
+	}
+
+	private void handleJailCard()
+	{
+		currentPlayer.setJailCards(currentPlayer.getJailCards() - 1);
+		currentPlayer.setPrison(false);
+		currentPlayer.setJailTurns(0);
+		dialogs.hideDialogsInfo();
+		executeSaveMovement();
+	}
+
+	private void checkCanBuy()
+	{
+		if (!rolledDices)
+			return;
+
+		Square currentSquare = squares.get(currentPlayer.getPosition());
+
+		boolean bought = TurnManager.buyProperty(currentPlayer, currentSquare);
+		if (bought) {
+			v.getPanelBoard().updatePlayers(playersList);
+			v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
+		} else {
+			v.showDialog("No se puede comprar esta propiedad.");
+		}
 	}
 
 	private int rollDices()
@@ -185,39 +234,41 @@ public class Controller implements ActionListener, MouseListener
 
 	private void movePlayer()
 	{
-		if (rolledDices) return;
-		
+		if (rolledDices)
+			return;
+
 		currentPlayer = playersList.get(currentTurn);
-		
+
 		if (currentPlayer.getPrison()) {
 			saveMovement = rollDices();
 			boolean isDouble = m.isDouble();
 			boolean staysInJail = TurnManager.handleJailRoll(currentPlayer, isDouble);
 			if (!staysInJail) {
-			    executeSaveMovement();
-			    return;
+				executeSaveMovement();
+				return;
 			}
-			
-	        JailInfo jailWindow = this.dialogs.prepareJailInfo(currentPlayer);
-	        jailWindow.btnPay.addActionListener(this);
-	        jailWindow.btnCard.addActionListener(this);
-	        this.dialogs.showJailInfo();
-	        return;
-	    }
-		
-		saveMovement = rollDices();
-	    rolledDices = true;
-	    boolean isDouble = m.isDouble();
-	    //========================
-	    //CUIDAO!!! CON ESTAS DOS LÍNEAS... SON APRA TESTERAR LA FUNCIONADLIAD DE LA CARCEL
 
-	    //currentPlayer.setJailCards(1);
-	    //saveMovement = 30;
-	    //=======================================
-	    
-	    rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);
+			JailInfo jailWindow = this.dialogs.prepareJailInfo(currentPlayer);
+			jailWindow.btnPay.addActionListener(this);
+			jailWindow.btnCard.addActionListener(this);
+			this.dialogs.showJailInfo();
+			return;
+		}
+
+		saveMovement = rollDices();
+		rolledDices = true;
+		boolean isDouble = m.isDouble();
+		// ========================
+		// CUIDAO!!! CON ESTAS DOS LÍNEAS... SON APRA TESTERAR LA FUNCIONADLIAD DE LA
+		// CARCEL
+
+		// currentPlayer.setJailCards(1);
+		// saveMovement = 30;
+		// =======================================
+
+		rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);
-	    v.getPanelBoard().updatePlayers(playersList);
+		v.getPanelBoard().updatePlayers(playersList);
 	}
 
 	private void executeSaveMovement()
@@ -225,8 +276,8 @@ public class Controller implements ActionListener, MouseListener
 		rolledDices = true;
 		TurnManager.movementToSquare(currentPlayer, saveMovement, false, squares, playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);
-	    v.getPanelBoard().updatePlayers(playersList);
-		
+		v.getPanelBoard().updatePlayers(playersList);
+
 	}
 
 	private void propertyEvent(Square square, Player player)
@@ -250,7 +301,6 @@ public class Controller implements ActionListener, MouseListener
 			}
 		}
 	}
-
 
 	private void turnEnd()
 	{
