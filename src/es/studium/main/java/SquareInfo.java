@@ -136,12 +136,8 @@ public class SquareInfo extends JDialog implements ActionListener {
 		add(panelButton, BorderLayout.SOUTH);
 	}
 
-	public void showInfo(JFrame mainFrame, Square property) {
-		if (property == null) {
-			return;
-		}
-		SquareInfo dialog = new SquareInfo(mainFrame, property);
-		dialog.setVisible(true);
+	public void showInfo() {
+		this.setVisible(true);
 	}
 
 	@Override

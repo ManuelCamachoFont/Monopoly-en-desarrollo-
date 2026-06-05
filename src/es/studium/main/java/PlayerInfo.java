@@ -229,11 +229,9 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		this.repaint();
 	}
 		
-		public void showInfo(JFrame mainFrame, Player player, Map<Integer, Square> squares) {
-			PlayerInfo dialog = new PlayerInfo(mainFrame, player, squares);
-			dialog.setVisible(true);
-		}
-
+	public void showInfo() {
+		this.setVisible(true);
+	}
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if (e.getSource().equals(btnClose)) {

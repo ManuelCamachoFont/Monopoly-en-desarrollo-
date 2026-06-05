@@ -52,6 +52,7 @@ public class View {
 		dialog.setResizable(false);
 		dialog.setLocationRelativeTo(null);
 		dialog.setLayout(new FlowLayout());
+		lblDialog.setFont(lblDialog.getFont().deriveFont(40f));
 		dialog.add(lblDialog);
 		
 		FontOption.changeFontFamily(mainFrame, "Pixel Operator");
