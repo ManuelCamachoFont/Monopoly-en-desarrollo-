@@ -13,6 +13,8 @@ public class Model
 	private DAOCards daoCards;
 	private DAORanking daoRanking;
 	private DAOSquares daoSquares;
+	
+	private boolean lastRollWasDouble = false;
 
 	public Model() {
 		this.conexion = DB.DBConnect();
@@ -41,6 +43,13 @@ public class Model
 		Random randomDices = new Random();
 		int diceOne = randomDices.nextInt(6) + 1;
 		int diceTwo = randomDices.nextInt(6) + 1;
+		this.lastRollWasDouble = checkDouble(diceOne, diceTwo);
 		return diceOne + diceTwo;
-	}	
+	}
+	private boolean checkDouble(int diceOne, int diceTwo) {
+		return diceOne == diceTwo;
+	}
+	public boolean isDouble() {
+		return this.lastRollWasDouble;
+	}
 }

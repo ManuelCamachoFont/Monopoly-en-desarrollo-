@@ -157,7 +157,6 @@ public class TurnManager
 		if (!square.hasOwner()) {
 			System.out.println(player.getName() + " puede comprar " + square.getName() + " por " + square.getPrice() + "€.");
 			if (player.getMoney() >= square.getPrice()) {
-				buyProperty(player, square);
 				return;			
 			}
 			else {
@@ -176,7 +175,7 @@ public class TurnManager
 				
 	}
 
-	private static void buyProperty(Player player, Square square)
+	public static void buyProperty(Player player, Square square)
 	{
 		// TODO Auto-generated method stub
 		// Tengo que traer la opción del action perfermed para que si estás en esta

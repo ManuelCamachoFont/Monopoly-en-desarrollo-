@@ -104,10 +104,7 @@ public class Controller implements ActionListener, MouseListener
 			v.showPanel("HELP");
 		} else if (e.getSource().equals(v.getPanelHome().btnRank)) {
 			v.showPanel("RANKING");
-		}
-
-		// Panel Start actions
-		else if (e.getSource().equals(v.getPanelStart().choPlayers)) {
+		} else if (e.getSource().equals(v.getPanelStart().choPlayers)) {
 			selectPlayers();
 		} else if (e.getSource().equals(v.getPanelStart().btnBack)) {
 			v.showPanel("HOME");
@@ -115,45 +112,26 @@ public class Controller implements ActionListener, MouseListener
 			initializeBoard();
 			v.getFrame().pack();
 			v.getFrame().setLocationRelativeTo(null);
-		}
-
-		// Panel Options actions
-		else if (e.getSource().equals(v.getPanelOptions().btnBack)) {
+		} else if (e.getSource().equals(v.getPanelOptions().btnBack)) {
 			v.previousPanel();
 		} else if (e.getSource().equals(v.getPanelOptions().btnConfirm)) {
-
 			Checkbox selectedFont = v.getPanelOptions().chkTextF.getSelectedCheckbox();
 			if (selectedFont != null) {
 				String newFont = selectedFont.getLabel();
 				FontOption.changeFontFamily(v.getFrame(), newFont);
 				v.getFrame().revalidate();
 				System.out.println(newFont);
-			}
-
-			v.showPanel("HOME");
-		}
-
-		// Panel Help actions
-		else if (e.getSource().equals(v.getPanelHelp().btnBack)) {
+			} v.showPanel("HOME");
+		} else if (e.getSource().equals(v.getPanelHelp().btnBack)) {
 			v.showPanel("HOME");
 		} else if (e.getSource().equals(v.getPanelHelp().btnMHelp)) {
 			// Open htlm with rules
-		}
-
-		// Panel Rank actions
-		else if (e.getSource().equals(v.getPanelRank().btnBack)) {
+		} else if (e.getSource().equals(v.getPanelRank().btnBack)) {
 			v.showPanel("HOME");
-		}
-
-		// Panel Board actions
-		else if (e.getSource().equals(v.getPanelBoard().btnDices)) {
-
+		} else if (e.getSource().equals(v.getPanelBoard().btnDices)) {
 			movePlayer();
-
-		}
-
-		else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
-			buyProperty(squares.get(currentPlayer.getPosition()), currentPlayer);
+		} else if (e.getSource().equals(v.getPanelBoard().btnBuy)) {
+			TurnManager.buyProperty(currentPlayer, squares.get(currentPlayer.getPosition()));
 		} else if (e.getSource().equals(v.getPanelBoard().btnTurn)) {
 			turnEnd();
 		}
@@ -181,6 +159,8 @@ public class Controller implements ActionListener, MouseListener
 		}
 		
 		currentPlayer = playersList.get(currentTurn);
+		boolean jailRoll = TurnManager.jailCheckOptions(currentPlayer);
+		
 		int movement = rollDices();
 		int newPosition = currentPlayer.getPosition() + movement;
 
@@ -195,7 +175,7 @@ public class Controller implements ActionListener, MouseListener
 		v.getPanelBoard().updatePlayersPosition(playersList);
 		Square currentSquare = squares.get(newPosition);
 		
-		TurnManager.squareEvents(currentPlayer, currentSquare, squares);
+		TurnManager.squareEvents(currentPlayer, currentSquare, squares, playersList);
 	}
 
 	private void propertyEvent(Square square, Player player)
@@ -237,7 +217,6 @@ public class Controller implements ActionListener, MouseListener
 
 	private void selectPlayers()
 	{
-
 		String selection = v.getPanelStart().choPlayers.getSelectedItem().toString();
 
 		switch (selection) {
@@ -278,7 +257,7 @@ public class Controller implements ActionListener, MouseListener
 				playerName = "Player " + i;
 			}
 
-			Player newPlayer = new Player(playerName, 500);
+			Player newPlayer = new Player(i, playerName, 500);
 			playersList.add(newPlayer);
 		}
 		v.getPanelBoard().updatePlayers(playersList);
