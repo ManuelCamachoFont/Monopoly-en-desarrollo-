@@ -1,20 +1,15 @@
 package es.studium.main.java;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
-
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
+
 
 public class DiceInfo extends JDialog
 {
@@ -67,11 +62,11 @@ public class DiceInfo extends JDialog
 		container.add(resultTotal);
 		
 		add(container);
-
-
-		
-		setVisible(true);
 	
+	}
+	
+	public void showInfo() {
+		this.setVisible(true);
 	}
 
 }

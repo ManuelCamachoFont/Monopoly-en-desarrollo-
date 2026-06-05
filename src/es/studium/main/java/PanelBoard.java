@@ -21,9 +21,11 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 
 public class PanelBoard extends BackgroundPanel {
 
@@ -67,7 +69,7 @@ public class PanelBoard extends BackgroundPanel {
 	
 	JPanel panelLogs = new JPanel();
 	JLabel lblLogTitle = new JLabel("Logs");
-	JTextArea txtLogs = new JTextArea(10, 20);
+	JTextPane txtLogs = new JTextPane();
 	JScrollPane scrollLogs = new JScrollPane(txtLogs, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 	JPanel panelGame = new JPanel();
@@ -180,9 +182,8 @@ public class PanelBoard extends BackgroundPanel {
 		panelLogs.add(lblLogTitle, BorderLayout.NORTH);
 
 		txtLogs.setBorder(new EmptyBorder(15, 15, 15, 15));
-		txtLogs.setLineWrap(true);
-		txtLogs.setWrapStyleWord(true);
 		txtLogs.setEditable(false);
+		txtLogs.setFont(getFont().deriveFont(24f));
 		panelLogs.add(scrollLogs, BorderLayout.CENTER);
 		panelLeft.add(panelLogs);
 
@@ -438,8 +439,20 @@ public class PanelBoard extends BackgroundPanel {
 	
 	public JLabel getPlayerLbl4() { return lblPlayerName4; }
 	
-	public void writeLogs(String log) {
-		txtLogs.append(log);
+	public void writeLogs(String log, Color colorPlayer) {
+		SimpleAttributeSet style = new SimpleAttributeSet();
+		StyleConstants.setForeground(style, colorPlayer);
+	    StyleConstants.setFontFamily(style, txtLogs.getFont().getFamily());
+	    StyleConstants.setFontSize(style, txtLogs.getFont().getSize());
+	    StyleConstants.setBold(style, true);
+
+	    int lenght = txtLogs.getDocument().getLength();
+	    try {
+	        txtLogs.getDocument().insertString(lenght, log + "\n", style);
+	        txtLogs.setCaretPosition(txtLogs.getDocument().getLength());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 

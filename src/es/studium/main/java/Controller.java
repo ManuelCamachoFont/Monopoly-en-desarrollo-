@@ -34,7 +34,7 @@ public class Controller implements ActionListener, MouseListener
 	private HashMap<Integer, Square> squares;
 	private List<Card> communityDeck = new ArrayList<>();
 	private List<Card> luckDeck = new ArrayList<>();
-	private DialogsInfo dialogs;
+	private DialogsManager dialogs;
 
 	private final int[][] board = { { 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31 },
 					{ 20, -1, -1, -1, -1, -1, -1, -1, -1, -1, 32 }, { 19, -1, -1, -1, -3, -1, -1, -1, -1, -1, 33 },
@@ -47,7 +47,7 @@ public class Controller implements ActionListener, MouseListener
 		this.m = model;
 		this.v = v;
 		this.squares = m.getSquares();
-		this.dialogs = new DialogsInfo(v.getFrame(), this.squares);
+		this.dialogs = new DialogsManager(v.getFrame(), this.squares);
 		// SoundOption.musicLoop(v.getFrame(),
 		// "/es/studium/main/resources/sound/happy.wav");
 
@@ -262,13 +262,16 @@ public class Controller implements ActionListener, MouseListener
 		int[] sumDices = m.throwingDices();
 		int dice1 = sumDices[0];
 		int dice2 = sumDices[1];
-		DiceInfo dialog = new DiceInfo(v.getFrame(), sumDices, currentPlayer.getName());
+		dialogs.showDiceInfo(sumDices, currentPlayer.getName());
 	
 		return dice1+dice2;
 	}
 	
-	private void updateLogs(String log) {
-		v.getPanelBoard().setLogs(log);
+	private void updateLogs() {
+		List<Logger.LogEntry> newLogs = Logger.readAndEmpty();
+	    for (Logger.LogEntry entry : newLogs) {
+	        v.getPanelBoard().writeLogs(entry.text, entry.color);
+	    }
 	}
 
 	private void movePlayer()
@@ -284,6 +287,7 @@ public class Controller implements ActionListener, MouseListener
 			boolean staysInJail = TurnManager.handleJailRoll(currentPlayer, isDouble);
 			if (!staysInJail) {
 				executeSaveMovement();
+				updateLogs();
 				return;
 			}
 
@@ -291,28 +295,23 @@ public class Controller implements ActionListener, MouseListener
 			jailWindow.btnPay.addActionListener(this);
 			jailWindow.btnCard.addActionListener(this);
 			this.dialogs.showJailInfo();
+			updateLogs();
 			return;
 		}
 
 		saveMovement = rollDices();
 		rolledDices = true;
 		boolean isDouble = m.isDouble();
-		// ========================
-		// CUIDAO!!! CON ESTAS DOS LÍNEAS... SON APRA TESTERAR LA FUNCIONADLIAD DE LA
-		// CARCEL
+		
+		Logger.saveLog(currentPlayer.getName() + " rolled the dices and got " + saveMovement + ".", currentPlayer.getColor());
 
-		// currentPlayer.setJailCards(1);
-		// saveMovement = 30;
-		// =======================================
-		saveMovement = 4;
-
-		rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);
+		rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList, this);
 		v.getPanelBoard().updatePlayersPosition(playersList);
 		v.getPanelBoard().updatePlayers(playersList);
 		
 		if (currentPlayer.getMoney() < 0) {
 			v.showDialog("¡" + currentPlayer.getName() + " get eliminated!");
-	
+			Logger.saveLog("¡" + currentPlayer.getName() + " GOT BANKRRUPT AND IS ELIMINATED!", currentPlayer.getColor());
 
 			playersList.remove(currentPlayer); 
 
@@ -323,6 +322,10 @@ public class Controller implements ActionListener, MouseListener
 			
 			nextTurn();
 		}
+		
+		v.getPanelBoard().updatePlayersPosition(playersList);
+		v.getPanelBoard().updatePlayers(playersList);
+		updateLogs();
 	
 	}
 		
@@ -352,7 +355,7 @@ public class Controller implements ActionListener, MouseListener
 	private void executeSaveMovement()
 	{
 		rolledDices = true;
-		TurnManager.movementToSquare(currentPlayer, saveMovement, false, squares, playersList);
+		TurnManager.movementToSquare(currentPlayer, saveMovement, false, squares, playersList, this);
 		v.getPanelBoard().updatePlayersPosition(playersList);
 		v.getPanelBoard().updatePlayers(playersList);
 
@@ -414,6 +417,13 @@ public class Controller implements ActionListener, MouseListener
 	{
 		playersList.clear();
 
+		Color[] colors = {
+		        new Color(220, 53, 69),
+		        new Color(0, 123, 255),
+		        new Color(40, 167, 69),
+		        new Color(253, 126, 20)
+		    };
+		
 		for (int i = 1; i <= players; i++) {
 			String playerName = "";
 			if (i == 1) {
@@ -430,7 +440,9 @@ public class Controller implements ActionListener, MouseListener
 				playerName = "Player " + i;
 			}
 
-			Player newPlayer = new Player(i, playerName, 500);
+			Color colorPlayer = colors[i-1];
+			
+			Player newPlayer = new Player(i, playerName, 500, colorPlayer);
 			playersList.add(newPlayer);
 		}
 		v.getPanelBoard().updatePlayers(playersList);
@@ -508,7 +520,7 @@ public class Controller implements ActionListener, MouseListener
 	
 	}
 
-	private void drawCard(String type)
+	public void drawCard(String type)
 	{
 		Card obtainedCard = null;
 		if(("SUERTE").equalsIgnoreCase(type)){
@@ -521,9 +533,95 @@ public class Controller implements ActionListener, MouseListener
 				obtainedCard = communityDeck.remove(0);
 			}
 		}
+		
+		if (obtainedCard!= null) {
+			applyCard(obtainedCard);
+			if (!"SALIR_CARCEL".equalsIgnoreCase(obtainedCard.getAction())) {
+				
+				if (("SUERTE").equalsIgnoreCase(type)) {
+					luckDeck.add(obtainedCard);
+					Collections.shuffle(luckDeck);
+				} 
+				else if (("COMUNIDAD").equalsIgnoreCase(type)) {
+					communityDeck.add(obtainedCard); 
+					Collections.shuffle(communityDeck);
+				}
+			}
 
-		CardInfo cardInfo = new CardInfo(v.getFrame(), obtainedCard);
-		cardInfo.showInfo(v.getFrame(), obtainedCard);
+			dialogs.showCardInfo(obtainedCard);
+		
+		}
+	}
+	
+	private void applyCard(Card card) {
+		if(card == null) return;
+		
+		String action = card.getAction().toUpperCase();
+		int value = card.getValue();
+		int position = card.getDestination();
+		
+		switch (action) {
+		case "COBRAR":
+			currentPlayer.updateMoney(value);
+			break;
+		case "PAGAR":
+			currentPlayer.updateMoney(-value);
+			break;
+		case "MOVER":
+			currentPlayer.setPosition(position);
+			if (card.getText().contains("200€") && (currentPlayer.getPosition()>position)) {
+				currentPlayer.updateMoney(value);
+			}
+			Square square = squares.get(currentPlayer.getPosition());
+			if (square != null) {
+				TurnManager.squareEvents(currentPlayer, square, squares, playersList, this);
+			}
+			break;
+		case "MOVER_ATRAS":
+			int playerPosition = currentPlayer.getPosition();
+			int newPosition = playerPosition - value;
+			if (newPosition <= 0) {
+				newPosition = 40 + newPosition;
+			}
+			currentPlayer.setPosition(newPosition);
+			Square tile = squares.get(newPosition);
+			if (tile != null) {
+				TurnManager.squareEvents(currentPlayer, tile, squares, playersList, this);
+			}
+			break;
+		case "IR_A_CARCEL":
+			currentPlayer.setPrison(true);
+			currentPlayer.setPosition(11);
+			currentPlayer.setJailTurns(0);
+			currentPlayer.setDoublesDices(0);
+		case "SALIR_CARCEL":
+			currentPlayer.setJailCards(currentPlayer.getJailCards() + 1);
+			break;
+		case "CUMPLEANOS":
+			int collectedMoney = 0;
+			for (Player p : playersList) {
+				if (p.getId() != currentPlayer.getId()) {
+					p.updateMoney(-value);
+					collectedMoney += value;
+				}
+			}
+			currentPlayer.updateMoney(collectedMoney);
+			break;
+		case "REPARAR_CASAS":
+			int priceHouse = value;
+			int priceHotel = value * 4;
+			
+			int totalPriceHouses = currentPlayer.getTotalHouses() * priceHouse;
+			int totalPriceHotels = currentPlayer.getTotalHotels() * priceHotel;
+			int total = totalPriceHouses + totalPriceHotels;
+			
+			currentPlayer.updateMoney(-total);
+			
+			break;
+		default:
+			System.err.println("Carta desconocida");
+			break;
+		}
 	}
 
 	@Override

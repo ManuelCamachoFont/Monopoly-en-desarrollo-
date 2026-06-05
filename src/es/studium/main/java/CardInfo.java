@@ -1,6 +1,7 @@
 package es.studium.main.java;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,33 +18,41 @@ public class CardInfo extends JDialog implements ActionListener {
 
 	public CardInfo(JFrame mainFrame, Card card) {
 		super(mainFrame, card.getType(), true);
-		setSize(400, 420);
+		
+		BackgroundPanel panelBackground = new BackgroundPanel("card.png");
+		
+		Utilities.setExactSize(this, 704, 492);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setLayout(new BorderLayout());
+		panelBackground.setLayout(new BorderLayout());
 		
 		JPanel panelInfo = new JPanel(new BorderLayout());
 		JTextArea description = new JTextArea();
-		description.setBorder(new EmptyBorder(15, 15, 15, 15));
+		description.setFont(description.getFont().deriveFont(30f));
+		description.setBorder(new EmptyBorder(200, 90, 90, 90));
 		description.setLineWrap(true);
 		description.setWrapStyleWord(true);
 		description.setEditable(false);
 		description.setText(card.getText());
+		description.setOpaque(false);
+		panelInfo.setOpaque(false);
 		panelInfo.add(description, BorderLayout.CENTER);
-		add(panelInfo, BorderLayout.CENTER);
+		panelBackground.add(panelInfo, BorderLayout.CENTER);
 		
 		
 		JPanel panelButton = new JPanel(new BorderLayout());
 		btnClose.addActionListener(this);
+		panelButton.setOpaque(false);
 		panelButton.add(btnClose, BorderLayout.CENTER);
 		
-		add(panelButton, BorderLayout.SOUTH);
+		panelBackground.add(panelButton, BorderLayout.SOUTH);
+		
+		add(panelBackground);
 		
 	}
 	
-	public void showInfo(JFrame mainFrame, Card cards) {
-		CardInfo dialog = new CardInfo(mainFrame, cards);
-		dialog.setVisible(true);
+	public void showInfo() {
+		this.setVisible(true);
 	}
 
 	@Override

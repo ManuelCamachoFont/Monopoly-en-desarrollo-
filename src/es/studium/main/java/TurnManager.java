@@ -9,12 +9,6 @@ import javax.swing.JOptionPane;
 
 public class TurnManager{
 
-	private String log = "";
-	
-	
-	public String getLog() {
-		return this.log;
-	}
 
 	public static boolean jailCheckOptions(Player player)
 	{
@@ -68,17 +62,20 @@ public class TurnManager{
 	    if (isDouble) {
 	        player.setPrison(false);
 	        player.setJailTurns(0);
+	        Logger.saveLog(player.getName() + " rolled double and got out of Prison.", player.getColor());
 	        return false;
 	    }
 	    int turns = player.getJailTurns() + 1;
 	    player.setJailTurns(turns);
+	    Logger.saveLog(player.getName() + " didn't roll doubles. (Try " + turns + "/3.", player.getColor());
 	    if (turns >= 3) {
 	        player.setPrison(false);
 	        player.setJailTurns(0);
+	        Logger.saveLog(player.getName() + " got released after 3 turns and is now free.", player.getColor());
 	    }
 	    return true;
 	}
-	public static boolean movementToSquare(Player player, int movement, boolean isDouble, HashMap<Integer, Square> squares, List<Player> playersList)
+	public static boolean movementToSquare(Player player, int movement, boolean isDouble, HashMap<Integer, Square> squares, List<Player> playersList, Controller controller)
 	{
 		if(isDouble) {
 			int consecutiveDoubles = player.getDoublesDices()+1;
@@ -88,7 +85,7 @@ public class TurnManager{
 				player.setDoublesDices(0);
 				goToJail(player);
 			}
-			System.out.println("DOBLES de"+player.getName());
+			Logger.saveLog("¡" + player.getName() + " rolled DOUBLES", player.getColor());
 		} else {
 			player.setDoublesDices(0);
 		}
@@ -96,19 +93,20 @@ public class TurnManager{
 		if (newPosition > 40) {
 			newPosition = newPosition - 40;
 			player.updateMoney(200);
-			System.out.println(player.getName() + "da una vuelta completa");
+			Logger.saveLog("Bank gives 200€ to " + player.getName() + " after a full lap.", player.getColor());
 		}
 		player.setPosition(newPosition);
 
 		Square square = squares.get(newPosition);
 		if (square != null) {
-			squareEvents(player, square, squares, playersList);
+			Logger.saveLog(player.getName() + " moves to " + square.getName() + ".", player.getColor());
+			squareEvents(player, square, squares, playersList, controller);
 		}
 		return !isDouble;
 	}
 
 	public static void squareEvents(Player player, Square square, HashMap<Integer, Square> allSquares,
-			List<Player> playersList)
+			List<Player> playersList, Controller controller)
 	{
 		String type = square.getType().toUpperCase();
 
@@ -126,10 +124,10 @@ public class TurnManager{
 				goToJail(player);
 			break;
 		case "SUERTE":
-			// TODO añadir el método para controlar lo que pasa en estas casillas
+			controller.drawCard("SUERTE");
 			break;
 		case "COMUNIDAD":
-			// TODO añadir el método para controlar lo que pasa en estas casillas
+			controller.drawCard("COMUNIDAD");
 			break;
 		default:
 			System.out.println("Casilla sin acción especial (Salida, Parking, visita al a cárcel...).");
@@ -176,13 +174,14 @@ public class TurnManager{
 	public static boolean buyProperty(Player player, Square square)
 	{
 		String type = square.getType();
-		if (!type.equals("PROPIEDAD") || !type.equals("ESTACION") || !type.equals("SERVICIO")) return false;
+		if (!type.equals("PROPIEDAD") && !type.equals("ESTACION") && !type.equals("SERVICIO")) return false;
 		if (square.hasOwner()) return false;
 		if (player.getMoney() < square.getPrice()) return false;
 		
 		player.updateMoney(-square.getPrice());
 		square.setOwner(player.getName());
 		player.getProperties().add(square);
+		Logger.saveLog(player.getName() + " bought " + square.getName() + " for " + square.getPrice() + "€.", player.getColor());
 		return true;
 	}
 

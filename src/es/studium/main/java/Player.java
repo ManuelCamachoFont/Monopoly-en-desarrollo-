@@ -1,7 +1,7 @@
 package es.studium.main.java;
 
+import java.awt.Color;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Player
 {
@@ -15,8 +15,9 @@ public class Player
 	private int jailCards = 0;
 	private int doublesDices = 0;
 	private ArrayList<Square> properties;
+	private Color color;
 
-	public Player(int id, String name, int moneyStarting) {
+	public Player(int id, String name, int moneyStarting, Color color) {
 		this.id = id;
 		this.name = name;
 		this.money = moneyStarting;
@@ -26,6 +27,7 @@ public class Player
 		this.jailCards = 0;
 		this.doublesDices = 0;
 		this.properties = new ArrayList<>();
+		this.color = color;
 
 	}
 
@@ -77,6 +79,10 @@ public class Player
 	public boolean getPrison()
 	{
 		return prison;
+	}
+	
+	public Color getColor() {
+		return color;
 	}
 
 	public ArrayList<Square> getProperties()

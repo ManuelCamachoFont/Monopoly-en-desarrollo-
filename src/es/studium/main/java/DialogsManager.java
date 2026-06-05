@@ -5,7 +5,7 @@ import java.util.Map;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 
-public class DialogsInfo
+public class DialogsManager
 {
 
 	private JFrame mainFrame;
@@ -13,7 +13,7 @@ public class DialogsInfo
 
 	private JDialog jailDialog;
 
-	public DialogsInfo(JFrame mainFrame, Map<Integer, Square> squares) {
+	public DialogsManager(JFrame mainFrame, Map<Integer, Square> squares) {
 		this.mainFrame = mainFrame;
 		this.squares = squares;
 	}
@@ -24,7 +24,16 @@ public class DialogsInfo
 			return;
 		}
 		SquareInfo dialog = new SquareInfo(mainFrame, property);
-		dialog.setVisible(true);
+		dialog.showInfo();
+	}
+	
+	public void showCardInfo(Card card)
+	{
+		if (card == null) {
+			return;
+		}
+		CardInfo dialog = new CardInfo(mainFrame, card);
+		dialog.showInfo();
 	}
 
 	public void showPlayerInfo(Player player)
@@ -33,12 +42,12 @@ public class DialogsInfo
 			return;
 		}
 		PlayerInfo dialog = new PlayerInfo(mainFrame, player, this.squares);
-		dialog.setVisible(true);
+		dialog.showInfo();
 	}
 
 	public void showDiceInfo(int[] result, String playerName) {
 		DiceInfo dialog = new DiceInfo(mainFrame, result, playerName);
-		dialog.setVisible(true);
+		dialog.showInfo();
 	}
 
 	public JailInfo prepareJailInfo(Player player)

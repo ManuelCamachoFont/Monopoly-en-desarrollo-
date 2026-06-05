@@ -6,6 +6,7 @@ import java.awt.Insets;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -48,5 +49,12 @@ public class Utilities {
 	    int heightTotal = heightInner + insets.top + insets.bottom;
 	    
 	    mainFrame.setSize(widthTotal, heightTotal);
+	}
+	
+	public static void setExactSize(JDialog dialog, int widthInner, int heightInner) {
+	    Insets insets = dialog.getInsets();
+	    int widthTotal = widthInner + insets.left + insets.right;
+	    int heightTotal = heightInner + insets.top + insets.bottom;
+	    dialog.setSize(widthTotal, heightTotal);
 	}
 }
