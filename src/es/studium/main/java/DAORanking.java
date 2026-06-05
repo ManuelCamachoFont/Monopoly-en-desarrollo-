@@ -25,8 +25,8 @@ public class DAORanking {
 
 			ps.setString(1, player.getName());
 			ps.setInt(2, player.getMoney());
-			ps.setInt(3, player.getTotalHouses(squares));
-			ps.setInt(4, player.getTotalHotels(squares));
+			ps.setInt(3, player.getTotalHouses());
+			ps.setInt(4, player.getTotalHotels());
 
 
 			int insert = ps.executeUpdate();
