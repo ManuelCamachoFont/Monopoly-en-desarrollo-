@@ -220,12 +220,11 @@ public class Controller implements ActionListener, MouseListener
 
 	private void checkCanBuy()
 	{
-		if (!rolledDices)
-			return;
+		if (!rolledDices) return;
 
 		Square currentSquare = squares.get(currentPlayer.getPosition());
-
 		boolean bought = TurnManager.buyProperty(currentPlayer, currentSquare);
+		
 		if (bought) {
 			v.getPanelBoard().updatePlayers(playersList);
 			v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
@@ -260,15 +259,13 @@ public class Controller implements ActionListener, MouseListener
 	private int rollDices()
 	{
 		int[] sumDices = m.throwingDices();
-		int dice1 = sumDices[0];
-		int dice2 = sumDices[1];
-		DiceInfo dialog = new DiceInfo(v.getFrame(), sumDices, currentPlayer.getName());
-	
-		return dice1+dice2;
+		//DiceInfo dialog = new DiceInfo(v.getFrame(), sumDices, currentPlayer.getName());
+	    dialogs.showDiceInfo(sumDices, currentPlayer.getName());
+		return sumDices[0] + sumDices[1];
 	}
 	
 	private void updateLogs(String log) {
-		v.getPanelBoard().setLogs(log);
+		v.getPanelBoard().writeLogs(log);
 	}
 
 	private void movePlayer()
@@ -301,10 +298,9 @@ public class Controller implements ActionListener, MouseListener
 		// CUIDAO!!! CON ESTAS DOS LÍNEAS... SON APRA TESTERAR LA FUNCIONADLIAD DE LA
 		// CARCEL
 
-		// currentPlayer.setJailCards(1);
-		// saveMovement = 30;
+		currentPlayer.setJailCards(1);
+		saveMovement = 30;
 		// =======================================
-		saveMovement = 4;
 
 		rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);

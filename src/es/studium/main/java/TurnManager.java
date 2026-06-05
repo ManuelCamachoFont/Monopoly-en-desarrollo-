@@ -1,11 +1,8 @@
 
 package es.studium.main.java;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-
-import javax.swing.JOptionPane;
 
 public class TurnManager{
 
@@ -14,54 +11,6 @@ public class TurnManager{
 	
 	public String getLog() {
 		return this.log;
-	}
-
-	public static boolean jailCheckOptions(Player player)
-	{
-		if (!player.getPrison()) return false;
-		//===================IMPORTANTE========================0
-		//Esto me lo ha hecho la IA, hay que cambiarlo por los botones que tu has hecho en el dialogo
-		
-		ArrayList<String> opciones = new ArrayList<>();
-		opciones.add("Tirar dados (Buscar dobles)");
-		
-		if (player.getMoney() >= 50) {
-			opciones.add("Pagar fianza (50€)");
-		}
-		if (player.getJailCards() > 0) {
-			opciones.add("Usar tarjeta 'Quedas libre'");
-		}
-
-		String[] ops = opciones.toArray(new String[0]);
-		int seleccion = JOptionPane.showOptionDialog(
-			null,
-			player.getName() + " está en la cárcel. Selecciona cómo proceder:",
-			"Turno en la Cárcel",
-			JOptionPane.DEFAULT_OPTION,
-			JOptionPane.QUESTION_MESSAGE,
-			null, ops, ops[0]
-		);
-
-		if (seleccion == -1) seleccion = 0; // Si cierra la ventana, por defecto tira dados
-
-		String eleccion = ops[seleccion];
-
-		if (eleccion.equals("Pagar fianza (50€)")) {
-			player.updateMoney(-50);
-			player.setPrison(false);
-			player.setJailTurns(0);
-			JOptionPane.showMessageDialog(null, player.getName() + " pagó 50€ y sale de la cárcel.");
-			return false; 
-		} 
-		else if (eleccion.equals("Usar tarjeta 'Quedas libre'")) {
-			player.setJailCards(player.getJailCards() - 1);
-			player.setPrison(false);
-			player.setJailTurns(0);
-			JOptionPane.showMessageDialog(null, player.getName() + " usó la tarjeta y sale de la cárcel.");
-			return false;
-		}
-
-		return true; 
 	}
 
 	public static boolean handleJailRoll(Player player, boolean isDouble) {
@@ -116,7 +65,7 @@ public class TurnManager{
 		case ("PROPIEDAD"):
 		case ("ESTACION"):
 		case ("SERVICIO"):
-			propertySquare(player, square, allSquares, playersList);
+			payRent(player, square, allSquares, playersList);
 			break;
 		case "IMPUESTO":
 			taxSquare(player, square);
@@ -155,38 +104,31 @@ public class TurnManager{
 
 	}
 
-	private static void propertySquare(Player player, Square square, HashMap<Integer, Square> allSquares, List<Player> playersList)
-	{
-		if (!square.hasOwner()) {
-			buyProperty(player, square);
-			
-		} else if (!square.getOwner().equals(player.getName())) {
-				int rentToPay = calculateRent(square, allSquares);
-				player.updateMoney(-rentToPay);
-				for (Player owner : playersList) {
-					if (owner.getName().equals(square.getOwner())) {
-						owner.updateMoney(rentToPay);
-				System.out.println(player.getName() + "paga" + rentToPay+"a"+owner.getName());
-					}
-				}
-			}
-				
+	private static void payRent(Player player, Square square, HashMap<Integer, Square> allSquares, List<Player> playersList) {
+	    if (!square.hasOwner()) {
+	        return;
+	    }
+	    if (!square.getOwner().equals(player.getName())) {
+	        int rentToPay = calculateRent(square, allSquares);
+	        player.updateMoney(-rentToPay);
+	        for (Player owner : playersList) {
+	            if (owner.getName().equals(square.getOwner())) {
+	                owner.updateMoney(rentToPay);
+	            }
+	        }
+	    }
 	}
 
-	public static boolean buyProperty(Player player, Square square)
-	{
+	public static boolean buyProperty(Player player, Square square) {
+	    String type = square.getType();
+	    if (!type.equals("PROPIEDAD") && !type.equals("ESTACION") && !type.equals("SERVICIO")) return false;
+	    if (square.hasOwner()) return false;
+	    if (player.getMoney() < square.getPrice()) return false;
 
-		String type = square.getType();
-		if (!type.equals("PROPIEDAD") || !type.equals("ESTACION") || !type.equals("SERVICIO")) return false;
-
-
-		if (square.hasOwner()) return false;
-		if (player.getMoney() < square.getPrice()) return false;
-		
-		player.updateMoney(-square.getPrice());
-		square.setOwner(player.getName());
-		player.getProperties().add(square);
-		return true;
+	    player.updateMoney(-square.getPrice());
+	    square.setOwner(player.getName());
+	    player.getProperties().add(square);
+	    return true;
 	}
 
 	private static int calculateRent(Square square, HashMap<Integer, Square> allSquares)
