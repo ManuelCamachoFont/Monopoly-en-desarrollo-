@@ -121,3 +121,6 @@ INSERT INTO cartas (tipoCarta, textoCarta, accionCarta, valorCarta, destinoCarta
 ('COMUNIDAD', 'Pague la fianza del hospital de 100€.', 'PAGAR', 100, NULL),
 ('COMUNIDAD', 'Pague la escuela privada. 150€.', 'PAGAR', 150, NULL),
 ('COMUNIDAD', 'Vaya directamente a la cárcel sin pasar por la casilla de Salida y sin cobrar los 200€.', 'IR_A_CARCEL', 0, 11);
+
+SELECT * FROM casillas;
+SELECT * FROM cartas;
