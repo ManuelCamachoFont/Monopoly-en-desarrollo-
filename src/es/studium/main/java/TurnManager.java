@@ -155,19 +155,22 @@ public class TurnManager{
 
 	private static void propertySquare(Player player, Square square, HashMap<Integer, Square> allSquares, List<Player> playersList)
 	{
-		if (!square.hasOwner()) {
-			buyProperty(player, square);
+		String currentOwner = square.getOwner();
+
+		if (currentOwner != null && !currentOwner.isEmpty()) {
 			
-		} else if (!square.getOwner().equals(player.getName())) {
+			if (!currentOwner.equals(player.getName())) {
 				int rentToPay = calculateRent(square, allSquares);
 				player.updateMoney(-rentToPay);
+				
 				for (Player owner : playersList) {
-					if (owner.getName().equals(square.getOwner())) {
+					if (owner.getName().equals(currentOwner)) {
 						owner.updateMoney(rentToPay);
-				System.out.println(player.getName() + "paga" + rentToPay+"a"+owner.getName());
+						Logger.saveLog(player.getName() + " pays " + rentToPay + "€ of rent to " + owner.getName() + ".", player.getColor());
 					}
 				}
 			}
+		}
 				
 	}
 

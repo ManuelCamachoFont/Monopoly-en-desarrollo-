@@ -51,7 +51,6 @@ public class Square {
 	
 	public boolean hasHotel() { return hotel; }
 	
-	
 	public boolean hasOwner() {
 		return this.owner != null;
 	}
@@ -64,6 +63,12 @@ public class Square {
 			this.hotel = true;
 			this.houses = 0;
 		}
+	}
+	
+	public void releaseProperty() {
+		this.owner = null;
+		this.houses = 0;
+		this.hotel = false;
 	}
 	
 	

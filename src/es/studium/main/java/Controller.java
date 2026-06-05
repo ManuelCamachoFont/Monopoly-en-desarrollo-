@@ -220,17 +220,71 @@ public class Controller implements ActionListener, MouseListener
 
 	private void checkCanBuy()
 	{
-		if (!rolledDices)
+		if (!rolledDices) {
+			v.showDialog("¡You have to roll the dices first");
 			return;
-
+		}
+		
 		Square currentSquare = squares.get(currentPlayer.getPosition());
 
-		boolean bought = TurnManager.buyProperty(currentPlayer, currentSquare);
-		if (bought) {
+		if (currentSquare == null) return;
+		
+		String type = currentSquare.getType().toUpperCase();
+		
+		boolean isBuyable = type.equals("PROPIEDAD") || type.equals("ESTACION") || type.equals("SERVICIO");
+		
+		if (!isBuyable) {
+	        v.showDialog("This place is not buyable.");
+	        return;
+	    }
+		
+		if (!currentSquare.hasOwner()) {
+	        boolean bought = TurnManager.buyProperty(currentPlayer, currentSquare);
+	        if (bought) {
+	            v.getPanelBoard().updatePlayers(playersList);
+	            updateLogs();
+	            v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
+	        } else {
+	            v.showDialog("No tienes suficiente dinero para comprar esta propiedad.");
+	        }
+	    }
+		
+		else if (currentSquare.getOwner().equals(currentPlayer.getName())) {
+	        
+	        if (!type.equals("PROPIEDAD")) {
+	            v.showDialog("No puedes edificar casas en Estaciones o Servicios.");
+	            return;
+	        }
+	        
+	        if (currentSquare.hasHotel()) {
+				v.showDialog("¡Ya has construido un Hotel aquí! No se puede edificar más.");
+				return;
+			}
+
+	        int buildPrice = 50; 
+
+	        if (currentPlayer.getMoney() < buildPrice) {
+				v.showDialog("No tienes suficiente dinero para edificar (Coste: " + buildPrice + "€).");
+				return;
+			}
+
+			currentPlayer.updateMoney(-buildPrice);
+			currentSquare.buildHouse();
+			
+			if (currentSquare.hasHotel()) {
+				Logger.saveLog(currentPlayer.getName() + " upgraded to a HOTEL in " + currentSquare.getName() + " for " + buildPrice + "€.", currentPlayer.getColor());
+				v.showDialog("¡" + currentPlayer.getName() + " ha construido un HOTEL en " + currentSquare.getName() + "!");
+			} else {
+				Logger.saveLog(currentPlayer.getName() + " built house nº " + currentSquare.getHouses() + " in " + currentSquare.getName() + " for " + buildPrice + "€.", currentPlayer.getColor());
+				v.showDialog(currentPlayer.getName() + " ha edificado la casa nº " + currentSquare.getHouses() + " en " + currentSquare.getName());
+			}
+			
 			v.getPanelBoard().updatePlayers(playersList);
-			v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
-		} else {
-			v.showDialog("No se puede comprar esta propiedad.");
+			updateLogs();
+		} 
+	
+		else {
+			v.showDialog("Esta propiedad pertenece a " + currentSquare.getOwner() + ". ¡Ya has pagado el alquiler de tu turno!");
 		}
 	}
 	
@@ -313,6 +367,11 @@ public class Controller implements ActionListener, MouseListener
 			v.showDialog("¡" + currentPlayer.getName() + " get eliminated!");
 			Logger.saveLog("¡" + currentPlayer.getName() + " GOT BANKRRUPT AND IS ELIMINATED!", currentPlayer.getColor());
 
+			for (Square property : currentPlayer.getProperties()) {
+				property.releaseProperty();
+			}
+
+			currentPlayer.getProperties().clear();
 			playersList.remove(currentPlayer); 
 
 			if (playersList.size() == 1) {

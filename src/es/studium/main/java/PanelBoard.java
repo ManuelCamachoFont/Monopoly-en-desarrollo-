@@ -189,11 +189,13 @@ public class PanelBoard extends BackgroundPanel {
 
 		panelLeft.add(Box.createRigidArea(new Dimension(0, 20)));
 
+		lblTurn.setFont(getFont().deriveFont(24f));
 		panelLeft.add(lblTurn);
 
 		panelLeft.add(Box.createRigidArea(new Dimension(0, 20)));
 
 		btnTurn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnTurn.setFont(getFont().deriveFont(24f));
 		panelLeft.add(btnTurn);
 
 		gbc.gridx = 0;
@@ -297,7 +299,7 @@ public class PanelBoard extends BackgroundPanel {
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
 						
 						btnBuy.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						btnBuy.setFont(getFont().deriveFont(Font.BOLD));;
+						btnBuy.setFont(getFont().deriveFont(Font.BOLD, 24f));;
 						panelGame.add(btnBuy, gbcB);
 					}
 
@@ -306,7 +308,7 @@ public class PanelBoard extends BackgroundPanel {
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
 
 						btnDices.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						btnDices.setFont(getFont().deriveFont(Font.BOLD));;
+						btnDices.setFont(getFont().deriveFont(Font.BOLD, 24f));;
 						panelGame.add(btnDices, gbcB);
 					}
 
