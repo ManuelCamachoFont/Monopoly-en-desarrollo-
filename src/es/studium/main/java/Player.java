@@ -112,6 +112,7 @@ public class Player
 		return totalHotels;
 	}
 
+
 	public int getJailTurns()
 	{
 		return jailTurns;

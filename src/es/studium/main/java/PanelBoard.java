@@ -25,7 +25,7 @@ import javax.swing.JTextArea;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
-public class PanelBoard extends JPanel {
+public class PanelBoard extends BackgroundPanel {
 
 	private static final long serialVersionUID = 1L;
 	JPanel panelNorth = new JPanel();
@@ -54,22 +54,10 @@ public class PanelBoard extends JPanel {
 	JLabel lblPlayerMoney3 = new JLabel();
 	JLabel lblPlayerName4 = new JLabel();
 	JLabel lblPlayerMoney4 = new JLabel();
-	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer1Redim = icoPlayer1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer1R = new ImageIcon(icoPlayer1Redim);
-	JLabel lblIcon1 = new JLabel(icoPlayer1R);
-	ImageIcon icoPlayer2 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer2Redim = icoPlayer2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer2R = new ImageIcon(icoPlayer2Redim);
-	JLabel lblIcon2 = new JLabel(icoPlayer2R);
-	ImageIcon icoPlayer3 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer3Redim = icoPlayer3.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer3R = new ImageIcon(icoPlayer3Redim);
-	JLabel lblIcon3 = new JLabel(icoPlayer3R);
-	ImageIcon icoPlayer4 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer4Redim = icoPlayer4.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer4R = new ImageIcon(icoPlayer4Redim);
-	JLabel lblIcon4 = new JLabel(icoPlayer4R);
+	JLabel lblIcon1 = new JLabel();
+	JLabel lblIcon2 = new JLabel();
+	JLabel lblIcon3 = new JLabel();
+	JLabel lblIcon4 = new JLabel();
 	JLabel[] lblName = new JLabel[4];
 	JLabel[] lblMoney = new JLabel[4];
 	JLabel[] lblIcon = new JLabel[4];
@@ -103,11 +91,16 @@ public class PanelBoard extends JPanel {
 	Border southBorder = BorderFactory.createMatteBorder(0, 0, 2, 0, Color.BLACK);
 	Border borderTitle = BorderFactory.createCompoundBorder(southBorder, padding);
 	
+	Color colorBackground = new Color( 20, 20, 25);
+	Color colorForeground = new Color(255, 0, 127);
+	
 	public PanelBoard() {
+		super("Sky.png");
 		setLayout(gridbag);
 		setPreferredSize(new Dimension(1450, 900));
 
 		panelLeft.setLayout(box);
+		panelLeft.setOpaque(false);
 		panelLeft.setBorder(new EmptyBorder(20, 20, 20, 20));
 
 		panelPlayers.setLayout(new BorderLayout());
@@ -134,9 +127,13 @@ public class PanelBoard extends JPanel {
 	    lblMoney[2] = lblPlayerMoney3;
 	    lblMoney[3] = lblPlayerMoney4;
 	    
+	    Utilities.setIco(lblIcon1, "dog.png", 30, 30);
 	    lblIcon[0] = lblIcon1;
+	    Utilities.setIco(lblIcon2, "iron.png", 30, 30);
 	    lblIcon[1] = lblIcon2;
+	    Utilities.setIco(lblIcon3, "boots.png", 30, 30);
 	    lblIcon[2] = lblIcon3;
+	    Utilities.setIco(lblIcon4, "thimble.png", 30, 30);
 	    lblIcon[3] = lblIcon4;
 
 	    for (int i = 0; i < 4; i++) {
@@ -208,7 +205,9 @@ public class PanelBoard extends JPanel {
 		add(panelLeft, gbc);
 
 		panelRight.setLayout(new BorderLayout());
+		panelRight.setOpaque(false);
 		panelGame.setLayout(gridbagB);
+		panelGame.setOpaque(false);
 
 		panelRight.add(panelGame, BorderLayout.CENTER);
 
@@ -297,7 +296,7 @@ public class PanelBoard extends JPanel {
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
 						
 						btnBuy.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						btnBuy.setFont(new Font("Arial", Font.BOLD, 12));
+						btnBuy.setFont(getFont().deriveFont(Font.BOLD));;
 						panelGame.add(btnBuy, gbcB);
 					}
 
@@ -306,7 +305,7 @@ public class PanelBoard extends JPanel {
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
 
 						btnDices.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-						btnDices.setFont(new Font("Arial", Font.BOLD, 12));
+						btnDices.setFont(getFont().deriveFont(Font.BOLD));;
 						panelGame.add(btnDices, gbcB);
 					}
 
@@ -425,7 +424,7 @@ public class PanelBoard extends JPanel {
 	    this.revalidate();
 	    this.repaint();
 	}
-	
+
 	
 	public JPanel[] getSquaresBoard() { return squaresBoard; }
 	

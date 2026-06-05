@@ -1,3 +1,4 @@
+
 package es.studium.main.java;
 
 import java.awt.GridBagConstraints;
@@ -55,8 +56,6 @@ public class JailInfo extends JDialog
 		container.add(lblInfo3, gbc);
 		gbc.gridwidth = 1;
 		
-		btnPay.setActionCommand("JAIL_PAY");
-		btnCard.setActionCommand("JAIL_CARD");
 		
 		gbc.gridx = 0;
 		gbc.gridy = 3;
@@ -64,13 +63,18 @@ public class JailInfo extends JDialog
 		
 		gbc.gridx = 1;
 		btnCard.setEnabled(false);
-		if(player.getJailCards()>0) {
+		
+		if (player.getJailCards() > 0) {
 			btnCard.setEnabled(true);
 		}
+		
 		container.add(btnCard, gbc);
 		add(container);
-	
+
+
+		
+		setVisible(true);
 	}
-	
+
 
 }

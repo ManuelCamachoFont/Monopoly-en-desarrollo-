@@ -36,9 +36,8 @@ public class DialogsInfo
 		dialog.setVisible(true);
 	}
 
-	public void showDiceInfo(int result)
-	{
-		DiceInfo dialog = new DiceInfo(mainFrame, result);
+	public void showDiceInfo(int[] result, String playerName) {
+		DiceInfo dialog = new DiceInfo(mainFrame, result, playerName);
 		dialog.setVisible(true);
 	}
 

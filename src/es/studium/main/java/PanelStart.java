@@ -1,13 +1,16 @@
 package es.studium.main.java;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.net.URL;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,42 +22,30 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class PanelStart extends JPanel{
+public class PanelStart extends BackgroundPanel{
 
 	JPanel panelNorth = new JPanel();
 	JLabel startTitle = new JLabel("Players");
 
 	JPanel panelCenter = new JPanel();
-	JLabel lblPlayers = new JLabel("How many persons want to play?");
+	JLabel lblPlayers = new JLabel("How many players will play?");
 	String[] playersNumber = {"Select Players...", "2 Players", "3 Players", "4 Players"};
 	// Add revalidate and repaint when selected change
 	JComboBox<String> choPlayers = new JComboBox<String>(playersNumber);
 	JPanel panelPlayers = new JPanel();
 
 	// Player1
-	JTextField txtPlayer1 = new JTextField("Player 1", 20);
-	ImageIcon icoPlayer1 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer1Redim = icoPlayer1.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer1R = new ImageIcon(icoPlayer1Redim);
-	JLabel lblIcoPlayer1 = new JLabel(icoPlayer1R);
+	JTextField txtPlayer1 = new JTextField("Player 1", 10);
+	JLabel lblIcoPlayer1 = new JLabel();
 	// Player2
-	JTextField txtPlayer2 = new JTextField("Player 2", 20);
-	ImageIcon icoPlayer2 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer2Redim = icoPlayer2.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer2R = new ImageIcon(icoPlayer2Redim);
-	JLabel lblIcoPlayer2 = new JLabel(icoPlayer2R);
+	JTextField txtPlayer2 = new JTextField("Player 2", 10);
+	JLabel lblIcoPlayer2 = new JLabel();
 	// Player3
-	JTextField txtPlayer3 = new JTextField("Player 3", 20);
-	ImageIcon icoPlayer3 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer3Redim = icoPlayer3.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer3R = new ImageIcon(icoPlayer3Redim);
-	JLabel lblIcoPlayer3 = new JLabel(icoPlayer3R);
+	JTextField txtPlayer3 = new JTextField("Player 3", 10);
+	JLabel lblIcoPlayer3 = new JLabel();
 	// Player 4
-	JTextField txtPlayer4 = new JTextField("Player 4", 20);
-	ImageIcon icoPlayer4 = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/player1.png"));
-	Image icoPlayer4Redim = icoPlayer4.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
-	ImageIcon icoPlayer4R = new ImageIcon(icoPlayer4Redim);
-	JLabel lblIcoPlayer4 = new JLabel(icoPlayer4R);
+	JTextField txtPlayer4 = new JTextField("Player 4", 10);
+	JLabel lblIcoPlayer4 = new JLabel();
 
 	JPanel panelSouth = new JPanel();
 	ImageIcon icoBack = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/back.png"));
@@ -69,68 +60,96 @@ public class PanelStart extends JPanel{
 
 	GridBagLayout gridbag = new GridBagLayout();
 	GridBagConstraints gbc = new GridBagConstraints();
+	
+	GridBagLayout gridbagP = new GridBagLayout();
+	GridBagConstraints gbcP = new GridBagConstraints();
 
 	SpringLayout spring = new SpringLayout();
+	
+	Color colorBackground = new Color( 20, 20, 25);
+	Color colorForeground = new Color(255, 0, 127);
 
 
 	public PanelStart() {
+		super("homeb_background2.png");
 		setLayout(new BorderLayout());
 
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
-		panelNorth.setBorder(new EmptyBorder(80, 0, 0, 0));
-		startTitle.setFont(new Font("Cooper Black", 1, 62));
+		panelNorth.setBorder(new EmptyBorder(110, 0, 0, 0));
+		startTitle.setForeground(colorForeground);
+		startTitle.setFont(getFont().deriveFont(62f));
 		startTitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelNorth.add(startTitle);
+		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
 
 		// Center Panel
-		panelCenter.setLayout(new FlowLayout());
-		panelCenter.setBorder(new EmptyBorder(40, 0, 0, 0));
-		panelCenter.add(lblPlayers);
-		panelCenter.add(choPlayers);
-		panelCenter.add(panelPlayers);
-
-		panelPlayers.setLayout(gridbag);
-		panelPlayers.setBorder(new EmptyBorder(20, 0, 0, 0));
+		panelCenter.setLayout(gridbag);
+		gbc.anchor = GridBagConstraints.NORTH;
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.insets = new Insets (10, 10, 10, 10);
+	
+		lblPlayers.setForeground(colorForeground);
+		lblPlayers.setFont(getFont().deriveFont(24f));
+		panelCenter.add(lblPlayers, gbc);
+		
+		gbc.gridx = 1;
+		choPlayers.setFont(getFont().deriveFont(24f));
+		panelCenter.add(choPlayers, gbc);
+		
+		gbc.gridx = 0;
+		gbc.gridy = 1;
+		gbc.gridwidth = 2;
+		gbc.weighty = 1.0;
+		panelCenter.add(panelPlayers, gbc);
+		gbc.gridwidth = 1;
+
+		panelPlayers.setLayout(gridbagP);
+		panelPlayers.setOpaque(false);
+		gbcP.gridx = 0;
+		gbcP.gridy = 0;
+		gbcP.insets = new Insets (10, 10, 10, 10);
 
 		
 		// Player1
-		txtPlayer1.setFont(new Font("Arial", Font.ITALIC, 12));
-		panelPlayers.add(txtPlayer1, gbc);
-		gbc.gridx = 1;
-		panelPlayers.add(lblIcoPlayer1, gbc);
-		gbc.gridx = 0;
+		txtPlayer1.setFont(getFont().deriveFont(2, 24f));
+		panelPlayers.add(txtPlayer1, gbcP);
+		gbcP.gridx = 1;
+		Utilities.setIco(lblIcoPlayer1, "dog.png", 30, 30);
+		panelPlayers.add(lblIcoPlayer1, gbcP);
+		gbcP.gridx = 0;
 
 		
 		// Player2
-		gbc.gridy = 1;
-		txtPlayer2.setFont(new Font("Arial", Font.ITALIC, 12));
-		panelPlayers.add(txtPlayer2, gbc);
-		gbc.gridx = 1;
-		panelPlayers.add(lblIcoPlayer2, gbc);
-		gbc.gridx = 0;
+		gbcP.gridy = 1;
+		txtPlayer2.setFont(getFont().deriveFont(2, 24f));
+		panelPlayers.add(txtPlayer2, gbcP);
+		gbcP.gridx = 1;
+		Utilities.setIco(lblIcoPlayer2, "iron.png", 30, 30);
+		panelPlayers.add(lblIcoPlayer2, gbcP);
+		gbcP.gridx = 0;
 
 		
 		// Player3
-		gbc.gridy = 2;
-		txtPlayer3.setFont(new Font("Arial", Font.ITALIC, 12));
-		panelPlayers.add(txtPlayer3, gbc);
-		gbc.gridx = 1;
-		panelPlayers.add(lblIcoPlayer3, gbc);
-		gbc.gridx = 0;
+		gbcP.gridy = 2;
+		txtPlayer3.setFont(getFont().deriveFont(2, 24f));
+		panelPlayers.add(txtPlayer3, gbcP);
+		gbcP.gridx = 1;
+		Utilities.setIco(lblIcoPlayer3, "boots.png", 30, 30);
+		panelPlayers.add(lblIcoPlayer3, gbcP);
+		gbcP.gridx = 0;
 
 		
 		// Player4
-		gbc.gridy = 3;
-		txtPlayer4.setFont(new Font("Arial", Font.ITALIC, 12));
-		panelPlayers.add(txtPlayer4, gbc);
-		gbc.gridx = 1;
-		panelPlayers.add(lblIcoPlayer4, gbc);
-		gbc.gridx = 0;
+		gbcP.gridy = 3;
+		txtPlayer4.setFont(getFont().deriveFont(2, 24f));
+		panelPlayers.add(txtPlayer4, gbcP);
+		gbcP.gridx = 1;
+		Utilities.setIco(lblIcoPlayer4, "thimble.png", 30, 30);
+		panelPlayers.add(lblIcoPlayer4, gbcP);
+		gbcP.gridx = 0;
 		
 		
 		// Hide players
@@ -139,7 +158,7 @@ public class PanelStart extends JPanel{
 			components[i].setVisible(false);
 		}
 
-
+		panelCenter.setOpaque(false);
 		add(panelCenter, BorderLayout.CENTER);
 
 		// South Panel
@@ -158,8 +177,10 @@ public class PanelStart extends JPanel{
 		spring.putConstraint(SpringLayout.EAST, btnPlay, -10, SpringLayout.EAST, panelSouth);
 		spring.putConstraint(SpringLayout.NORTH, btnPlay, 10, SpringLayout.NORTH, panelSouth);
 
+		panelSouth.setOpaque(false);
 		add(panelSouth, BorderLayout.PAGE_END);
 	}
+	
 	
 	public void updatePlayers(int playersNumber) {
 	    Component[] components = panelPlayers.getComponents();

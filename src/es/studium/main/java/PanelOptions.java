@@ -19,7 +19,7 @@ import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-public class PanelOptions extends JPanel{
+public class PanelOptions extends BackgroundPanel{
 
 	JPanel panelNorth = new JPanel();
 	JLabel optionsTitle = new JLabel("Options");
@@ -38,12 +38,12 @@ public class PanelOptions extends JPanel{
 	Checkbox chkGreen = new Checkbox("Green", false, chkTextC);
 	CheckboxGroup chkTextF = new CheckboxGroup();
 	Checkbox chkF1 = new Checkbox("Courier New", false, chkTextF);
-	Checkbox chkF2 = new Checkbox("Candara", false, chkTextF);
+	Checkbox chkF2 = new Checkbox("Pixel Operator", false, chkTextF);
 	
 	JLabel lblBoard = new JLabel("Board");
 	CheckboxGroup chkBoard = new CheckboxGroup();
-	Checkbox chkClas = new Checkbox("Classic", false, chkBoard);
-	Checkbox chkBw = new Checkbox("Black and White", false, chkBoard);
+	Checkbox chkBg1 = new Checkbox("Forest", false, chkBoard);
+	Checkbox chkBg2 = new Checkbox("Sky", false, chkBoard);
 
 	JPanel panelSouth = new JPanel();
 	ImageIcon icoBack = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/back.png"));
@@ -63,6 +63,7 @@ public class PanelOptions extends JPanel{
 	SpringLayout spring = new SpringLayout();
 
 	public PanelOptions() {
+		super("Sky.png");
 		setLayout(new BorderLayout());
 
 		// North Panel
@@ -71,6 +72,7 @@ public class PanelOptions extends JPanel{
 		optionsTitle.setFont(new Font("Cooper Black", 1, 62));
 		optionsTitle.setVerticalAlignment(SwingConstants.BOTTOM);
 		panelNorth.add(optionsTitle);
+		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
 
 		// Center Panel
@@ -110,11 +112,12 @@ public class PanelOptions extends JPanel{
 		panelCenter.add(lblBoard, gbc);
 		gbc.gridwidth = 2;
 		gbc.gridx = 1;
-		panelCenter.add(chkClas, gbc);
+		panelCenter.add(chkBg1, gbc);
 		gbc.gridx = 3;
-		panelCenter.add(chkBw, gbc);
+		panelCenter.add(chkBg2, gbc);
 		gbc.gridwidth = 1;
 
+		panelCenter.setOpaque(false);
 		add(panelCenter, BorderLayout.CENTER);
 
 		// South Panel
@@ -133,6 +136,7 @@ public class PanelOptions extends JPanel{
 		spring.putConstraint(SpringLayout.EAST, btnConfirm, -10, SpringLayout.EAST, panelSouth);
 		spring.putConstraint(SpringLayout.NORTH, btnConfirm, 10, SpringLayout.NORTH, panelSouth);
 
+		panelSouth.setOpaque(false);
 		add(panelSouth, BorderLayout.PAGE_END);
 
 	}

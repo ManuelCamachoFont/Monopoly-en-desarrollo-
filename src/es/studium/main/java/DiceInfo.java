@@ -2,10 +2,13 @@ package es.studium.main.java;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -17,42 +20,55 @@ public class DiceInfo extends JDialog
 {
 	private static final long serialVersionUID = 1L;
 
-	ImageIcon icoDices = new ImageIcon(getClass().getResource("/es/studium/main/resources/gif/dice-rolling.gif"));
-	JLabel lblIconDice = new JLabel(icoDices);
+	JLabel lblIconDice = new JLabel();
 	
-	JLabel oneDot = new JLabel(".", JLabel.CENTER);
-	JLabel twoDot = new JLabel("..", JLabel.CENTER);
-	JLabel threeDot = new JLabel("...", JLabel.CENTER);
-
-	JLabel resultDice = new JLabel("", JLabel.CENTER);
-	public DiceInfo(JFrame mainFrame, int resultRollingDice) {
-		super(mainFrame, "Rolling dices...");
+	JLabel resultDice1 = new JLabel("", JLabel.CENTER);
+	JLabel resultDice2 = new JLabel("", JLabel.CENTER);
+	
+	JLabel resultTotal = new JLabel("", JLabel.CENTER);
+	
+	public DiceInfo(JFrame mainFrame, int[] resultRollingDice, String playerName) {
+		super(mainFrame, "Rolling dices...", true);
 		
-		setSize(300, 420);
+		setSize(300, 300);
 		setLocationRelativeTo(null);
 		setResizable(false);
-		setLayout(new BorderLayout());
 		
-		JPanel panelTitle = new JPanel();
-		panelTitle.setPreferredSize(new Dimension(0, 50));
-		Border line = BorderFactory.createLineBorder(Color.BLACK, 1);
-		Border padding = BorderFactory.createEmptyBorder(10, 15, 10, 15);
-		panelTitle.setBorder(BorderFactory.createCompoundBorder(line, padding));
+		JPanel container = new JPanel();
 		
-		panelTitle.add(new JLabel("Throwing dices..."), JLabel.CENTER);
-		add(panelTitle, BorderLayout.NORTH);
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		
-		oneDot.setVisible(false);
-		twoDot.setVisible(false);
-		threeDot.setVisible(false);
-		resultDice.setVisible(false);
+		container.add(Box.createRigidArea(new Dimension(0, 15)));
 		
-		add(lblIconDice,BorderLayout.CENTER);
-		add(oneDot);
-		add(twoDot);
-		add(threeDot);
-		resultDice.setFont(new Font("Arial", 1, 36));
-		add(resultDice);
+		Utilities.setIco(lblIconDice, "dices.png", 80, 80);
+		lblIconDice.setAlignmentX(Component.CENTER_ALIGNMENT);
+		container.add(lblIconDice);
+		
+		container.add(Box.createRigidArea(new Dimension(0, 15)));
+		
+		resultDice1.setText("First dice rolled: " + resultRollingDice[0]);
+		resultDice1.setFont(resultDice1.getFont().deriveFont(20f));
+		resultDice1.setAlignmentX(Component.CENTER_ALIGNMENT);
+		container.add(resultDice1);
+		
+		container.add(Box.createRigidArea(new Dimension(0, 15)));
+		
+		resultDice2.setText("Second dice rolled: " + resultRollingDice[1]);
+		resultDice2.setFont(resultDice2.getFont().deriveFont(20f));
+		resultDice2.setAlignmentX(Component.CENTER_ALIGNMENT);
+		container.add(resultDice2);
+
+		container.add(Box.createRigidArea(new Dimension(0, 15)));
+		
+		resultTotal.setText(playerName + " will move: " + (resultRollingDice[0] + resultRollingDice[1] + " steps."));
+		resultTotal.setFont(resultTotal.getFont().deriveFont(20f));
+		resultTotal.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		container.add(resultTotal);
+		
+		add(container);
+
+
 		
 		setVisible(true);
 	

@@ -26,7 +26,9 @@ public class View {
 	private JLabel lblDialog = new JLabel();
 
 	public View() {
-		mainFrame.setSize(600, 600);
+		Utilities.setExactSize(mainFrame, 800, 800);
+		FontOption.registerCustomFont("PixelOperator.ttf");
+
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,6 +53,8 @@ public class View {
 		dialog.setLocationRelativeTo(null);
 		dialog.setLayout(new FlowLayout());
 		dialog.add(lblDialog);
+		
+		FontOption.changeFontFamily(mainFrame, "Pixel Operator");
 		
 	}
 

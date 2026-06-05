@@ -38,13 +38,25 @@ public class Model
 		return this.daoSquares.obtainSquares();
 	}
 	
-	public int throwingDices()
+	public List<Ranking> getRankingMoney(){
+		return this.daoRanking.obtainRankingMoney();
+	}
+	
+	public List<Ranking> getRankingProperties(){
+		return this.daoRanking.obtainRankingProperties();
+	}
+	
+	public void registerRanking(Player player, List<Square> squares) {
+		this.daoRanking.insertRanking(player, squares);
+	}
+	
+	public int[] throwingDices()
 	{
 		Random randomDices = new Random();
 		int diceOne = randomDices.nextInt(6) + 1;
 		int diceTwo = randomDices.nextInt(6) + 1;
-		this.lastRollWasDouble = checkDouble(diceOne, diceTwo);
-		return diceOne + diceTwo;
+		return new int[] {diceOne, diceTwo};
+
 	}
 	private boolean checkDouble(int diceOne, int diceTwo) {
 		return diceOne == diceTwo;

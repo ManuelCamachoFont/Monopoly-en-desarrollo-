@@ -28,7 +28,9 @@ public class Controller implements ActionListener, MouseListener
 
 	private int players = 0;
 	private List<Player> playersList = new ArrayList<>();
-	//
+	private List<Ranking> rankingMoney = new ArrayList<>();
+	private List<Ranking> rankingProperties= new ArrayList<>();
+	
 	private HashMap<Integer, Square> squares;
 	private List<Card> communityDeck = new ArrayList<>();
 	private List<Card> luckDeck = new ArrayList<>();
@@ -107,8 +109,9 @@ public class Controller implements ActionListener, MouseListener
 			v.showPanel("HELP");
 			return;
 		}
+
 		if (src.equals(v.getPanelHome().btnRank)) {
-			v.showPanel("RANKING");
+			updateRanking();
 			return;
 		}
 
@@ -152,6 +155,7 @@ public class Controller implements ActionListener, MouseListener
 		if (src.equals(v.getPanelBoard().btnDices)) {
 			movePlayer();
 			return;
+
 		}
 		if (src.equals(v.getPanelBoard().btnBuy)) {
 			checkCanBuy();
@@ -181,9 +185,16 @@ public class Controller implements ActionListener, MouseListener
 	private void applyOptions()
 	{
 		Checkbox selectedFont = v.getPanelOptions().chkTextF.getSelectedCheckbox();
-		if (selectedFont != null) {
-			FontOption.changeFontFamily(v.getFrame(), selectedFont.getLabel());
+		if (selectedFont != null ) {
+			String newFont = selectedFont.getLabel();
+			FontOption.changeFontFamily(v.getFrame(), newFont);
 			v.getFrame().revalidate();
+		}
+		
+		Checkbox selectedBackground = v.getPanelOptions().chkBoard.getSelectedCheckbox();
+		if(selectedBackground != null) {
+			String newBackground = selectedBackground.getLabel() + ".png";
+			v.getPanelBoard().setBackgroundImage(newBackground);
 		}
 		v.showPanel("HOME");
 	}
@@ -222,14 +233,38 @@ public class Controller implements ActionListener, MouseListener
 			v.showDialog("No se puede comprar esta propiedad.");
 		}
 	}
+	
+	private void updateRanking() {
+		rankingMoney = m.getRankingMoney();
+	    rankingProperties = m.getRankingProperties();
+
+
+	    for (int i = 0; i < rankingMoney.size(); i++) {
+	        Ranking ranking = rankingMoney.get(i);
+	        
+	        v.getPanelRank().getLblMoneyName()[i].setText(ranking.getName());
+	        v.getPanelRank().getLblMoney()[i].setText(""+ranking.getMoney());
+	        // Could add visible true
+	    }
+
+	    for (int i = 0; i < rankingProperties.size(); i++) {
+	        Ranking ranking = rankingProperties.get(i);
+	        
+	        v.getPanelRank().getLblPropertiesName()[i].setText(ranking.getName());
+	        v.getPanelRank().getLblHouses()[i].setText(""+ranking.getHouses());
+	        v.getPanelRank().getLblHotels()[i].setText(""+ranking.getHotels());
+	    }
+	    v.showPanel("RANKING");
+	}
 
 	private int rollDices()
 	{
-		DiceInfo dialog = new DiceInfo(v.getFrame(), 10);
-		int sumDices = m.throwingDices();
-		dialog.resultDice.setText("" + sumDices);
-		dialog.resultDice.setVisible(true);
-		return sumDices;
+		int[] sumDices = m.throwingDices();
+		int dice1 = sumDices[0];
+		int dice2 = sumDices[1];
+		DiceInfo dialog = new DiceInfo(v.getFrame(), sumDices, currentPlayer.getName());
+	
+		return dice1+dice2;
 	}
 
 	private void movePlayer()
@@ -280,28 +315,6 @@ public class Controller implements ActionListener, MouseListener
 
 	}
 
-	private void propertyEvent(Square square, Player player)
-	{
-
-		if (square.getOwner() == null) {
-			v.showDialog(square.getName() + " has no owner yet. Player can buy it.");
-			return;
-		}
-
-		if (square.getOwner().equals(player.getName())) {
-			v.showDialog(square.getName() + " landed on their own property: " + square.getName());
-			return;
-		}
-		int rent = square.getRent();
-
-		for (Player owner : playersList) {
-			if (owner.getName().equals(square.getOwner())) {
-				player.updateMoney(-rent);
-				owner.updateMoney(rent);
-			}
-		}
-	}
-
 	private void turnEnd()
 	{
 		if (!rolledDices) {
@@ -314,6 +327,7 @@ public class Controller implements ActionListener, MouseListener
 		currentPlayer = playersList.get(currentTurn);
 		rolledDices = false;
 		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
+		
 	}
 
 	private void selectPlayers()
@@ -413,27 +427,31 @@ public class Controller implements ActionListener, MouseListener
 		List<Card> cardsDeck = m.getCards();
 
 		for (Card card : cardsDeck) {
-			if (("LUCK").equalsIgnoreCase(card.getType())) {
+
+			if(("SUERTE").equalsIgnoreCase(card.getType())){
 				luckDeck.add(card);
-			} else if (("COMMUNITY").equalsIgnoreCase(card.getType())) {
+			}
+			else if(("COMUNIDAD").equalsIgnoreCase(card.getType())) {
+
+
 				communityDeck.add(card);
 			}
 		}
 		Collections.shuffle(luckDeck);
 		Collections.shuffle(communityDeck);
+	
 	}
 
 	private void drawCard(String type)
 	{
 		Card obtainedCard = null;
-		if (("SUERTE").equalsIgnoreCase(type)) {
-			if (!luckDeck.isEmpty()) {
-				System.out.println(obtainedCard);
+		if(("SUERTE").equalsIgnoreCase(type)){
+			if(!luckDeck.isEmpty()){
 				obtainedCard = luckDeck.remove(0);
 			}
-		} else if (("COMUNIDAD").equalsIgnoreCase(type)) {
-			if (!communityDeck.isEmpty()) {
-				System.out.println(obtainedCard);
+		}
+		else if (("COMUNIDAD").equalsIgnoreCase(type)){
+			if(!communityDeck.isEmpty()) {
 				obtainedCard = communityDeck.remove(0);
 			}
 		}
@@ -454,7 +472,7 @@ public class Controller implements ActionListener, MouseListener
 		if (e.getSource() instanceof JTextField) {
 			JTextField txtClicked = (JTextField) e.getSource();
 			txtClicked.setText("");
-			txtClicked.setFont(new Font("Arial", Font.BOLD, 12));
+			txtClicked.setFont(txtClicked.getFont().deriveFont(Font.BOLD));
 			txtClicked.setForeground(Color.BLACK);
 		} else if (e.getSource() instanceof JPanel) {
 			JPanel panelClicked = (JPanel) e.getSource();
