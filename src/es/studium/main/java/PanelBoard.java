@@ -527,6 +527,7 @@ public class PanelBoard extends BackgroundPanel {
 	
 	public JLabel getPlayerLbl4() { return lblPlayerName4; }
 	
+
 	public void writeLogs(String log, Color colorPlayer) {
 		SimpleAttributeSet style = new SimpleAttributeSet();
 		StyleConstants.setForeground(style, colorPlayer);
@@ -541,6 +542,7 @@ public class PanelBoard extends BackgroundPanel {
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
+
 	}
 	
 	public void clearLogs() {

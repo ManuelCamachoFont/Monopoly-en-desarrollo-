@@ -55,12 +55,13 @@ public class Model
 		Random randomDices = new Random();
 		int diceOne = randomDices.nextInt(6) + 1;
 		int diceTwo = randomDices.nextInt(6) + 1;
+		this.lastRollWasDouble = (diceOne == diceTwo);
 		return new int[] {diceOne, diceTwo};
 
 	}
-	private boolean checkDouble(int diceOne, int diceTwo) {
-		return diceOne == diceTwo;
-	}
+	//private boolean checkDouble(int diceOne, int diceTwo) {
+		//return diceOne == diceTwo;
+	//}
 	public boolean isDouble() {
 		return this.lastRollWasDouble;
 	}

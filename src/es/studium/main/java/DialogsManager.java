@@ -14,6 +14,8 @@ public class DialogsManager
 	private JDialog jailDialog;
 	
 	private String currentBackground = "Sky.png";
+	private JDialog diceDialog;
+
 
 	public DialogsManager(JFrame mainFrame, Map<Integer, Square> squares) {
 		this.mainFrame = mainFrame;
@@ -48,8 +50,20 @@ public class DialogsManager
 	}
 
 	public void showDiceInfo(int[] result, String playerName) {
+
 		DiceInfo dialog = new DiceInfo(mainFrame, result, playerName, currentBackground);
+		this.diceDialog = dialog;
 		dialog.showInfo();
+	}
+	
+	public void hideDiceDialog()
+	{
+		if (diceDialog != null) {
+			diceDialog.setVisible(false);
+			diceDialog.dispose();
+			diceDialog = null;
+		}
+		
 	}
 
 	public JailInfo prepareJailInfo(Player player)
@@ -81,4 +95,5 @@ public class DialogsManager
 	public void setCurrentBackground(String newBackground) {
 		this.currentBackground = newBackground;
 	}
+
 }
