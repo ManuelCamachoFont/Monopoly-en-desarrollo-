@@ -12,6 +12,7 @@ public class DialogsManager
 	private Map<Integer, Square> squares;
 
 	private JDialog jailDialog;
+	private JDialog diceDialog;
 
 	public DialogsManager(JFrame mainFrame, Map<Integer, Square> squares) {
 		this.mainFrame = mainFrame;
@@ -47,7 +48,17 @@ public class DialogsManager
 
 	public void showDiceInfo(int[] result, String playerName) {
 		DiceInfo dialog = new DiceInfo(mainFrame, result, playerName);
+		this.diceDialog = dialog;
 		dialog.showInfo();
+	}
+	public void hideDiceDialog()
+	{
+		if (diceDialog != null) {
+			diceDialog.setVisible(false);
+			diceDialog.dispose();
+			diceDialog = null;
+		}
+		
 	}
 
 	public JailInfo prepareJailInfo(Player player)
@@ -75,4 +86,6 @@ public class DialogsManager
 	        jailDialog = null;
 		}
 	}
+
+	
 }
