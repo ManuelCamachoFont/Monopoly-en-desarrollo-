@@ -46,9 +46,7 @@ public class PanelHome extends BackgroundPanel{
 	Image icoRankRedim = icoRank.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
     ImageIcon icoRankR = new ImageIcon(icoRankRedim);
 	JButton btnRank = new JButton("Ranking", icoRankR);
-	
-	Dimension btnSize = new Dimension (90, 70);
-	
+		
 	GridBagLayout gridbag = new GridBagLayout();
 	GridBagConstraints gbc = new GridBagConstraints();
 	
@@ -60,6 +58,7 @@ public class PanelHome extends BackgroundPanel{
 	public PanelHome() {
 		super("homeb_background2.png");
 		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension(800, 800));
 		
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
@@ -104,8 +103,6 @@ public class PanelHome extends BackgroundPanel{
 		// South Panel
 		panelSouth.setLayout(spring);
 		
-		btnOptions.setPreferredSize(btnSize);
-		btnOptions.setFont(getFont().deriveFont(18f));
 		setButtonStyle(btnOptions);
 		btnOptions.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnOptions.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -114,8 +111,6 @@ public class PanelHome extends BackgroundPanel{
         spring.putConstraint(SpringLayout.NORTH, btnOptions, 10, SpringLayout.NORTH, panelSouth);
         spring.putConstraint(SpringLayout.SOUTH, panelSouth, 10, SpringLayout.SOUTH, btnOptions);
 
-        btnHelp.setPreferredSize(btnSize);
-        btnHelp.setFont(getFont().deriveFont(18f));
         setButtonStyle(btnHelp);
         btnHelp.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnHelp.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -123,7 +118,6 @@ public class PanelHome extends BackgroundPanel{
         spring.putConstraint(SpringLayout.WEST, btnHelp, 10, SpringLayout.EAST, btnOptions);
         spring.putConstraint(SpringLayout.NORTH, btnHelp, 10, SpringLayout.NORTH, panelSouth);
 
-        btnRank.setPreferredSize(btnSize);
         btnRank.setFont(getFont().deriveFont(18f));
        	setButtonStyle(btnRank);
         btnRank.setHorizontalTextPosition(SwingConstants.CENTER);

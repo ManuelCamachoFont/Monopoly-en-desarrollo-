@@ -2,6 +2,7 @@ package es.studium.main.java;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -85,12 +86,11 @@ public class PanelHelp extends BackgroundPanel {
 	public PanelHelp() {
 		super("home_background.png");
 		setLayout(new BorderLayout());
-
+		setPreferredSize(new Dimension(900, 900));
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
 		panelNorth.setBorder(new EmptyBorder(40, 0, 0, 0));
-		helpTitle.setFont(new Font("Cooper Black", 1, 62));
-		helpTitle.setVerticalAlignment(SwingConstants.BOTTOM);
+		setTitleStyle(helpTitle);
 		panelNorth.add(helpTitle);
 		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
@@ -109,6 +109,7 @@ public class PanelHelp extends BackgroundPanel {
 		txtStart.setText("Lorem Ipsum, blablablabalabaalabaal");
 		panelHelpStart.add(txtStart, gbcSt);
 		scrollHelpStart.setViewportView(panelHelpStart);
+		tabs.setFont(getFont().deriveFont(24f));
 		tabs.addTab("Start", scrollHelpStart);
 
 
@@ -216,6 +217,7 @@ public class PanelHelp extends BackgroundPanel {
 		// South Panel
 		panelSouth.setLayout(spring);
 
+		setButtonStyle(btnBack);
 		btnBack.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnBack.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnBack);
@@ -223,6 +225,7 @@ public class PanelHelp extends BackgroundPanel {
 		spring.putConstraint(SpringLayout.NORTH, btnBack, 10, SpringLayout.NORTH, panelSouth);
 		spring.putConstraint(SpringLayout.SOUTH, panelSouth, 10, SpringLayout.SOUTH, btnBack);
 
+		setButtonStyle(btnMHelp);
 		btnMHelp.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnMHelp.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnMHelp);

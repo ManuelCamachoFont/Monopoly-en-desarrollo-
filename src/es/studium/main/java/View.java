@@ -1,6 +1,8 @@
 package es.studium.main.java;
 
 import java.awt.CardLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JDialog;
@@ -12,7 +14,17 @@ public class View {
 
 	private JFrame mainFrame = new JFrame("Monopoly");
 	private CardLayout panels = new CardLayout();
-	private JPanel mainPanel = new JPanel(panels);
+	private JPanel mainPanel = new JPanel(panels) {
+	    @Override
+	    public Dimension getPreferredSize() {
+	        for (Component c : getComponents()) {
+	            if (c.isVisible()) {
+	                return c.getPreferredSize();
+	            }
+	        }
+	        return super.getPreferredSize();
+	    }
+	};
 
 	private PanelHome panelHome = new PanelHome();
 	private PanelOptions panelOptions = new PanelOptions();
@@ -28,6 +40,7 @@ public class View {
 	public View() {
 		Utilities.setExactSize(mainFrame, 800, 800);
 		FontOption.registerCustomFont("PixelOperator.ttf");
+		FontOption.registerCustomFont("Micro5-Regular.ttf");
 
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
@@ -61,6 +74,8 @@ public class View {
 
 	public void showPanel(String name) {
     	panels.show(mainPanel, name);
+    	mainFrame.pack();
+    	mainFrame.setLocationRelativeTo(null);
     }
 	
 	public void previousPanel() {

@@ -2,6 +2,7 @@ package es.studium.main.java;
 
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.net.URL;
@@ -9,13 +10,16 @@ import java.net.URL;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class BackgroundPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Image backgroundImage;
 	Color colorBackground = new Color( 20, 20, 25);
 	Color colorForeground = new Color(255, 0, 127);
+	Dimension btnSize = new Dimension (90, 70);
 
 	public BackgroundPanel(String fileName) {
 		setBackgroundImage(fileName);
@@ -61,10 +65,18 @@ public class BackgroundPanel extends JPanel {
 	}
 	
 	public void setButtonStyle(JButton button) {
+		button.setPreferredSize(btnSize);
+		button.setFont(button.getFont().deriveFont(18f));
 		button.setBackground(colorBackground);
 		button.setForeground(colorForeground);
 		button.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		button.setFocusPainted(false);
 		button.setBorder(BorderFactory.createLineBorder(colorForeground, 2));
+	}
+	
+	public void setTitleStyle(JLabel label) {
+		label.setForeground(colorForeground);
+		label.setFont(getFont().deriveFont(1, 62f));
+		label.setVerticalAlignment(SwingConstants.BOTTOM);
 	}
 }

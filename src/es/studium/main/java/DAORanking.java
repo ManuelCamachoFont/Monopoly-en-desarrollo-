@@ -17,7 +17,7 @@ public class DAORanking {
 		this.conexion = connect;
 	}
 	
-	public void insertRanking(Player player, List<Square> squares)
+	public void insertRanking(Player player)
 	{
 		String sqlUpdate = "INSERT INTO ranking (nombreJugadorRanking, dineroFinalRanking, casasFinalRanking, hotelesFinalRanking) VALUES (?, ?, ?, ?)";
 		int id = -1;

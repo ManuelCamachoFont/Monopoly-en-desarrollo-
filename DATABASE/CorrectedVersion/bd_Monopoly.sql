@@ -39,6 +39,7 @@ CREATE TABLE cartas (
 -- Creacion usuario
 CREATE USER 'monopolyUser'@'localhost' IDENTIFIED BY 'studium';
 GRANT SELECT ON monopoly.* TO 'monopolyUser'@'localhost';
+GRANT INSERT ON monopoly.ranking TO 'monopolyUser'@'localhost';
 
 -- INSERT CASILLAS
 INSERT INTO casillas (nombreCasilla, tipoCasilla, colorCasilla, grupoCasilla, precioCasilla, alquilerCasilla) VALUES

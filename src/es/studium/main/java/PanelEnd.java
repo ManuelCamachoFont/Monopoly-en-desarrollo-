@@ -126,8 +126,6 @@ public class PanelEnd extends BackgroundPanel{
 		// South Panel
 		panelSouth.setLayout(spring);
 		
-		btnMenu.setPreferredSize(btnSize);
-		btnMenu.setFont(getFont().deriveFont(18f));
 		setButtonStyle(btnMenu);
 		btnMenu.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnMenu.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -135,8 +133,6 @@ public class PanelEnd extends BackgroundPanel{
 		spring.putConstraint(SpringLayout.WEST, btnMenu, 30, SpringLayout.WEST, panelSouth);
         spring.putConstraint(SpringLayout.NORTH, btnMenu, 10, SpringLayout.NORTH, panelSouth);
 
-        btnRank.setPreferredSize(btnSize);
-        btnRank.setFont(getFont().deriveFont(18f));
         setButtonStyle(btnRank);
         btnRank.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnRank.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -144,8 +140,6 @@ public class PanelEnd extends BackgroundPanel{
         spring.putConstraint(SpringLayout.WEST, btnRank, -45, SpringLayout.HORIZONTAL_CENTER, panelSouth);
         spring.putConstraint(SpringLayout.NORTH, btnRank, 10, SpringLayout.NORTH, panelSouth);
 
-        btnPlay.setPreferredSize(btnSize);
-        btnPlay.setFont(getFont().deriveFont(18f));
        	setButtonStyle(btnPlay);
         btnPlay.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnPlay.setVerticalTextPosition(SwingConstants.BOTTOM);
@@ -159,9 +153,9 @@ public class PanelEnd extends BackgroundPanel{
 	
 	public void setWinner(String winner, int money, int properties, int houses, int hotels) {
 		lblName.setText(winner);
-		lblMoney.setText(money + "");
-		lblProperties.setText(properties + "");
-		lblHouses.setText("" + houses);
-		lblHotels.setText("" + hotels);
+		lblMoney.setText(money + " €");
+		lblProperties.setText(properties + " Properties");
+		lblHouses.setText(houses + " Houses");
+		lblHotels.setText(hotels + " Hotels");
 	}
 }

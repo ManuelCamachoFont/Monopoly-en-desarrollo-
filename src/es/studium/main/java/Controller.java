@@ -2,11 +2,13 @@ package es.studium.main.java;
 
 import java.awt.Checkbox;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,6 +30,7 @@ public class Controller implements ActionListener, MouseListener
 
 	private int players = 0;
 	private List<Player> playersList = new ArrayList<>();
+	private List<Player> backupPlayersList = new ArrayList<>();
 	private List<Ranking> rankingMoney = new ArrayList<>();
 	private List<Ranking> rankingProperties= new ArrayList<>();
 
@@ -84,6 +87,11 @@ public class Controller implements ActionListener, MouseListener
 		this.v.getPanelBoard().btnBuy.addActionListener(this);
 		this.v.getPanelBoard().btnTurn.addActionListener(this);
 
+		// Panel End Buttons
+		this.v.getPanelEnd().btnMenu.addActionListener(this);
+		this.v.getPanelEnd().btnRank.addActionListener(this);
+		this.v.getPanelEnd().btnPlay.addActionListener(this);
+		
 		// DIalog jail
 
 	}
@@ -125,6 +133,7 @@ public class Controller implements ActionListener, MouseListener
 			return;
 		}
 		if (src.equals(v.getPanelStart().btnPlay)) {
+			startGame();
 			initializeBoard();
 			v.getFrame().pack();
 			v.getFrame().setLocationRelativeTo(null);
@@ -141,11 +150,17 @@ public class Controller implements ActionListener, MouseListener
 			return;
 		}
 
-		// — HELP / RANK —
+		// — HELP -
 		if (src.equals(v.getPanelHelp().btnBack)) {
 			v.showPanel("HOME");
 			return;
 		}
+		
+		if (src.equals(v.getPanelHelp().btnMHelp)) {
+			showMoreHelp();
+		}
+		
+		// - RANK -
 		if (src.equals(v.getPanelRank().btnBack)) {
 			v.showPanel("HOME");
 			return;
@@ -175,6 +190,55 @@ public class Controller implements ActionListener, MouseListener
 			handleJailCard();
 			return;
 		}
+		
+		// - END -
+		if(src.equals(v.getPanelEnd().btnMenu)) {
+			resetGame();
+			v.showPanel("HOME");
+			v.getFrame().revalidate();
+			v.getFrame().repaint();
+			v.getFrame().pack();
+			v.getFrame().setLocationRelativeTo(null);
+			return;
+		}
+		
+		if(src.equals(v.getPanelEnd().btnRank)) {
+			updateRanking();
+			return;
+		}
+		
+		if(src.equals(v.getPanelEnd().btnPlay)) {
+			int playersBackup = backupPlayersList.size();
+			
+			resetGame();
+			
+			players = playersBackup;
+			
+			for (Player p : backupPlayersList) {
+				p.setMoney(500); 
+				p.setPosition(1);
+				p.setPrison(false);
+				p.setJailTurns(0);
+				p.setJailCards(0);
+				p.setDoublesDices(0);
+				p.getProperties().clear();
+				
+				playersList.add(p); 
+			}
+			currentTurn = 1;
+			currentPlayer = getPlayerById(currentTurn);
+			
+			initializeBoard();
+			
+			v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
+			v.getPanelBoard().updatePlayers(playersList);
+			v.getPanelBoard().updatePlayersPosition(playersList);
+			
+			v.showPanel("BOARD");
+			v.getFrame().pack();
+			v.getFrame().setLocationRelativeTo(null);
+			return;
+		}
 
 		// Activate END GAME SCreen
 		// v.showPanel("END");
@@ -197,6 +261,18 @@ public class Controller implements ActionListener, MouseListener
 			v.getPanelBoard().setBackgroundImage(newBackground);
 		}
 		v.showPanel("HOME");
+	}
+	
+	private void showMoreHelp() {
+		String url = "https://www.hasbro.com/common/instruct/00009.pdf";
+		
+		if (Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(new URI(url));
+			} catch (Exception ex) {
+				v.showDialog("Error: Couldn't open browser.");
+			}
+		}
 	}
 
 	private void handleJailPay()
@@ -316,6 +392,10 @@ public class Controller implements ActionListener, MouseListener
 			v.getPanelRank().getLblHotels()[i].setText(""+ranking.getHotels());
 		}
 		v.showPanel("RANKING");
+		v.getFrame().revalidate();
+		v.getFrame().repaint();
+		v.getFrame().pack();
+		v.getFrame().setLocationRelativeTo(null);
 	}
 
 	private int rollDices()
@@ -364,6 +444,7 @@ public class Controller implements ActionListener, MouseListener
 		saveMovement = rollDices();
 		rolledDices = true;
 		boolean isDouble = m.isDouble();
+		saveMovement = 4;
 
 		Logger.saveLog(currentPlayer.getName() + " rolled the dices and got " + saveMovement + ".", currentPlayer.getColor());
 
@@ -407,6 +488,9 @@ public class Controller implements ActionListener, MouseListener
 		int totalProperties = player.getProperties().size();
 		v.getPanelEnd().setWinner(player.getName(), player.getMoney(), totalProperties,  houses, hotels);
 		v.showPanel("END");
+		v.getFrame().pack();
+		v.getFrame().setLocationRelativeTo(null);
+		m.registerRanking(player);
 		resetGame();
 	}
 
@@ -417,11 +501,20 @@ public class Controller implements ActionListener, MouseListener
 
 		luckDeck.clear();
 		communityDeck.clear();
+		
 		currentTurn = 1;
 		currentPlayer = null;
 		rolledDices = false;
 		saveMovement = 0;
 		players = 0;
+			
+		if (squares != null) {
+			for (Square square : squares.values()) {
+				if (square != null) {
+					square.releaseProperty();
+				}
+			}
+		}
 	}
 
 	private void executeSaveMovement()
@@ -488,6 +581,7 @@ public class Controller implements ActionListener, MouseListener
 	private void startGame()
 	{
 		playersList.clear();
+		backupPlayersList.clear();
 
 		Color[] colors = {
 				new Color(220, 53, 69),
@@ -514,8 +608,9 @@ public class Controller implements ActionListener, MouseListener
 
 			Color colorPlayer = colors[i-1];
 
-			Player newPlayer = new Player(i, playerName, 500, colorPlayer);
+			Player newPlayer = new Player(i, playerName, 20, colorPlayer);
 			playersList.add(newPlayer);
+			backupPlayersList.add(newPlayer);
 		}
 		v.getPanelBoard().updatePlayers(playersList);
 		v.getPanelBoard().updatePlayersPosition(playersList);
@@ -524,6 +619,7 @@ public class Controller implements ActionListener, MouseListener
 		v.getPanelBoard().lblTurn.setText(currentPlayer.getName() + " has the turn");
 		v.showPanel("BOARD");
 	}
+	
 
 	private Player getPlayerById(int id) {
 		for (Player p : playersList) {
@@ -537,11 +633,11 @@ public class Controller implements ActionListener, MouseListener
 	private void initializeBoard()
 	{
 		squares = m.getSquares();
+		v.getPanelBoard().clearLogs();
 		v.getPanelBoard().createBoard(board, squares);
 		squaresListeners();
 		labelsListeners();
 		shuffleCards();
-		startGame();
 	}
 
 	private void squaresListeners()
@@ -553,6 +649,7 @@ public class Controller implements ActionListener, MouseListener
 
 			if (squarePanel != null) {
 				squarePanel.setName(String.valueOf(i + 1));
+				squarePanel.removeMouseListener(this);
 				squarePanel.addMouseListener(this);
 			}
 		}
@@ -565,7 +662,8 @@ public class Controller implements ActionListener, MouseListener
 		for (int i = 0; i < labels.length; i++) {
 			JLabel lblPlayer = labels[i];
 			if (lblPlayer != null) {
-				lblPlayer.setName(String.valueOf(i));
+				lblPlayer.setName(String.valueOf(i + 1));
+				lblPlayer.removeMouseListener(this);
 				lblPlayer.addMouseListener(this);
 			}
 		}
@@ -574,6 +672,9 @@ public class Controller implements ActionListener, MouseListener
 
 	private void shuffleCards()
 	{
+		luckDeck.clear();
+		communityDeck.clear();
+		
 		List<Card> cardsDeck = m.getCards();
 
 		for (Card card : cardsDeck) {
@@ -732,14 +833,23 @@ public class Controller implements ActionListener, MouseListener
 				}
 
 			}
-		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl1())) {
-			dialogs.showPlayerInfo(playersList.get(0));
-		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl2())) {
-			dialogs.showPlayerInfo(playersList.get(1));
-		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl3())) {
-			dialogs.showPlayerInfo(playersList.get(2));
-		} else if (e.getSource().equals(v.getPanelBoard().getPlayerLbl4())) {
-			dialogs.showPlayerInfo(playersList.get(3));
+			
+		} else if (e.getSource() instanceof JLabel) {
+			JLabel lblSelected = (JLabel) e.getSource();
+			
+			if (lblSelected.getName() != null) {
+				try {
+					int playerId = Integer.parseInt(lblSelected.getName());
+					
+					Player selectedPlayer = getPlayerById(playerId);
+					
+					if (selectedPlayer != null) {
+						dialogs.showPlayerInfo(selectedPlayer);
+					}
+				} catch (NumberFormatException nfe) {
+					System.err.println(nfe.getMessage());
+				}
+			}
 		}
 	}
 

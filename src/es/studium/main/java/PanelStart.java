@@ -3,6 +3,7 @@ package es.studium.main.java;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -73,6 +74,7 @@ public class PanelStart extends BackgroundPanel{
 	public PanelStart() {
 		super("homeb_background2.png");
 		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension(800, 800));
 
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
@@ -164,6 +166,7 @@ public class PanelStart extends BackgroundPanel{
 		// South Panel
 		panelSouth.setLayout(spring);
 
+		setButtonStyle(btnBack);
 		btnBack.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnBack.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnBack);
@@ -171,6 +174,7 @@ public class PanelStart extends BackgroundPanel{
 		spring.putConstraint(SpringLayout.NORTH, btnBack, 10, SpringLayout.NORTH, panelSouth);
 		spring.putConstraint(SpringLayout.SOUTH, panelSouth, 10, SpringLayout.SOUTH, btnBack);
 
+		setButtonStyle(btnPlay);
 		btnPlay.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnPlay.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnPlay);

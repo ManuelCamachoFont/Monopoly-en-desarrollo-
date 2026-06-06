@@ -37,10 +37,10 @@ public class PanelOptions extends BackgroundPanel{
 	Checkbox chkRed = new Checkbox("Red", false, chkTextC);
 	Checkbox chkGreen = new Checkbox("Green", false, chkTextC);
 	CheckboxGroup chkTextF = new CheckboxGroup();
-	Checkbox chkF1 = new Checkbox("Courier New", false, chkTextF);
+	Checkbox chkF1 = new Checkbox("Micro 5", false, chkTextF);
 	Checkbox chkF2 = new Checkbox("Pixel Operator", false, chkTextF);
 	
-	JLabel lblBoard = new JLabel("Board");
+	JLabel lblTheme = new JLabel("Theme");
 	CheckboxGroup chkBoard = new CheckboxGroup();
 	Checkbox chkBg1 = new Checkbox("Forest", false, chkBoard);
 	Checkbox chkBg2 = new Checkbox("Sky", false, chkBoard);
@@ -65,12 +65,12 @@ public class PanelOptions extends BackgroundPanel{
 	public PanelOptions() {
 		super("Sky.png");
 		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension (800, 800));
 
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
 		panelNorth.setBorder(new EmptyBorder(80, 0, 0, 0));
-		optionsTitle.setFont(new Font("Cooper Black", 1, 62));
-		optionsTitle.setVerticalAlignment(SwingConstants.BOTTOM);
+		setTitleStyle(optionsTitle);
 		panelNorth.add(optionsTitle);
 		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
@@ -102,6 +102,7 @@ public class PanelOptions extends BackgroundPanel{
 		gbc.gridx = 2;
 		panelCenter.add(chkRed, gbc);
 		gbc.gridx = 3;
+		
 		panelCenter.add(chkF1, gbc);
 		gbc.gridx = 4;
 		panelCenter.add(chkF2, gbc);
@@ -109,7 +110,7 @@ public class PanelOptions extends BackgroundPanel{
 		// Board
 		gbc.gridx = 0;
 		gbc.gridy = 2;
-		panelCenter.add(lblBoard, gbc);
+		panelCenter.add(lblTheme, gbc);
 		gbc.gridwidth = 2;
 		gbc.gridx = 1;
 		panelCenter.add(chkBg1, gbc);
@@ -123,6 +124,7 @@ public class PanelOptions extends BackgroundPanel{
 		// South Panel
 		panelSouth.setLayout(spring);
 
+		setButtonStyle(btnBack);
 		btnBack.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnBack.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnBack);
@@ -130,6 +132,7 @@ public class PanelOptions extends BackgroundPanel{
 		spring.putConstraint(SpringLayout.NORTH, btnBack, 10, SpringLayout.NORTH, panelSouth);
 		spring.putConstraint(SpringLayout.SOUTH, panelSouth, 10, SpringLayout.SOUTH, btnBack);
 
+		setButtonStyle(btnConfirm);
 		btnConfirm.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnConfirm.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.add(btnConfirm);

@@ -456,6 +456,10 @@ public class PanelBoard extends BackgroundPanel {
 	        e.printStackTrace();
 	    }
 	}
+	
+	public void clearLogs() {
+		txtLogs.setText("");
+	}
 
 
 } 

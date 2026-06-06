@@ -1,6 +1,7 @@
 package es.studium.main.java;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -84,14 +85,14 @@ public class PanelRank extends BackgroundPanel{
 	SpringLayout spring = new SpringLayout();
 
 	public PanelRank() {
-		super("options.png");
+		super("Sky.png");
 		setLayout(new BorderLayout());
+		setPreferredSize(new Dimension(800, 800));
 
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
-		panelNorth.setBorder(new EmptyBorder(40, 0, 0, 0));
-		rankTitle.setFont(new Font("Cooper Black", 1, 62));
-		rankTitle.setVerticalAlignment(SwingConstants.BOTTOM);
+		panelNorth.setBorder(new EmptyBorder(130, 0, 0, 0));
+		setTitleStyle(rankTitle);
 		panelNorth.add(rankTitle);
 		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
@@ -99,18 +100,25 @@ public class PanelRank extends BackgroundPanel{
 		// Center Panel
 		panelCenter.setLayout(new BorderLayout());
 		panelCenter.setBorder(new EmptyBorder(20, 20, 20, 20));
-		divider.setDividerLocation(270);
+		
+		divider.setResizeWeight(0.5); 
 		divider.setEnabled(false);
+		divider.setBorder(null);
+		divider.setDividerSize(0);
+		divider.setOpaque(false);
 		
 		// Money Panel
 		panelMoney.setLayout(gridbagM);
+		panelMoney.setOpaque(false);
 		gbcM.insets = new Insets (10, 10, 10, 10);
 		gbcM.gridx = 1;
 		gbcM.gridy = 0;
+		lblMoney.setFont(getFont().deriveFont(24f));
 		panelMoney.add(lblMoney, gbcM);
 		
 		gbcM.gridx = 0;
 		gbcM.gridy = 1;
+		
 		lblMoneyName[0] = lblMoneyName1; 
 		panelMoney.add(lblMoneyName1, gbcM);
 		
@@ -157,12 +165,15 @@ public class PanelRank extends BackgroundPanel{
 		
 		// Properties Panel
 		panelProperties.setLayout(gridbagP);
+		panelProperties.setOpaque(false);
 		gbcP.insets = new Insets (10, 10, 10, 10);
 		gbcP.gridx = 1;
 		gbcP.gridy = 0;
+		lblHousesTitle.setFont(getFont().deriveFont(24f));
 		panelProperties.add(lblHousesTitle, gbcP);
 		
 		gbcP.gridx = 2;
+		lblHotelsTitle.setFont(getFont().deriveFont(24f));
 		panelProperties.add(lblHotelsTitle, gbcP);
 		
 		gbcP.gridx = 0;
@@ -230,6 +241,25 @@ public class PanelRank extends BackgroundPanel{
 		lblHotels[4] = lblHotels5;
 		panelProperties.add(lblHotels5, gbcP);
 		
+		for (int i = 0; i < lblMoneyName.length; i++) {
+			lblMoneyName[i].setFont(getFont().deriveFont(40f));
+		}
+		
+		for (int i = 0; i < lblPropertiesName.length; i++) {
+			lblPropertiesName[i].setFont(getFont().deriveFont(40f));
+		}
+		
+		for (int i = 0; i < lblMoneyAmount.length; i++) {
+			lblMoneyAmount[i].setFont(getFont().deriveFont(40f));
+		}
+		
+		for (int i = 0; i < lblHotels.length; i++) {
+			lblHotels[i].setFont(getFont().deriveFont(40f));
+		}
+		
+		for (int i = 0; i < lblHouses.length; i++) {
+			lblHouses[i].setFont(getFont().deriveFont(40f));
+		}
 		
 		panelCenter.add(divider, BorderLayout.CENTER);
 		panelCenter.setOpaque(false);
@@ -238,6 +268,7 @@ public class PanelRank extends BackgroundPanel{
 		// South Panel
 		panelSouth.setLayout(spring);
 
+		setButtonStyle(btnBack);
 		btnBack.setHorizontalTextPosition(SwingConstants.CENTER);
 		btnBack.setVerticalTextPosition(SwingConstants.BOTTOM);
 		panelSouth.setOpaque(false);

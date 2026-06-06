@@ -46,8 +46,8 @@ public class Model
 		return this.daoRanking.obtainRankingProperties();
 	}
 	
-	public void registerRanking(Player player, List<Square> squares) {
-		this.daoRanking.insertRanking(player, squares);
+	public void registerRanking(Player player) {
+		this.daoRanking.insertRanking(player);
 	}
 	
 	public int[] throwingDices()
