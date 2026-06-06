@@ -8,18 +8,18 @@ import java.util.HashMap;
 
 public class DAOSquares {
 
-	private Connection conexion;
+	private Connection cnt;
 
 	public DAOSquares(Connection connect)
 	{
-		this.conexion = connect;
+		this.cnt = connect;
 	}
 	
 	public HashMap<Integer, Square> obtainSquares()
 	{
 		HashMap<Integer, Square> mapSquares = new HashMap<>();
 		String sqlQuery = "SELECT * FROM casillas";
-		try (PreparedStatement ps = conexion.prepareStatement(sqlQuery); ResultSet rs = ps.executeQuery()) {
+		try (PreparedStatement ps = cnt.prepareStatement(sqlQuery); ResultSet rs = ps.executeQuery()) {
 			while (rs.next()) {
 				int id = (rs.getInt("idCasilla"));
 				String name = (rs.getString("nombreCasilla"));

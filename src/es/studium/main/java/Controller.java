@@ -27,14 +27,13 @@ public class Controller implements ActionListener, MouseListener
 	private Player currentPlayer;
 	private boolean rolledDices = false;
 	private int saveMovement = 0;
-
 	private int players = 0;
+	
+	private HashMap<Integer, Square> squares;
 	private List<Player> playersList = new ArrayList<>();
 	private List<Player> backupPlayersList = new ArrayList<>();
 	private List<Ranking> rankingMoney = new ArrayList<>();
 	private List<Ranking> rankingProperties = new ArrayList<>();
-
-	private HashMap<Integer, Square> squares;
 	private List<Card> communityDeck = new ArrayList<>();
 	private List<Card> luckDeck = new ArrayList<>();
 	private DialogsManager dialogs;
@@ -133,8 +132,8 @@ public class Controller implements ActionListener, MouseListener
 			return;
 		}
 		if (src.equals(v.getPanelStart().btnPlay)) {
-			startGame();
 			initializeBoard();
+			startGame();
 			v.getFrame().pack();
 			v.getFrame().setLocationRelativeTo(null);
 			return;
@@ -244,10 +243,6 @@ public class Controller implements ActionListener, MouseListener
 			return;
 		}
 
-		// Activate END GAME SCreen
-		// v.showPanel("END");
-		// v.getFrame().pack();
-		// v.getFrame().setLocationRelativeTo(null);
 	}
 
 	private void resetTxt() {

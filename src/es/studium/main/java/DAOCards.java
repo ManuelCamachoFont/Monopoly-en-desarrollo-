@@ -9,18 +9,18 @@ import java.util.List;
 
 public class DAOCards {
 
-	private Connection conexion;
+	private Connection cnt;
 
 	public DAOCards(Connection connect)
 	{
-		this.conexion = connect;
+		this.cnt = connect;
 	}
 	
 	public List<Card> obtainCards()
 	{
 		List<Card> listCards = new ArrayList<>();
 		String sqlQuery = "SELECT * FROM cartas";
-		try (PreparedStatement ps = conexion.prepareStatement(sqlQuery); ResultSet rs = ps.executeQuery()) {
+		try (PreparedStatement ps = cnt.prepareStatement(sqlQuery); ResultSet rs = ps.executeQuery()) {
 			while (rs.next()) {
 				int id = (rs.getInt("idCarta"));
 				String type = (rs.getString("tipoCarta"));

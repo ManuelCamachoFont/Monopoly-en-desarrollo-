@@ -1,4 +1,0 @@
-
-casillas(#idCasilla, nombreCasilla, tipoCasilla, );
-ranking(#idRanking, nombreJugadorRanking dineroFinalRanking, casasFinalRanking, hotelesFinalRanking);
-

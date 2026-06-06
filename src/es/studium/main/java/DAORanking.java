@@ -10,18 +10,18 @@ import java.util.List;
 
 public class DAORanking {
 
-	private Connection conexion;
+	private Connection cnt;
 
 	public DAORanking(Connection connect)
 	{
-		this.conexion = connect;
+		this.cnt = connect;
 	}
 	
 	public void insertRanking(Player player)
 	{
 		String sqlUpdate = "INSERT INTO ranking (nombreJugadorRanking, dineroFinalRanking, casasFinalRanking, hotelesFinalRanking) VALUES (?, ?, ?, ?)";
 		int id = -1;
-		try (PreparedStatement ps = conexion.prepareStatement(sqlUpdate, Statement.RETURN_GENERATED_KEYS)) {
+		try (PreparedStatement ps = cnt.prepareStatement(sqlUpdate, Statement.RETURN_GENERATED_KEYS)) {
 
 			ps.setString(1, player.getName());
 			ps.setInt(2, player.getMoney());
@@ -48,7 +48,7 @@ public class DAORanking {
         List<Ranking> list = new ArrayList<>();
         String sqlQuery= "SELECT nombreJugadorRanking, dineroFinalRanking FROM ranking ORDER BY dineroFinalRanking DESC LIMIT 5";
 
-        try (PreparedStatement ps = conexion.prepareStatement(sqlQuery); ResultSet rs = ps.executeQuery()){
+        try (PreparedStatement ps = cnt.prepareStatement(sqlQuery); ResultSet rs = ps.executeQuery()){
           
             while (rs.next()) {
                 String name = rs.getString("nombreJugadorRanking");
@@ -67,7 +67,7 @@ public class DAORanking {
         List<Ranking> list = new ArrayList<>();
         String sqlQuery= "SELECT nombreJugadorRanking, casasFinalRanking, hotelesFinalRanking FROM ranking ORDER BY 3, 2 DESC  LIMIT 5 ";
 
-        try (PreparedStatement ps = conexion.prepareStatement(sqlQuery); ResultSet rs = ps.executeQuery()){
+        try (PreparedStatement ps = cnt.prepareStatement(sqlQuery); ResultSet rs = ps.executeQuery()){
           
             while (rs.next()) {
                 String name = rs.getString("nombreJugadorRanking");

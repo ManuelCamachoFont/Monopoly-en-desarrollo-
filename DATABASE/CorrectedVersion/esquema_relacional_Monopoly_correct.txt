@@ -1,4 +1,7 @@
+ESQUEMA RELACIONAL BASE DE DATOS MONOPOLY
 
-casillas(#idCasilla, nombreCasilla, tipoCasilla, );
+
+casillas(#idCasilla, nombreCasilla, tipoCasilla, colorCasilla, grupoCasilla, precioCasilla, alquilerCasilla);
 ranking(#idRanking, nombreJugadorRanking dineroFinalRanking, casasFinalRanking, hotelesFinalRanking);
+cartas(#idCarta, tipoCarta, textoCarta, accionCarta, valorCarta, destinoCarta);
 
