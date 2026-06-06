@@ -63,6 +63,17 @@ public class PanelBoard extends BackgroundPanel {
 	JLabel[] lblName = new JLabel[4];
 	JLabel[] lblMoney = new JLabel[4];
 	JLabel[] lblIcon = new JLabel[4];
+	JLabel[] lblFree = new JLabel[4];
+	JLabel[] lblPrison = new JLabel[4];
+	JLabel lblFree1 = new JLabel();
+	JLabel lblFree2 = new JLabel();
+	JLabel lblFree3 = new JLabel();
+	JLabel lblFree4 = new JLabel();
+	JLabel lblPrison1 = new JLabel();
+	JLabel lblPrison2 = new JLabel();
+	JLabel lblPrison3 = new JLabel();
+	JLabel lblPrison4 = new JLabel();
+
 	Component[] margin = new Component[3];
 
 
@@ -129,6 +140,24 @@ public class PanelBoard extends BackgroundPanel {
 	    lblMoney[2] = lblPlayerMoney3;
 	    lblMoney[3] = lblPlayerMoney4;
 	    
+	    Utilities.setIco(lblFree1, "free.png", 30, 30);
+	    lblFree[0] = lblFree1;
+	    Utilities.setIco(lblFree2, "free.png", 30, 30);
+	    lblFree[1] = lblFree2;
+	    Utilities.setIco(lblFree3, "free.png", 30, 30);
+	    lblFree[2] = lblFree3;
+	    Utilities.setIco(lblFree4, "free.png", 30, 30);
+	    lblFree[3] = lblFree4;
+	    
+	    Utilities.setIco(lblPrison1, "prison.png", 30, 30);
+	    lblPrison[0] = lblPrison1;
+	    Utilities.setIco(lblPrison2, "prison.png", 30, 30);
+	    lblPrison[1] = lblPrison2;
+	    Utilities.setIco(lblPrison3, "prison.png", 30, 30);
+	    lblPrison[2] = lblPrison3;
+	    Utilities.setIco(lblPrison4, "prison.png", 30, 30);
+	    lblPrison[3] = lblPrison4;
+	    
 	    Utilities.setIco(lblIcon1, "dog.png", 30, 30);
 	    lblIcon[0] = lblIcon1;
 	    Utilities.setIco(lblIcon2, "iron.png", 30, 30);
@@ -139,7 +168,8 @@ public class PanelBoard extends BackgroundPanel {
 	    lblIcon[3] = lblIcon4;
 
 	    for (int i = 0; i < 4; i++) {
-	        lblName[i].setAlignmentX(Component.CENTER_ALIGNMENT);
+
+	        lblName[i].setHorizontalAlignment(JLabel.CENTER);
 	        lblMoney[i].setAlignmentX(Component.CENTER_ALIGNMENT);
 	        
 	        lblName[i].setFont(new Font("Arial", Font.BOLD, 24));
@@ -155,21 +185,59 @@ public class PanelBoard extends BackgroundPanel {
 
 	    panelPlayersInfo.add(Box.createRigidArea(new Dimension(0, 15)));
 	    
-	    panelPlayersInfo.add(lblName[0]);
+	    GridBagLayout gblRow = new GridBagLayout();
+	    GridBagConstraints gbcRow = new GridBagConstraints();
+	    gbcRow.fill = GridBagConstraints.BOTH;
+	    gbcRow.weighty = 1.0;
+
+	    for (int i = 0; i < 4; i++) {
+	        lblFree[i].setVisible(false);
+	        lblPrison[i].setVisible(false);
+	    }
+
+	    JPanel rowPlayer1 = new JPanel(gblRow);
+	    rowPlayer1.setOpaque(false);
+	    
+	    gbcRow.gridx = 0; gbcRow.weightx = 0.0; rowPlayer1.add(lblFree[0], gbcRow);
+	    gbcRow.gridx = 1; gbcRow.weightx = 1.0; rowPlayer1.add(lblName[0], gbcRow);
+	    gbcRow.gridx = 2; gbcRow.weightx = 0.0; rowPlayer1.add(lblPrison[0], gbcRow);
+	    
+	    panelPlayersInfo.add(rowPlayer1);
 	    panelPlayersInfo.add(lblMoney[0]);
 	    panelPlayersInfo.add(margin[0]);
 	    
-	    panelPlayersInfo.add(lblName[1]);
+	    JPanel rowPlayer2 = new JPanel(gblRow);
+	    rowPlayer2.setOpaque(false);
+	    
+	    gbcRow.gridx = 0; gbcRow.weightx = 0.0; rowPlayer2.add(lblFree[1], gbcRow);
+	    gbcRow.gridx = 1; gbcRow.weightx = 1.0; rowPlayer2.add(lblName[1], gbcRow);
+	    gbcRow.gridx = 2; gbcRow.weightx = 0.0; rowPlayer2.add(lblPrison[1], gbcRow);
+	    
+	    panelPlayersInfo.add(rowPlayer2);
 	    panelPlayersInfo.add(lblMoney[1]);
 	    panelPlayersInfo.add(margin[1]);
 	    
-	    panelPlayersInfo.add(lblName[2]);
+	    JPanel rowPlayer3 = new JPanel(gblRow);
+	    rowPlayer3.setOpaque(false);
+	    
+	    gbcRow.gridx = 0; gbcRow.weightx = 0.0; rowPlayer3.add(lblFree[2], gbcRow);
+	    gbcRow.gridx = 1; gbcRow.weightx = 1.0; rowPlayer3.add(lblName[2], gbcRow);
+	    gbcRow.gridx = 2; gbcRow.weightx = 0.0; rowPlayer3.add(lblPrison[2], gbcRow);
+	    
+	    panelPlayersInfo.add(rowPlayer3);
 	    panelPlayersInfo.add(lblMoney[2]);
 	    panelPlayersInfo.add(margin[2]);
 	    
-	    panelPlayersInfo.add(lblName[3]);
+	    JPanel rowPlayer4 = new JPanel(gblRow);
+	    rowPlayer4.setOpaque(false);
+	    
+	    gbcRow.gridx = 0; gbcRow.weightx = 0.0; rowPlayer4.add(lblFree[3], gbcRow);
+	    gbcRow.gridx = 1; gbcRow.weightx = 1.0; rowPlayer4.add(lblName[3], gbcRow);
+	    gbcRow.gridx = 2; gbcRow.weightx = 0.0; rowPlayer4.add(lblPrison[3], gbcRow);
+	    
+	    panelPlayersInfo.add(rowPlayer4);
 	    panelPlayersInfo.add(lblMoney[3]);
-
+	    
 		panelPlayers.add(panelPlayersInfo, BorderLayout.CENTER);
 		panelLeft.add(panelPlayers);
 
@@ -194,8 +262,10 @@ public class PanelBoard extends BackgroundPanel {
 
 		panelLeft.add(Box.createRigidArea(new Dimension(0, 20)));
 
-		btnTurn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnTurn.setFont(getFont().deriveFont(24f));
+		setButtonStyle(btnTurn);
+		btnTurn.setMaximumSize(new Dimension(300, 50)); 
+		btnTurn.setAlignmentX(Component.CENTER_ALIGNMENT);
+
 		panelLeft.add(btnTurn);
 
 		gbc.gridx = 0;
@@ -239,6 +309,22 @@ public class PanelBoard extends BackgroundPanel {
 				Player p = playersList.get(i);
 				lblName[i].setText(p.getName());
 				lblMoney[i].setText(p.getMoney() + " €");
+				
+				if (p.getJailCards() > 0) {
+					lblFree[i].setVisible(true);
+				} else {
+					lblFree[i].setVisible(false);
+				}
+				
+				if (p.getPrison()) { 
+					lblPrison[i].setVisible(true);
+				} else {
+					lblPrison[i].setVisible(false);
+				}
+			}else {
+				
+				lblFree[i].setVisible(false);
+				lblPrison[i].setVisible(false);
 			}
 			
 			if (i< 3) {
@@ -298,7 +384,7 @@ public class PanelBoard extends BackgroundPanel {
 						gbcB.gridwidth = 3;
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
 						
-						btnBuy.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+						setButtonStyle(btnBuy);
 						btnBuy.setFont(getFont().deriveFont(Font.BOLD, 24f));;
 						panelGame.add(btnBuy, gbcB);
 					}
@@ -307,7 +393,7 @@ public class PanelBoard extends BackgroundPanel {
 						gbcB.gridwidth = 3;
 						isOcuppied(occuppied, row, column, gbcB.gridwidth, gbcB.gridheight);
 
-						btnDices.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+						setButtonStyle(btnDices);
 						btnDices.setFont(getFont().deriveFont(Font.BOLD, 24f));;
 						panelGame.add(btnDices, gbcB);
 					}

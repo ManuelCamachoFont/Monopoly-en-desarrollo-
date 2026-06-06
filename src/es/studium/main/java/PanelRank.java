@@ -3,12 +3,12 @@ package es.studium.main.java;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,12 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class PanelRank extends BackgroundPanel{
 
 	JPanel panelNorth = new JPanel();
-	JLabel rankTitle = new JLabel("Ranking");
+	JLabel rankTitle = new JLabel("Ranking", JLabel.CENTER);
 
 	JPanel panelCenter = new JPanel();
 	
@@ -85,15 +86,23 @@ public class PanelRank extends BackgroundPanel{
 	SpringLayout spring = new SpringLayout();
 
 	public PanelRank() {
-		super("Sky.png");
+		super("home_background.png");
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension(800, 800));
+		
+		Border coloredBorder = BorderFactory.createLineBorder(colorForeground, 3);
+		Border padding = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+		Border compoundBorder = BorderFactory.createCompoundBorder(coloredBorder, padding);
+		
 
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
-		panelNorth.setBorder(new EmptyBorder(130, 0, 0, 0));
+		panelNorth.setBorder(new EmptyBorder(40, 0, 0, 0));
 		setTitleStyle(rankTitle);
+		rankTitle.setOpaque(true);
+		rankTitle.setBackground(colorBackground);
 		panelNorth.add(rankTitle);
+		rankTitle.setBorder(compoundBorder);
 		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
 
@@ -108,11 +117,15 @@ public class PanelRank extends BackgroundPanel{
 		divider.setOpaque(false);
 		
 		// Money Panel
+		
+		
 		panelMoney.setLayout(gridbagM);
-		panelMoney.setOpaque(false);
+		panelMoney.setBackground(colorBackground);
+		panelMoney.setBorder(compoundBorder);
 		gbcM.insets = new Insets (10, 10, 10, 10);
 		gbcM.gridx = 1;
 		gbcM.gridy = 0;
+		lblMoney.setForeground(colorForeground);
 		lblMoney.setFont(getFont().deriveFont(24f));
 		panelMoney.add(lblMoney, gbcM);
 		
@@ -165,15 +178,18 @@ public class PanelRank extends BackgroundPanel{
 		
 		// Properties Panel
 		panelProperties.setLayout(gridbagP);
-		panelProperties.setOpaque(false);
+		panelProperties.setBackground(colorBackground);
+		panelProperties.setBorder(compoundBorder);
 		gbcP.insets = new Insets (10, 10, 10, 10);
 		gbcP.gridx = 1;
 		gbcP.gridy = 0;
 		lblHousesTitle.setFont(getFont().deriveFont(24f));
+		lblHousesTitle.setForeground(colorForeground);
 		panelProperties.add(lblHousesTitle, gbcP);
 		
 		gbcP.gridx = 2;
 		lblHotelsTitle.setFont(getFont().deriveFont(24f));
+		lblHotelsTitle.setForeground(colorForeground);
 		panelProperties.add(lblHotelsTitle, gbcP);
 		
 		gbcP.gridx = 0;
@@ -242,22 +258,27 @@ public class PanelRank extends BackgroundPanel{
 		panelProperties.add(lblHotels5, gbcP);
 		
 		for (int i = 0; i < lblMoneyName.length; i++) {
+			lblMoneyName[i].setForeground(colorForeground);
 			lblMoneyName[i].setFont(getFont().deriveFont(40f));
 		}
 		
 		for (int i = 0; i < lblPropertiesName.length; i++) {
+			lblPropertiesName[i].setForeground(colorForeground);
 			lblPropertiesName[i].setFont(getFont().deriveFont(40f));
 		}
 		
 		for (int i = 0; i < lblMoneyAmount.length; i++) {
+			lblMoneyAmount[i].setForeground(colorForeground);
 			lblMoneyAmount[i].setFont(getFont().deriveFont(40f));
 		}
 		
 		for (int i = 0; i < lblHotels.length; i++) {
+			lblHotels[i].setForeground(colorForeground);
 			lblHotels[i].setFont(getFont().deriveFont(40f));
 		}
 		
 		for (int i = 0; i < lblHouses.length; i++) {
+			lblHouses[i].setForeground(colorForeground);
 			lblHouses[i].setFont(getFont().deriveFont(40f));
 		}
 		

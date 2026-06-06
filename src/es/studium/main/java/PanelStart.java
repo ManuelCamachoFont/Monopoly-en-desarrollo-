@@ -210,5 +210,7 @@ public class PanelStart extends BackgroundPanel{
 	public JTextField getTxtPlayer3() { return txtPlayer3; }
 	
 	public JTextField getTxtPlayer4() { return txtPlayer4; }
+	
+	
 
 }

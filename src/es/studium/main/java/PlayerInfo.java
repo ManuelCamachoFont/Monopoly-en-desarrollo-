@@ -27,7 +27,7 @@ public class PlayerInfo extends JDialog implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	JButton btnClose = new JButton("Close");
 
-	public PlayerInfo(JFrame mainFrame, Player player, Map<Integer, Square> squares) {
+	public PlayerInfo(JFrame mainFrame, Player player, Map<Integer, Square> squares, String background) {
 		
 		super(mainFrame, player.getName(), true);
 		
@@ -35,7 +35,7 @@ public class PlayerInfo extends JDialog implements ActionListener {
 		setLocationRelativeTo(null);
 		setResizable(false);
 
-		BackgroundPanel backgroundPanel = new BackgroundPanel("Sky.png");
+		BackgroundPanel backgroundPanel = new BackgroundPanel(background);
 		backgroundPanel.setLayout(new BorderLayout(20, 20));
 		backgroundPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 		setContentPane(backgroundPanel);

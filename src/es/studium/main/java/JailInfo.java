@@ -28,14 +28,14 @@ public class JailInfo extends JDialog
 	
 	
 	
-	public JailInfo(JFrame mainFrame, Player player) {
+	public JailInfo(JFrame mainFrame, Player player, String background) {
 		super(mainFrame, "Prison", true);
 		
 		setSize(300, 300);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		
-		JPanel container = new JPanel();
+		BackgroundPanel container = new BackgroundPanel(background);
 	
 		container.setLayout(gridbag);
 		

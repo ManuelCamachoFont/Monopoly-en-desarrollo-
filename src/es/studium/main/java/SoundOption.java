@@ -19,6 +19,8 @@ public class SoundOption {
 	
 	public static void musicLoop(JFrame mainFrame, String source) {
 
+		stopMusic();
+		
         try {
         	URL urlSound = SoundOption.class.getResource(source);
         	if (urlSound == null) {
@@ -43,4 +45,19 @@ public class SoundOption {
             System.out.println("Error: " + e.getMessage());
         }
     }
+	
+	public static void stopMusic() {
+		if (music != null) {
+			if (music.isRunning()) {
+				music.stop();
+			}
+			music.close();
+			music = null;
+		}
+	}
+
+
+	public static boolean isMusicPlaying() {
+		return music != null && music.isRunning();
+	}
 }

@@ -4,7 +4,9 @@ import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 
+import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,6 +36,8 @@ public class View {
 	private PanelBoard panelBoard = new PanelBoard();
 	private PanelEnd panelEnd = new PanelEnd();
 	
+	private Image ico = new ImageIcon(View.class.getResource("/es/studium/main/resources/ico/frameIco.png")).getImage();
+	 
 	private JDialog dialog = new JDialog(mainFrame, "Dialog", true);
 	private JLabel lblDialog = new JLabel();
 
@@ -45,6 +49,7 @@ public class View {
 		mainFrame.setResizable(false);
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setIconImage(ico);
 
 		mainPanel.add(panelHome,"HOME");
 		mainPanel.add(panelOptions,"OPTIONS");

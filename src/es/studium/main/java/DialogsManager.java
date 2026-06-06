@@ -12,6 +12,8 @@ public class DialogsManager
 	private Map<Integer, Square> squares;
 
 	private JDialog jailDialog;
+	
+	private String currentBackground = "Sky.png";
 
 	public DialogsManager(JFrame mainFrame, Map<Integer, Square> squares) {
 		this.mainFrame = mainFrame;
@@ -41,12 +43,12 @@ public class DialogsManager
 		if (player == null) {
 			return;
 		}
-		PlayerInfo dialog = new PlayerInfo(mainFrame, player, this.squares);
+		PlayerInfo dialog = new PlayerInfo(mainFrame, player, this.squares, currentBackground);
 		dialog.showInfo();
 	}
 
 	public void showDiceInfo(int[] result, String playerName) {
-		DiceInfo dialog = new DiceInfo(mainFrame, result, playerName);
+		DiceInfo dialog = new DiceInfo(mainFrame, result, playerName, currentBackground);
 		dialog.showInfo();
 	}
 
@@ -55,7 +57,7 @@ public class DialogsManager
 		if (this.jailDialog != null) {
 			this.jailDialog.dispose();
 		}
-		JailInfo dialog = new JailInfo(mainFrame, player);
+		JailInfo dialog = new JailInfo(mainFrame, player, currentBackground);
 		this.jailDialog = dialog;
 		return dialog;
 	}
@@ -74,5 +76,9 @@ public class DialogsManager
 	        jailDialog.dispose();
 	        jailDialog = null;
 		}
+	}
+	
+	public void setCurrentBackground(String newBackground) {
+		this.currentBackground = newBackground;
 	}
 }

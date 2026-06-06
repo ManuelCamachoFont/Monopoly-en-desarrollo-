@@ -8,7 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+
 
 
 public class DiceInfo extends JDialog
@@ -22,14 +22,14 @@ public class DiceInfo extends JDialog
 	
 	JLabel resultTotal = new JLabel("", JLabel.CENTER);
 	
-	public DiceInfo(JFrame mainFrame, int[] resultRollingDice, String playerName) {
+	public DiceInfo(JFrame mainFrame, int[] resultRollingDice, String playerName, String background) {
 		super(mainFrame, "Rolling dices...", true);
 		
 		setSize(300, 300);
 		setLocationRelativeTo(null);
 		setResizable(false);
 		
-		JPanel container = new JPanel();
+		BackgroundPanel container = new BackgroundPanel(background);
 		
 		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
 		

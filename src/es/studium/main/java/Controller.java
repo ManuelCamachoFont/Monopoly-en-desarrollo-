@@ -51,8 +51,7 @@ public class Controller implements ActionListener, MouseListener
 		this.v = v;
 		this.squares = m.getSquares();
 		this.dialogs = new DialogsManager(v.getFrame(), this.squares);
-		// SoundOption.musicLoop(v.getFrame(),
-		// "/es/studium/main/resources/sound/happy.wav");
+		SoundOption.musicLoop(v.getFrame(),"/es/studium/main/resources/sound/happy.wav");
 
 		// Panel Home Buttons
 		this.v.getPanelHome().btnGame.addActionListener(this);
@@ -129,6 +128,7 @@ public class Controller implements ActionListener, MouseListener
 			return;
 		}
 		if (src.equals(v.getPanelStart().btnBack)) {
+			resetTxt();
 			v.showPanel("HOME");
 			return;
 		}
@@ -245,9 +245,34 @@ public class Controller implements ActionListener, MouseListener
 		// v.getFrame().pack();
 		// v.getFrame().setLocationRelativeTo(null);
 	}
+	
+	private void resetTxt() {
+		v.getPanelStart().choPlayers.setSelectedIndex(0);
+		Font font = v.getPanelStart().getTxtPlayer1().getFont();
+		Font fontStyle = font.deriveFont(Font.PLAIN, 24f);
+		v.getPanelStart().getTxtPlayer1().setFont(fontStyle);
+		v.getPanelStart().getTxtPlayer1().setText("Player 1");
+		v.getPanelStart().getTxtPlayer2().setFont(fontStyle);
+		v.getPanelStart().getTxtPlayer2().setText("Player 2");
+		v.getPanelStart().getTxtPlayer3().setFont(fontStyle);
+		v.getPanelStart().getTxtPlayer3().setText("Player 3");
+		v.getPanelStart().getTxtPlayer4().setFont(fontStyle);
+		v.getPanelStart().getTxtPlayer4().setText("Player 4");
+	}
 
 	private void applyOptions()
 	{
+		Checkbox selectedSound = v.getPanelOptions().chkSound.getSelectedCheckbox();
+		if (selectedSound != null) {
+			String soundState = selectedSound.getLabel();
+			if (soundState.equals("On")) {
+				if (!SoundOption.isMusicPlaying()) {
+					SoundOption.musicLoop(v.getFrame(), "/es/studium/main/resources/sound/happy.wav");
+				}
+			} else if (soundState.equals("Off")) {
+				SoundOption.stopMusic();
+			}
+		}
 		Checkbox selectedFont = v.getPanelOptions().chkTextF.getSelectedCheckbox();
 		if (selectedFont != null ) {
 			String newFont = selectedFont.getLabel();
@@ -259,6 +284,7 @@ public class Controller implements ActionListener, MouseListener
 		if(selectedBackground != null) {
 			String newBackground = selectedBackground.getLabel() + ".png";
 			v.getPanelBoard().setBackgroundImage(newBackground);
+			dialogs.setCurrentBackground(newBackground);
 		}
 		v.showPanel("HOME");
 	}
@@ -444,7 +470,6 @@ public class Controller implements ActionListener, MouseListener
 		saveMovement = rollDices();
 		rolledDices = true;
 		boolean isDouble = m.isDouble();
-		saveMovement = 4;
 
 		Logger.saveLog(currentPlayer.getName() + " rolled the dices and got " + saveMovement + ".", currentPlayer.getColor());
 
@@ -608,7 +633,7 @@ public class Controller implements ActionListener, MouseListener
 
 			Color colorPlayer = colors[i-1];
 
-			Player newPlayer = new Player(i, playerName, 20, colorPlayer);
+			Player newPlayer = new Player(i, playerName, 500, colorPlayer);
 			playersList.add(newPlayer);
 			backupPlayersList.add(newPlayer);
 		}

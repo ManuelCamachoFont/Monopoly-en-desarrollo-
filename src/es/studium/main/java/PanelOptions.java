@@ -11,12 +11,14 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 public class PanelOptions extends BackgroundPanel{
@@ -27,23 +29,18 @@ public class PanelOptions extends BackgroundPanel{
 	JPanel panelCenter = new JPanel();
 	JLabel lblSound = new JLabel("Sound");
 	CheckboxGroup chkSound = new CheckboxGroup();
-	Checkbox chk0 = new Checkbox("0%", false, chkSound);
-	Checkbox chk25 = new Checkbox("25%", false, chkSound);
-	Checkbox chk75 = new Checkbox("75%", false, chkSound);
-	Checkbox chk100 = new Checkbox("100%", false, chkSound);
+	Checkbox chkOn = new Checkbox("On", true, chkSound);
+	Checkbox chkOff = new Checkbox("Off", false, chkSound);
 	
 	JLabel lblText = new JLabel("Text");
-	CheckboxGroup chkTextC = new CheckboxGroup();
-	Checkbox chkRed = new Checkbox("Red", false, chkTextC);
-	Checkbox chkGreen = new Checkbox("Green", false, chkTextC);
 	CheckboxGroup chkTextF = new CheckboxGroup();
 	Checkbox chkF1 = new Checkbox("Micro 5", false, chkTextF);
-	Checkbox chkF2 = new Checkbox("Pixel Operator", false, chkTextF);
+	Checkbox chkF2 = new Checkbox("Pixel Operator", true, chkTextF);
 	
 	JLabel lblTheme = new JLabel("Theme");
 	CheckboxGroup chkBoard = new CheckboxGroup();
 	Checkbox chkBg1 = new Checkbox("Forest", false, chkBoard);
-	Checkbox chkBg2 = new Checkbox("Sky", false, chkBoard);
+	Checkbox chkBg2 = new Checkbox("Sky", true, chkBoard);
 
 	JPanel panelSouth = new JPanel();
 	ImageIcon icoBack = new ImageIcon(getClass().getResource("/es/studium/main/resources/ico/back.png"));
@@ -63,62 +60,72 @@ public class PanelOptions extends BackgroundPanel{
 	SpringLayout spring = new SpringLayout();
 
 	public PanelOptions() {
-		super("Sky.png");
+		super("home_background.png");
 		setLayout(new BorderLayout());
 		setPreferredSize(new Dimension (800, 800));
 
+		 Border coloredBorder = BorderFactory.createLineBorder(colorForeground, 3);
+			Border padding = BorderFactory.createEmptyBorder(15, 15, 15, 15);
+			Border compoundBorder = BorderFactory.createCompoundBorder(coloredBorder, padding);
+			
 		// North Panel
 		panelNorth.setLayout(new FlowLayout());
 		panelNorth.setBorder(new EmptyBorder(80, 0, 0, 0));
 		setTitleStyle(optionsTitle);
+		optionsTitle.setOpaque(true);
+		optionsTitle.setBackground(colorBackground);
+		optionsTitle.setBorder(compoundBorder);
 		panelNorth.add(optionsTitle);
 		panelNorth.setOpaque(false);
 		add(panelNorth, BorderLayout.NORTH);
 
 		// Center Panel
 		panelCenter.setLayout(gridbag);
+		panelCenter.setBackground(colorBackground);
+		panelCenter.setBorder(compoundBorder);
 
 		gbc.gridx = 0;
 		gbc.gridy = 0;
 		gbc.insets = new Insets(20, 20, 20, 20);
 		
 		// Sound
+		lblSound.setForeground(colorForeground);
+		lblSound.setFont(getFont().deriveFont(40f));
 		panelCenter.add(lblSound, gbc);
 		gbc.gridx = 1;
-		panelCenter.add(chk0, gbc);
+		chkOn.setFont(getFont().deriveFont(24f));
+		panelCenter.add(chkOn, gbc);
 		gbc.gridx = 2;
-		panelCenter.add(chk25, gbc);
-		gbc.gridx = 3;
-		panelCenter.add(chk75, gbc);
-		gbc.gridx = 4;
-		panelCenter.add(chk100, gbc);
+		chkOff.setFont(getFont().deriveFont(24f));
+		panelCenter.add(chkOff, gbc);
 		
 		// Text
 		gbc.gridx = 0;
 		gbc.gridy = 1;
+		lblText.setFont(getFont().deriveFont(40f));
+		lblText.setForeground(colorForeground);
 		panelCenter.add(lblText, gbc);
 		gbc.gridx = 1;
-		panelCenter.add(chkGreen, gbc);
-		gbc.gridx = 2;
-		panelCenter.add(chkRed, gbc);
-		gbc.gridx = 3;
-		
+		chkF1.setFont(getFont().deriveFont(24f));
 		panelCenter.add(chkF1, gbc);
-		gbc.gridx = 4;
+		gbc.gridx = 2;
+		chkF2.setFont(getFont().deriveFont(24f));
 		panelCenter.add(chkF2, gbc);
 		
 		// Board
 		gbc.gridx = 0;
 		gbc.gridy = 2;
+		lblTheme.setForeground(colorForeground);
+		lblTheme.setFont(getFont().deriveFont(40f));
 		panelCenter.add(lblTheme, gbc);
-		gbc.gridwidth = 2;
 		gbc.gridx = 1;
+		chkBg1.setFont(getFont().deriveFont(24f));
 		panelCenter.add(chkBg1, gbc);
-		gbc.gridx = 3;
+		gbc.gridx = 2;
+		chkBg2.setFont(getFont().deriveFont(24f));
 		panelCenter.add(chkBg2, gbc);
 		gbc.gridwidth = 1;
 
-		panelCenter.setOpaque(false);
 		add(panelCenter, BorderLayout.CENTER);
 
 		// South Panel
