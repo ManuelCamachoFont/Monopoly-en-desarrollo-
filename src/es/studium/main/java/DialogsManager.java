@@ -71,7 +71,7 @@ public class DialogsManager
 		if (this.jailDialog != null) {
 			this.jailDialog.dispose();
 		}
-		JailInfo dialog = new JailInfo(mainFrame, player, currentBackground);
+		JailInfo dialog = new JailInfo(mainFrame, player, "jail.jpg");
 		this.jailDialog = dialog;
 		return dialog;
 	}
