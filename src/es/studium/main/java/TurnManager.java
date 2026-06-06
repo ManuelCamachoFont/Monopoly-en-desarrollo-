@@ -15,7 +15,7 @@ public class TurnManager{
 	    }
 	    int turns = player.getJailTurns() + 1;
 	    player.setJailTurns(turns);
-	    Logger.saveLog(player.getName() + " didn't roll doubles. (Try " + turns + "/3.)", player.getColor());
+	    Logger.saveLog(player.getName() + " didn't roll doubles. (Turns left on prison " + turns + "/3.)", player.getColor());
 	    if (turns >= 3) {
 	        player.setPrison(false);
 	        player.setJailTurns(0);
@@ -79,7 +79,6 @@ public class TurnManager{
 			controller.drawCard("COMUNIDAD");
 			break;
 		default:
-			System.out.println("Casilla sin acción especial (Salida, Parking, visita al a cárcel...).");
 			break;
 		}
 	}
@@ -88,7 +87,7 @@ public class TurnManager{
 	{
 		int tax = square.getPrice();
 		player.updateMoney(-tax);
-		System.out.println(player.getName() + "pagó" + tax);
+		Logger.saveLog(player.getName() + " paid " + tax + "€ in " + square.getName(), player.getColor());
 
 	}
 
@@ -98,7 +97,7 @@ public class TurnManager{
 		player.setPosition(11);
 		player.setJailTurns(0);
 		player.setDoublesDices(0);
-		System.out.println(player.getName() + "va a la cárcel");
+		Logger.saveLog("¡" + player.getName() + " is sent directly to PRISON!", player.getColor());
 
 	}
 

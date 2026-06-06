@@ -186,10 +186,12 @@ public class Controller implements ActionListener, MouseListener
 		// — JAIL DIALOG —
 		if ("JAIL_PAY".equals(e.getActionCommand())) {
 			handleJailPay();
+			Logger.saveLog(currentPlayer.getName() + " paid 50€ to get out of prison.", currentPlayer.getColor());
 			return;
 		}
 		if ("JAIL_CARD".equals(e.getActionCommand())) {
 			handleJailCard();
+			Logger.saveLog(currentPlayer.getName() + " used a 'Get out of Jail Free' card.", currentPlayer.getColor());
 			return;
 		}
 
@@ -353,35 +355,35 @@ public class Controller implements ActionListener, MouseListener
 			if (bought) {
 				v.getPanelBoard().updatePlayers(playersList);
 				updateLogs();
-				v.showDialog(currentPlayer.getName() + " ha comprado " + currentSquare.getName());
+				v.showDialog(currentPlayer.getName() + " has bought " + currentSquare.getName());
 			} else {
-				v.showDialog("No tienes suficiente dinero para comprar esta propiedad.");
+				v.showDialog("Not enought money to buy this property");
 			}
 		}
 
 		else if (currentSquare.getOwner().equals(currentPlayer.getName())) {
 
 			if (!type.equals("PROPIEDAD")) {
-				v.showDialog("No puedes edificar casas en Estaciones o Servicios.");
+				v.showDialog("Is not possible to build on this type of property.");
 				return;
 			}
 
 			boolean monopoly = TurnManager.hasMonopoly(currentPlayer, currentSquare, squares);
 
 			if (!monopoly) {
-				v.showDialog("¡No puedes edificar! Primero debes poseer todas las propiedades del grupo de color ");
+				v.showDialog("Not able to build. First you have to own ALL the properties from same group.");
 				return;
 			}
 
 			if (currentSquare.hasHotel()) {
-				v.showDialog("¡Ya has construido un Hotel aquí! No se puede edificar más.");
+				v.showDialog("¡You already built an Hotel! The property is maxed.");
 				return;
 			}
 
 			int buildPrice = 50;
 
 			if (currentPlayer.getMoney() < buildPrice) {
-				v.showDialog("No tienes suficiente dinero para edificar (Coste: " + buildPrice + "€).");
+				v.showDialog("You dont have enought money to build. (Cost: " + buildPrice + "€).");
 				return;
 			}
 
@@ -392,12 +394,11 @@ public class Controller implements ActionListener, MouseListener
 				Logger.saveLog(currentPlayer.getName() + " upgraded to a HOTEL in " + currentSquare.getName() + " for "
 						+ buildPrice + "€.", currentPlayer.getColor());
 				v.showDialog(
-						"¡" + currentPlayer.getName() + " ha construido un HOTEL en " + currentSquare.getName() + "!");
+						"¡" + currentPlayer.getName() + " just built an HOTEL in " + currentSquare.getName() + "!");
 			} else {
 				Logger.saveLog(currentPlayer.getName() + " built house nº " + currentSquare.getHouses() + " in "
 						+ currentSquare.getName() + " for " + buildPrice + "€.", currentPlayer.getColor());
-				v.showDialog(currentPlayer.getName() + " ha edificado la casa nº " + currentSquare.getHouses() + " en "
-						+ currentSquare.getName());
+				v.showDialog(currentPlayer.getName() + " just built a house in " + currentSquare.getName());
 			}
 
 			v.getPanelBoard().updatePlayers(playersList);
@@ -405,8 +406,7 @@ public class Controller implements ActionListener, MouseListener
 		}
 
 		else {
-			v.showDialog("Esta propiedad pertenece a " + currentSquare.getOwner()
-			+ ". ¡Ya has pagado el alquiler de tu turno!");
+			v.showDialog(currentSquare.getOwner() + " owns this property. You already paid for the rent this turn.");
 		}
 	}
 
@@ -486,7 +486,10 @@ public class Controller implements ActionListener, MouseListener
 		Logger.saveLog(currentPlayer.getName() + " rolled the dices and got " + saveMovement + ".", currentPlayer.getColor());
 
 
-		rolledDices = TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList, this);
+		TurnManager.movementToSquare(currentPlayer, saveMovement, isDouble, squares, playersList, this);
+		
+		rolledDices = true;
+		
 		v.getPanelBoard().updatePlayersPosition(playersList);
 		v.getPanelBoard().updatePlayers(playersList);
 
@@ -569,6 +572,10 @@ public class Controller implements ActionListener, MouseListener
 
 	private void turnEnd()
 	{
+		if (m.isDouble() && currentPlayer.getDoublesDices() > 0 && !currentPlayer.getPrison()) {
+		    rolledDices = false;
+		    return;
+		}
 		if (!rolledDices) {
 			return;
 		}
@@ -758,6 +765,7 @@ public class Controller implements ActionListener, MouseListener
 			dialogs.showCardInfo(obtainedCard);
 
 		}
+		Logger.saveLog(currentPlayer.getName() + " drew a " + type + " card: " + obtainedCard.getText(), currentPlayer.getColor());
 	}
 
 	private void applyCard(Card card)
@@ -829,7 +837,7 @@ public class Controller implements ActionListener, MouseListener
 
 			break;
 		default:
-			System.err.println("Carta desconocida");
+			System.err.println("Unknow card");
 			break;
 		}
 	}

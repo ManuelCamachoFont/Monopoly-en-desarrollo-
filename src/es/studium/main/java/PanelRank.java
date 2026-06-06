@@ -21,6 +21,10 @@ import javax.swing.border.EmptyBorder;
 
 public class PanelRank extends BackgroundPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel panelNorth = new JPanel();
 	JLabel rankTitle = new JLabel("Ranking", JLabel.CENTER);
 

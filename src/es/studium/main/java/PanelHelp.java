@@ -25,6 +25,10 @@ import javax.swing.border.EmptyBorder;
 
 public class PanelHelp extends BackgroundPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel panelNorth = new JPanel();
 	JLabel helpTitle = new JLabel("Help");
 

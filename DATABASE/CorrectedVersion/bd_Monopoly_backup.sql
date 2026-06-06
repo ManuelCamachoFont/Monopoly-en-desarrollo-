@@ -88,7 +88,7 @@ CREATE TABLE `ranking` (
   `casasFinalRanking` int NOT NULL,
   `hotelesFinalRanking` int NOT NULL,
   PRIMARY KEY (`idRanking`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_spanish2_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -97,6 +97,7 @@ CREATE TABLE `ranking` (
 
 LOCK TABLES `ranking` WRITE;
 /*!40000 ALTER TABLE `ranking` DISABLE KEYS */;
+INSERT INTO `ranking` VALUES (1,'Player 4',20,0,0),(2,'Manu',20,0,0),(3,'Player 2',20,0,0),(4,'Player 2',20,0,0),(5,'Player 2',20,0,0),(6,'Player 2',20,0,0),(7,'Manu',20,0,0),(8,'Manu',20,0,0),(9,'Player 2',20,0,0),(10,'Player 2',20,0,0),(11,'Player 4',20,0,0),(12,'Player 2',20,0,0),(13,'Player 2',20,0,0),(14,'Player 2',20,0,0),(15,'Player 3',20,0,0),(16,'Player 3',20,0,0),(17,'Player 3',20,0,0),(18,'Jairo',20,0,0),(19,'Player 2',20,0,0);
 /*!40000 ALTER TABLE `ranking` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -109,4 +110,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-06-05 18:07:40
+-- Dump completed on 2026-06-06  7:54:25

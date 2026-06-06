@@ -1,11 +1,9 @@
 package es.studium.main.java;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -22,6 +20,10 @@ import javax.swing.border.EmptyBorder;
 
 public class PanelHome extends BackgroundPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel panelNorth = new JPanel();
 	JLabel mainTitle = new JLabel("Monopoly");
 	

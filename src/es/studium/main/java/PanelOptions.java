@@ -5,7 +5,7 @@ import java.awt.Checkbox;
 import java.awt.CheckboxGroup;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -23,6 +23,10 @@ import javax.swing.border.EmptyBorder;
 
 public class PanelOptions extends BackgroundPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JPanel panelNorth = new JPanel();
 	JLabel optionsTitle = new JLabel("Options");
 
