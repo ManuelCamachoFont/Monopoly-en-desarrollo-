@@ -6,55 +6,6 @@ import java.util.List;
 
 public class TurnManager{
 
-
-//	public static boolean jailCheckOptions(Player player)
-//	{
-//		if (!player.getPrison()) return false;
-//		//===================IMPORTANTE========================0
-//		//Esto me lo ha hecho la IA, hay que cambiarlo por los botones que tu has hecho en el dialogo
-//		
-//		ArrayList<String> opciones = new ArrayList<>();
-//		opciones.add("Tirar dados (Buscar dobles)");
-//		
-//		if (player.getMoney() >= 50) {
-//			opciones.add("Pagar fianza (50€)");
-//		}
-//		if (player.getJailCards() > 0) {
-//			opciones.add("Usar tarjeta 'Quedas libre'");
-//		}
-//
-//		String[] ops = opciones.toArray(new String[0]);
-//		int seleccion = JOptionPane.showOptionDialog(
-//			null,
-//			player.getName() + " está en la cárcel. Selecciona cómo proceder:",
-//			"Turno en la Cárcel",
-//			JOptionPane.DEFAULT_OPTION,
-//			JOptionPane.QUESTION_MESSAGE,
-//			null, ops, ops[0]
-//		);
-//
-//		if (seleccion == -1) seleccion = 0; // Si cierra la ventana, por defecto tira dados
-//
-//		String eleccion = ops[seleccion];
-//
-//		if (eleccion.equals("Pagar fianza (50€)")) {
-//			player.updateMoney(-50);
-//			player.setPrison(false);
-//			player.setJailTurns(0);
-//			JOptionPane.showMessageDialog(null, player.getName() + " pagó 50€ y sale de la cárcel.");
-//			return false; 
-//		} 
-//		else if (eleccion.equals("Usar tarjeta 'Quedas libre'")) {
-//			player.setJailCards(player.getJailCards() - 1);
-//			player.setPrison(false);
-//			player.setJailTurns(0);
-//			JOptionPane.showMessageDialog(null, player.getName() + " usó la tarjeta y sale de la cárcel.");
-//			return false;
-//		}
-//
-//		return true; 
-//	}
-
 	public static boolean handleJailRoll(Player player, boolean isDouble) {
 	    if (isDouble) {
 	        player.setPrison(false);
